@@ -1,0 +1,11 @@
+Please provide a deck from <%= link_to "ArkhamDB", "https://arkhamdb.com"%>
+<p>
+ 
+<%= form_tag('/card', method: "get", remote: true, format: :js) do %>
+  <%= label_tag(:q, "Deck id or link") %>
+  <%= text_field_tag(:id) %>
+  <%= select_tag :page_size, options_for_select([['Letter', 1], ['A4', 2]], 1) %>
+  
+  <%= submit_tag("Get pdf") %>
+<% end %>
+</p>
