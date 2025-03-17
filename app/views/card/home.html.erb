@@ -1,11 +1,16 @@
-Please provide a deck from <%= link_to "ArkhamDB", "https://arkhamdb.com"%>
-<p>
- 
-<%= form_tag('/card', method: "get", remote: true, format: :js) do %>
-  <%= label_tag(:q, "Deck id or link") %>
-  <%= text_field_tag(:id) %>
-  <%= select_tag :page_size, options_for_select([['Letter', 1], ['A4', 2]], 1) %>
-  
-  <%= submit_tag("Get pdf") %>
-<% end %>
-</p>
+ <div class="header">
+  <h1>ArkhamPrint</h1>
+</div> 
+
+<div class="content" style="text-align: center;">
+<p>This site is meant to help people print out Arkham Horror card proxies at home.</p>
+<p>Please provide a deck URL or the deck id from <%= link_to "ArkhamDB", "https://arkhamdb.com"%></p>
+<div class="form-box">
+    <%= form_tag('/card', method: "get", remote: true, format: :js) do %>
+    <%= label_tag(:q, "Deck id or link") %>
+    <%= text_field_tag(:id) %>
+    <%= select_tag :page_size, options_for_select([['Letter', 1], ['A4', 2]], 1) %>
+    
+    <%= submit_tag("Get Proxies PDF") %>
+    <% end %>
+</div>
