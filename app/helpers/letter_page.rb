@@ -46,7 +46,7 @@ class LetterPage
         @x_cursor_position = 0.0
         if ((@y_cursor_position -= 252) < 100)
           @y_cursor_position = 756.0
-          pdf.start_new_page
+          start_new_page
         end
       end
     #end
