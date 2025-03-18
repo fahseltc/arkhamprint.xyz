@@ -9,13 +9,42 @@ require "prawn/measurement_extensions"
 # LETTER Page size 612.00 x 792.00   https://www.rubydoc.info/github/sandal/prawn/master/Prawn/Document/PageGeometry
 
 module PdfHelper
-  @@x_position = 0
-  @@y_position = 0
-
+  @x_cursor_position = 0
+  @y_cursor_position = 756
   def self.generate(cards, page_size)
-    pdf = LetterPage.new()
-    pdf.build_pdf(cards)
+    pdf = Prawn::Document.new(
+      page_size: "LETTER",
+      page_layout: :portrait,
+      top_margin: 18,
+      bottom_margin: 18,
+      left_margin: 36,
+      right_margin: 36
+    )
+    cards.each do |card_image_url, quantity|
+      begin
+        img = URI.open(card_image_url)
+      rescue OpenURI::HTTPError
+        next
+      end
+      quantity.times do
+        Rails.logger.info("y position: " + @x_cursor_position.to_s)
+        Rails.logger.info("x position: " + @y_cursor_position.to_s)
+        add_image(pdf, img)
+      end
+    end
+    Rails.logger.info('generating!')
     pdf.render
+  end
+
+  def self.add_image(pdf, img)
+    pdf.image img, width: 2.5.send(:in), height: 3.5.send(:in), at:[@x_cursor_position, @y_cursor_position]
+    if ((@x_cursor_position += 180) >= 540)
+      @x_cursor_position = 0.0
+      if ((@y_cursor_position -= 252) < 100)
+        @y_cursor_position = 756.0
+        pdf.start_new_page
+      end
+    end
   end
 end
 

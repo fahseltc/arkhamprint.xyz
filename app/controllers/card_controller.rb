@@ -1,4 +1,4 @@
-class CardController < ApplicationController
+class CardController < ActionController::Base
   def home
   end
   
