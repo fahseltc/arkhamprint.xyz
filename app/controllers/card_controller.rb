@@ -1,4 +1,4 @@
-class CardController < ActionController::Base
+class CardController < ActionController::Base # this sends the file correctly, using ApplicationController gives assets but also prevents the file from sending.
   def home
   end
   
