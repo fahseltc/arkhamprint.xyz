@@ -20,7 +20,7 @@ class LetterPage
     )
   end
 
-  def generate(cards)
+  def build_pdf(cards)
     cards.each do |card_image_url, quantity|
       begin
         image = URI.open(card_image_url)
@@ -28,12 +28,12 @@ class LetterPage
         next
       end
       quantity.times do
-        #Rails.logger.info("y position: " + @y_position.to_s)
-        #Rails.logger.info("x position: " + @x_position.to_s)
+        Rails.logger.info("y position: " + @x_cursor_position.to_s)
+        Rails.logger.info("x position: " + @y_cursor_position.to_s)
         add_image(image)
       end
     end
-    render
+    Rails.logger.info('generating!')
   end
 
   def add_image(img)

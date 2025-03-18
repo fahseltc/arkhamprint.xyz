@@ -11,9 +11,10 @@ require "prawn/measurement_extensions"
 module PdfHelper
   @@x_position = 0
   @@y_position = 0
+
   def self.generate(cards, page_size)
     pdf = LetterPage.new()
-    pdf.generate(cards)
+    pdf.build_pdf(cards)
     pdf.render
   end
 end
