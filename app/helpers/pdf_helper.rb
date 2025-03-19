@@ -1,4 +1,4 @@
-require 'open-uri'
+require "open-uri"
 require "prawn/measurement_extensions"
 
 # Prawn PDF origin location is at the bottom-left corner of the page (0,0)
@@ -11,6 +11,7 @@ require "prawn/measurement_extensions"
 module PdfHelper
   @x_cursor_position = 0
   @y_cursor_position = 756
+
   def self.generate(cards, page_size)
     pdf = Prawn::Document.new(
       page_size: "LETTER",
@@ -20,6 +21,8 @@ module PdfHelper
       left_margin: 36,
       right_margin: 36
     )
+    @x_cursor_position = 0 # reset cursor
+    @y_cursor_position = 756
     cards.each do |card_image_url, quantity|
       begin
         img = URI.open(card_image_url)
@@ -32,15 +35,15 @@ module PdfHelper
         add_image(pdf, img)
       end
     end
-    Rails.logger.info('generating!')
+    Rails.logger.info("generating!")
     pdf.render
   end
 
   def self.add_image(pdf, img)
-    pdf.image img, width: 2.5.send(:in), height: 3.5.send(:in), at:[@x_cursor_position, @y_cursor_position]
-    if ((@x_cursor_position += 180) >= 540)
+    pdf.image img, width: 2.5.send(:in), height: 3.5.send(:in), at: [ @x_cursor_position, @y_cursor_position ]
+    if (@x_cursor_position += 180) >= 540
       @x_cursor_position = 0.0
-      if ((@y_cursor_position -= 252) < 100)
+      if (@y_cursor_position -= 252) < 100
         @y_cursor_position = 756.0
         pdf.start_new_page
       end
@@ -55,6 +58,3 @@ end
 
 # 540 total card width means 36 margin wide
 # 756 total height means 18 margin top/bottom
-
-
-

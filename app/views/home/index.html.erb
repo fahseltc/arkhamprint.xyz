@@ -1,0 +1,36 @@
+ <div class="header">
+  <h1>ArkhamPrint</h1>
+</div> 
+Please provide a deck URL or the deck id from <%= link_to "ArkhamDB", "https://arkhamdb.com"%>
+<p>
+
+<div class="content">
+  <%= form_with url:'/from_deck', method: :get, local: true do |form| %>
+    <%= form.textarea :id, size: "70x1" %>
+    <%= form.submit "Get  PDF" %>
+  <% end %>
+  <button onclick="test()">test</button>
+
+  <%= form_with url:'/from_card_list', method: :get, local: true do |form| %>
+    Input cards IDs comma seperated
+    <%= form.textarea :card_ids, size: "70x1" %>
+    <%= form.submit "Get  PDF" %>
+  <% end %>
+</div>
+<script>
+  async function test() {
+    const url ="/from_deck"
+    const response = await fetch(url, {
+      headers: { "Accept": "application/pdf" },
+    });
+    if(!response.ok) {
+      console.log('error');
+    }
+    var blob = new Blob([response.data], {
+      type: 'application/pdf',
+    });
+    //saveAs(blob, 'test.pdf');
+    var link=window.URL.createObjectURL(blob);
+    window.location=link;
+  }
+</script>
