@@ -13,3 +13,5 @@ Hosted on [Render](https://render.com/) Free-Tier
 Processing and generating a ~30 card deck often takes nearly 30 seconds and may time out in some circumstances.
 This could be fixed with a background job system, but that would also add a lot of complexity.
 
+## Code formatting
+run `rubocop -a` to auto-format the code.
