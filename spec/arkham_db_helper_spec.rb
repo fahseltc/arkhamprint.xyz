@@ -26,6 +26,6 @@ RSpec.describe "ArkhamDbHelper" do
   it "calls the all cards API" do
     ret = ArkhamDbHelper.get_all_cards()
     #pp ret
-    
+
   end
 end
