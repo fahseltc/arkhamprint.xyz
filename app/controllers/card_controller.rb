@@ -16,6 +16,9 @@ class CardController < ActionController::Base # this sends the file correctly, u
     # Example input string
     # 01022,    01044
     Rails.logger.info(params[:card_ids])
+    if params[:card_ids].nil?
+      return false
+    end
     card_ids = params[:card_ids].gsub!(/[[:space:]]/, "").split(",")
     if card_ids.length > 40
       Rails.logger.error("raise error, input too long")
@@ -28,5 +31,6 @@ class CardController < ActionController::Base # this sends the file correctly, u
     Rails.logger.info(card_hash)
     data = PdfHelper.generate(card_hash, "LETTER")
     send_data data, type: "application/pdf", disposition: "attachment", filename: "test.pdf"
+    # render :nothing => true
   end
 end
