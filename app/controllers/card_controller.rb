@@ -31,7 +31,7 @@ class CardController < ActionController::Base # this sends the file correctly, u
     Rails.logger.info(card_hash)
     data = PdfHelper.generate(card_hash, "LETTER")
     response.content_type = "application/pdf"
-    send_data(data, :filename => "test.pdf", :type => "application/pdf", :disposition => "attachment") # attachment // inline
-    #render :nothing => true
+    send_data(data, filename: "test.pdf", type: "application/pdf", disposition: "attachment") # attachment // inline
+    # render :nothing => true
   end
 end
