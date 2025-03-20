@@ -1,20 +1,30 @@
-<div class="header">
-  <h1>ArkhamPrint</h1>
-</div>
-Please provide a deck URL or the deck id from <%= link_to "ArkhamDB", "https://arkhamdb.com"%>
-<p>
+<p class="m-3 pb-3">ArkhamPrint.XYZ is a tool to help players of the Arkham Horror LCG to print out proxy decks at home. It uses <%= link_to "ArkhamDB", "https://arkhamdb.com" %> as that source of card images and can accept either a ArkhamDB decklist, or a list of individual card IDs.</p>
 
-<div class="content">
-  <%= form_with  url:'/from_deck', method: :get, local: true, data: {turbo: "false"} do |form| %>
-  <!-- turbo: false is very important! -->
-  <%= form.textarea :id, size: "70x1" %>
-  <%= form.submit "Get  PDF" %>
-  <% end %>
-
-  <%= form_with  url:'/from_card_list', method: :get, local: true, data: {turbo: "false"} do |form| %>
-  <!-- turbo: false is very important! -->
-  Input cards IDs comma seperated
-  <%= form.textarea :card_ids, size: "70x1" %>
-  <%= form.submit "Get  PDF" %>
-  <% end %>
+<nav>
+  <div class=" nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-deck-tab" data-bs-toggle="tab" data-bs-target="#nav-deck" type="button" role="tab" aria-controls="nav-deck" aria-selected="true">
+      Deck URL
+    </button>
+    <button class="nav-link" id="nav-card-tab" data-bs-toggle="tab" data-bs-target="#nav-card" type="button" role="tab" aria-controls="nav-card" aria-selected="false">
+      Individual Card IDs
+    </button>
+  </div>
+</nav>
+<div class="tab-content mx-auto" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-deck" role="tabpanel" aria-labelledby="nav-home-tab">
+    <%= form_with url:'/from_deck', method: :get, local: true, data: {turbo: "false"}, class: "m-3" do |form| %>
+    <!-- turbo: false is very important! -->
+    <%= form.label :deck_url, "ArkhamDB deck URL" %>
+    <%= form.textarea :deck_url, class: "form-control", placeholder: "https://arkhamdb.com/decklist/view/48985" %>
+    <%= form.submit "Get  PDF", :class => 'btn btn-primary mt-3' %>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="nav-card" role="tabpanel" aria-labelledby="nav-card-tab">
+    <%= form_with  url:'/from_card_list', method: :get, local: true, data: {turbo: "false"}, class: "m-3" do |form| %>
+    <!-- turbo: false is very important! -->
+    <%= form.label :card_ids, "ArkhamDB card ID's seperated by commas" %>
+    <%= form.textarea :card_ids, class: "form-control", placeholder: "01022, 01044, 01045"%>
+    <%= form.submit "Get PDF", :class => 'btn btn-primary mt-3' %>
+    <% end %>
+  </div>
 </div>

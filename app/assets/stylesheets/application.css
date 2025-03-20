@@ -9,13 +9,13 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
- /*
+/*
  *= require_tree .
  *= require_self
  *= require main
  */
 
- .header {
+/* .header {
     padding: 60px;
     text-align: center;
     background: #297062;
@@ -25,4 +25,8 @@
 
 .content {
     text-align: center;
-}
+} */
+/* 
+body {
+  background-image: url("/images/p6.webp");
+} */

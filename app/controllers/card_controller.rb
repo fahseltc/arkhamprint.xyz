@@ -1,6 +1,6 @@
 class CardController < ActionController::Base # this sends the file correctly, using ApplicationController gives assets but also prevents the file from sending.
   def from_deck
-    /(?<id>\d+)/ =~ params[:id]
+    /(?<id>\d+)/ =~ params[:deck_url]
     page_size = params[:page_size]
     Rails.logger.info(id)
     Rails.logger.info(page_size) # this is an INT instead of a string right now - need ENUM lookup probably
