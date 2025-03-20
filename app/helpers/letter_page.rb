@@ -33,23 +33,23 @@ class LetterPage
         add_image(image)
       end
     end
-    Rails.logger.info('generating!')
+    Rails.logger.info("generating!")
   end
 
   def add_image(img)
-    #add_square() # This does work but source images have white rounded corners built-in
-    # fill_color '000000'
-    # fill_rectangle [@x_cursor_position, @y_cursor_position], 180, 252
-    # blend_mode(:Normal) do
-      image img, width: 2.5.send(:in), height: 3.5.send(:in), at:[@x_cursor_position, @y_cursor_position]
-      if ((@x_cursor_position += 180) >= 540)
+      # add_square() # This does work but source images have white rounded corners built-in
+      # fill_color '000000'
+      # fill_rectangle [@x_cursor_position, @y_cursor_position], 180, 252
+      # blend_mode(:Normal) do
+      image img, width: 2.5.send(:in), height: 3.5.send(:in), at: [ @x_cursor_position, @y_cursor_position ]
+      if (@x_cursor_position += 180) >= 540
         @x_cursor_position = 0.0
-        if ((@y_cursor_position -= 252) < 100)
+        if (@y_cursor_position -= 252) < 100
           @y_cursor_position = 756.0
           start_new_page
         end
       end
-    #end
+    # end
   end
 
   # def add_square
