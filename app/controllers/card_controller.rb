@@ -19,14 +19,17 @@ class CardController < ActionController::Base # this sends the file correctly, u
     if params[:card_ids].nil?
       return false
     end
-    card_ids = params[:card_ids].gsub!(/[[:space:]]/, "").split(",")
+    card_ids = params[:card_ids].gsub(/[[:space:]]/, "").split(",")
     if card_ids.length > 40
       Rails.logger.error("raise error, input too long")
     end
     card_hash = {}
+    Rails.logger.info(card_ids)
     card_ids.each do |id|
       img_url = ArkhamDbHelper.get_card_image_url(id)
-      card_hash[img_url] = 1
+      if img_url.present?
+        card_hash[img_url] = 1
+      end
     end
     Rails.logger.info(card_hash)
     data = PdfHelper.generate(card_hash, "LETTER")

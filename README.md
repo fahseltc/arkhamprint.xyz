@@ -6,7 +6,7 @@ It takes a URL to a deck at [arkhambd.com](https://arkhamdb.com/) and generates 
 
 
 ## Technical Details
-Uses Ruby 3.3.2 and Rails 8.0.2
+Uses Ruby 3.3.2, Rails 8.0.2 and Bootstrap 5.3.3
 Hosted on [Render](https://render.com/) Free-Tier
 - This means that there can be some initial startup time of the instance after being idle for some time. 
 

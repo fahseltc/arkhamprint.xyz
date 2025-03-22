@@ -1,4 +1,6 @@
-<p class="m-3 pb-3">ArkhamPrint.XYZ is a tool to help players of the Arkham Horror LCG to print out proxy decks at home. It uses <%= link_to "ArkhamDB", "https://arkhamdb.com" %> as that source of card images and can accept either a ArkhamDB decklist, or a list of individual card IDs.</p>
+<p class="m-3">ArkhamPrint.XYZ is a tool to help players of the Arkham Horror LCG to print out proxy decks at home.</p>
+
+<p class="m-3 pb-3">It uses <%= link_to "ArkhamDB", "https://arkhamdb.com", target: :_blank %> as the source of card images and can accept either a ArkhamDB decklist, or a list of individual card IDs.</p>
 
 <nav>
   <div class=" nav nav-tabs" id="nav-tab" role="tablist">
@@ -11,20 +13,68 @@
   </div>
 </nav>
 <div class="tab-content mx-auto" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-deck" role="tabpanel" aria-labelledby="nav-home-tab">
-    <%= form_with url:'/from_deck', method: :get, local: true, data: {turbo: "false"}, class: "m-3" do |form| %>
-    <!-- turbo: false is very important! -->
-    <%= form.label :deck_url, "ArkhamDB deck URL" %>
-    <%= form.textarea :deck_url, class: "form-control", placeholder: "https://arkhamdb.com/decklist/view/48985" %>
-    <%= form.submit "Get  PDF", :class => 'btn btn-primary mt-3' %>
-    <% end %>
+  <div class="tab-pane fade show active" id="nav-deck" role="tabpanel" aria-labelledby="nav-deck-tab">
+    <label for="deck_url">ArkhamDB deck URL</label>
+    <input type="text" class="form-control" id="deck_url" name="deck_url" placeholder="https://arkhamdb.com/decklist/view/48985">
+    <button class="btn btn-primary mt-3" onclick="submitFromDeckForm()">Get PDF</button>
   </div>
+
   <div class="tab-pane fade" id="nav-card" role="tabpanel" aria-labelledby="nav-card-tab">
-    <%= form_with  url:'/from_card_list', method: :get, local: true, data: {turbo: "false"}, class: "m-3" do |form| %>
-    <!-- turbo: false is very important! -->
-    <%= form.label :card_ids, "ArkhamDB card ID's seperated by commas" %>
-    <%= form.textarea :card_ids, class: "form-control", placeholder: "01022, 01044, 01045"%>
-    <%= form.submit "Get PDF", :class => 'btn btn-primary mt-3' %>
-    <% end %>
+    <label for="card_ids">ArkhamDB card ID's seperated by commas</label>
+    <input type="text" class="form-control" id="card_ids" name="card_ids" placeholder="01022, 01044">
+    <button class="btn btn-primary mt-3" onclick="submitFromCardIdForm()">Get PDF</button>
   </div>
 </div>
+
+<script>
+  function submitFromCardIdForm() {
+    var input = $('#card_ids').val();
+    input = input.replace(/ /g, "").split(',');
+    console.log(input);
+    var valid = validateCardIdArray(input);
+    console.log("valid: " + valid);
+    if (valid) {
+      callCardIdApi(input);
+    }
+  }
+
+  function validateCardIdArray(input) {
+    for (const element of input) {
+      console.log(element);
+      if (!/\d/.test(element)) {
+        return false;
+      }
+    };
+    return true
+  }
+  // https://developers.google.com/recaptcha/docs/display
+  // captcha public key 6LeCZvwqAAAAAP9LjyFhGUfHSkxk3hyq2wkrcCD3
+  // https://getbootstrap.com/docs/4.0/components/modal/
+  async function callCardIdApi(card_ids) {
+    const url = "/from_card_list?" + new URLSearchParams({
+      card_ids: card_ids
+    });
+    try {
+      fetch(url)
+        .then(res => res.blob())
+        .then(blob => {
+          console.log("Blob type");
+          var file = window.URL.createObjectURL(blob);
+          //window.location.assign(file, '_blank');
+          window.open(file, '_blank');
+        });
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  function submitFromDeckForm() {
+    var input = $('#deck_url').val();
+    console.log(input);
+    // todo validate URL
+    // console.log("valid: " + valid);
+    // if (valid) {
+    //   callCardIdApi(input);
+    // }
+  }
+</script>
