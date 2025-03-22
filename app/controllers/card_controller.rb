@@ -2,14 +2,15 @@ class CardController < ActionController::Base # this sends the file correctly, u
   def from_deck
     /(?<id>\d+)/ =~ params[:deck_url]
     page_size = params[:page_size]
-    Rails.logger.info(id)
-    Rails.logger.info(page_size) # this is an INT instead of a string right now - need ENUM lookup probably
+    Rails.logger.info(deck_url)
+    # Rails.logger.info(page_size) # this is an INT instead of a string right now - need ENUM lookup probably
     card_urls = ArkhamDbHelper.get_cards_from_deck_id(id).transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) } # could do multiple API calls at once?
     Rails.logger.info(card_urls)
     # card_urls = Hash.new()
     # card_urls["https://arkhamdb.com/bundles/cards/60115.png"] = 3
     data = PdfHelper.generate(card_urls, "LETTER")
-    send_data data, type: "application/pdf", filename: "test.pdf", disposition: "attachment"
+    response.content_type = "application/pdf"
+    send_data(data, filename: "test.pdf", type: "application/pdf",  disposition: "attachment")
   end
 
   def from_card_list
@@ -34,7 +35,7 @@ class CardController < ActionController::Base # this sends the file correctly, u
     Rails.logger.info(card_hash)
     data = PdfHelper.generate(card_hash, "LETTER")
     response.content_type = "application/pdf"
-    send_data(data, filename: "test.pdf", type: "application/pdf", disposition: "attachment") # attachment // inline
+    send_data(data, filename: "test.pdf", type: "application/pdf", disposition: "attachment")
     # render :nothing => true
   end
 end

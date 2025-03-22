@@ -1,1 +1,18 @@
-FAQ PAGE
+<div class="p-3">
+  <b>General Disclaimer</b>
+  <p>I do not own any of the images obtained from this site - they are all obtained from ArkhamDB and are the intellectual property of Fantasy Flight Games. Proxies cards are never to be sold, nor to be used in a way to defraud someone into thinking they are real. Please support the company and buy their product when possible.</p>
+  <i><b>Why does it take so long to run?</i></b>
+  <p>ArkhamDB's API doesnt have a quick way to obtain URLs of the images, so for a given deck with 30 cards, 30 API calls need to be made to initially get the png urls then the app has to download the card picture from each of those 30 URLs individually, then finally generate a PDF file. This should all probably be done in a background worker process, and that is a planned future improvement.</p>
+  <i><b>Why do the cards have white in the corners? Could it have a black background between the cards?</i></b>
+  <p>Most of the images from ArkhamDB actually have white corners already in the images - they were scanned in that way. I could probably do some image processing to make those white corners transparent and then I could make a black background between all the cards. But as above - that is a future improvement.</p>
+  <i><b>How can I report a problem?</i></b>
+  <p>Please create an issue on the <a href="https://github.com/fahseltc/arkhamprint.xyz">github page</a></p>
+  <i><b>Why did you make this project?</i></b>
+  <p>I love <a href="https://mtgprint.net/">mtgprint.net</a> and wanted something similar to it for Arkham Horror.</p>
+  <br>
+  <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+  <script type='text/javascript'>
+    kofiwidget2.init('Buy me a coffee?', '#72a4f2', 'V7V4BDH7');
+    kofiwidget2.draw();
+  </script>
+</div>

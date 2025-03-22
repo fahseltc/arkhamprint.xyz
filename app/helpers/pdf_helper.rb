@@ -23,6 +23,8 @@ module PdfHelper
     )
     @x_cursor_position = 0 # reset cursor
     @y_cursor_position = 756
+    cards_count = cards.sum { |h| h[1] }
+    current_card = 1
     cards.each do |card_image_url, quantity|
       begin
         img = URI.open(card_image_url)
@@ -30,12 +32,11 @@ module PdfHelper
         next
       end
       quantity.times do
-        Rails.logger.info("y position: " + @x_cursor_position.to_s)
-        Rails.logger.info("x position: " + @y_cursor_position.to_s)
+        Rails.logger.info("Printing card (#{current_card} out of #{cards_count}) at (#{@x_cursor_position}, #{@y_cursor_position}) on page: #{pdf.page_number}")
         add_image(pdf, img)
+        current_card += 1
       end
     end
-    Rails.logger.info("generating!")
     pdf.render
   end
 
