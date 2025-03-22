@@ -1,3 +1,8 @@
+<%= render "partials/modals" %>
+
+
+
+
 <p class="m-3">ArkhamPrint.XYZ is a tool to help players of the Arkham Horror LCG to print out proxy decks at home.</p>
 
 <p class="m-3 pb-3">It uses <%= link_to "ArkhamDB", "https://arkhamdb.com", target: :_blank %> as the source of card images and can accept either a ArkhamDB decklist, or a list of individual card IDs.</p>
@@ -16,13 +21,17 @@
   <div class="tab-pane fade show active" id="nav-deck" role="tabpanel" aria-labelledby="nav-deck-tab">
     <label for="deck_url">ArkhamDB deck URL</label>
     <input type="text" class="form-control" id="deck_url" name="deck_url" placeholder="https://arkhamdb.com/decklist/view/48985">
-    <button class="btn btn-primary mt-3" onclick="submitFromDeckForm()">Get PDF</button>
+    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#byDeckUrlModal">
+      Get PDF
+    </button>
   </div>
 
   <div class="tab-pane fade" id="nav-card" role="tabpanel" aria-labelledby="nav-card-tab">
     <label for="card_ids">ArkhamDB card ID's seperated by commas</label>
     <input type="text" class="form-control" id="card_ids" name="card_ids" placeholder="01022, 01044">
-    <button class="btn btn-primary mt-3" onclick="submitFromCardIdForm()">Get PDF</button>
+    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#byCardIdModal">
+      Get PDF
+    </button>
   </div>
 </div>
 
@@ -34,7 +43,11 @@
     var valid = validateCardIdArray(input);
     console.log("valid: " + valid);
     if (valid) {
-      callCardIdApi(input);
+      replaceContentsWithSpinner("byCardIdModalContent");
+      const url = "/from_card_list?" + new URLSearchParams({
+        card_ids: input
+      });
+      callPdfApi(url);
     }
   }
 
@@ -47,34 +60,45 @@
     };
     return true
   }
-  // https://developers.google.com/recaptcha/docs/display
-  // captcha public key 6LeCZvwqAAAAAP9LjyFhGUfHSkxk3hyq2wkrcCD3
-  // https://getbootstrap.com/docs/4.0/components/modal/
-  async function callCardIdApi(card_ids) {
-    const url = "/from_card_list?" + new URLSearchParams({
-      card_ids: card_ids
-    });
+
+  async function callPdfApi(url) {
     try {
-      fetch(url)
+      fetch(url, {
+          signal: AbortSignal.timeout(100000)
+        })
         .then(res => res.blob())
         .then(blob => {
-          console.log("Blob type");
           var file = window.URL.createObjectURL(blob);
-          //window.location.assign(file, '_blank');
           window.open(file, '_blank');
+          window.location.reload();
         });
     } catch (error) {
+      console.error("error in callPdfApi")
       console.error(error.message);
+      console.error(error.cause);
     }
+  }
+
+  function replaceContentsWithSpinner(id) {
+    $("#" + id).html(`
+      <div class="modal-body d-flex justify-content-center">
+        <div class="spinner-border" role="status"  style="width: 5rem; height: 5rem;"></div>
+      </div>
+    `);
   }
 
   function submitFromDeckForm() {
     var input = $('#deck_url').val();
     console.log(input);
+    replaceContentsWithSpinner("byDeckUrlModalContent");
     // todo validate URL
     // console.log("valid: " + valid);
     // if (valid) {
     //   callCardIdApi(input);
     // }
+    const url = "/from_deck?" + new URLSearchParams({
+      deck_url: input
+    });
+    callPdfApi(url);
   }
 </script>
