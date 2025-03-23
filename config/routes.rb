@@ -1,3 +1,4 @@
+require "sidekiq/web" # require the web UI
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -11,4 +12,7 @@ Rails.application.routes.draw do
   get "/from_card_list", to: "card#from_card_list"
 
   get "/faq", to: "faq#index"
+
+
+  mount Sidekiq::Web => "/sidekiq" # access it at http://localhost:3000/sidekiq
 end

@@ -16,12 +16,7 @@ module ArkhamDbHelper
   end
 
   def self.get_card_image_url(card_id)
-    card = self.get_card(card_id)
-    if card.try(:body).nil?
-      nil
-    else
-      "https://arkhamdb.com" + self.get_card(card_id)["imagesrc"]
-    end
+    "https://arkhamdb.com/bundles/cards/" + card_id  + ".png"
   end
 
   def self.get_all_cards
