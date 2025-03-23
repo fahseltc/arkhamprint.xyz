@@ -33,6 +33,7 @@
 </div>
 
 <script>
+  +
   function submitFromCardIdForm() {
     var input = $('#card_ids').val();
     input = input.replace(/ /g, "").split(',');
@@ -45,6 +46,8 @@
         card_ids: input
       });
       callPdfApi(url);
+    } else {
+      alert("Input list of card IDs is not valid")
     }
   }
 
@@ -88,14 +91,20 @@
     var input = $('#deck_url').val();
     console.log(input);
     replaceContentsWithSpinner("byDeckUrlModalContent");
-    // todo validate URL
-    // console.log("valid: " + valid);
-    // if (valid) {
-    //   callCardIdApi(input);
-    // }
-    const url = "/from_deck?" + new URLSearchParams({
-      deck_url: input
-    });
-    callPdfApi(url);
+    var valid = validateDeckUrl(input);
+    console.log("valid: " + valid);
+    if (valid) {
+      const url = "/from_deck?" + new URLSearchParams({
+        deck_url: input
+      });
+      callPdfApi(url);
+    } else {
+      alert("ArkhamDB Deck URL is not valid");
+    }
+  }
+
+  function validateDeckUrl(input) {
+    // expected input looks like this:  https://arkhamdb.com/decklist/view/48985
+    return new RegExp('https://arkhamdb.com/decklist/view/').test(input);
   }
 </script>
