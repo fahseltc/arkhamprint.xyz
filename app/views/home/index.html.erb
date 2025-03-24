@@ -69,7 +69,10 @@
         .then(blob => {
           var file = window.URL.createObjectURL(blob);
           window.open(file, '_blank');
-          window.location.reload();
+          setTimeout(function() {
+            window.location.reload();
+          }, 2000);
+
         });
     } catch (error) {
       console.error("error in callPdfApi")
