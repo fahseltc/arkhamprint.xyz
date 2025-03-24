@@ -44,6 +44,8 @@ module PdfHelper
     if img.width > img.height
       img.rotate(90)
     end
+    # mask convert https://arkhamdb.com/bundles/cards/60115.png /home/charles/prog/mask.png -compose Multiply -composite output.png
+
     pdf.image img.format("png").path, width: 2.5.send(:in), height: 3.5.send(:in), at: [ @x_cursor_position, @y_cursor_position ]
     if (@x_cursor_position += 180) >= 540
       @x_cursor_position = 0.0
