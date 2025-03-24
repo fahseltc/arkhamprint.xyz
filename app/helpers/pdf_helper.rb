@@ -27,7 +27,7 @@ module PdfHelper
     current_card = 1
     cards.each do |card_image_url, quantity|
       begin
-        img = URI.open(card_image_url)
+        img = MiniMagick::Image.open(card_image_url)
       rescue OpenURI::HTTPError
         next
       end
@@ -41,7 +41,10 @@ module PdfHelper
   end
 
   def self.add_image(pdf, img)
-    pdf.image img, width: 2.5.send(:in), height: 3.5.send(:in), at: [ @x_cursor_position, @y_cursor_position ]
+    if img.width > img.height
+      img.rotate(90)
+    end
+    pdf.image img.format("png").path, width: 2.5.send(:in), height: 3.5.send(:in), at: [ @x_cursor_position, @y_cursor_position ]
     if (@x_cursor_position += 180) >= 540
       @x_cursor_position = 0.0
       if (@y_cursor_position -= 252) < 100

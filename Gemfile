@@ -44,6 +44,7 @@ gem "httparty"
 gem "prawn"
 gem "recaptcha"
 gem "sidekiq"
+gem "fastimage"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -67,3 +68,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "mini_magick", "~> 5.2"

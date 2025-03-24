@@ -111,6 +111,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    fastimage (2.4.0)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -159,6 +160,9 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
+    mini_magick (5.2.0)
+      benchmark
+      logger
     mini_mime (1.1.5)
     minitest (5.25.5)
     msgpack (1.8.0)
@@ -412,10 +416,12 @@ DEPENDENCIES
   brakeman
   bundler-audit
   capybara
+  fastimage
   httparty
   importmap-rails
   jbuilder
   kamal
+  mini_magick (~> 5.2)
   prawn
   propshaft
   puma (>= 5.0)
