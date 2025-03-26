@@ -43,7 +43,8 @@ gem "thruster", require: false
 gem "httparty"
 gem "prawn"
 gem "recaptcha"
-gem "sidekiq"
+gem "sidekiq", ">8.0.0"
+#gem "sidekiq-status" it dont work
 gem "fastimage"
 
 group :development, :test do

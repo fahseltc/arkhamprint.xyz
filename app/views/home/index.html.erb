@@ -32,15 +32,46 @@
   </div>
 </div>
 
+<button type="button" onClick="startAsyncJob()">
+  start async job
+</button>
+<input id="download_btn">
+<button type="button" onClick="downloadPdf()">
+  downloadPDF
+</button>
+
 <script>
+  async function startAsyncJob() {
+    const url = "/job/from_deck?" + new URLSearchParams({
+      deck_url: "https: //arkhamdb.com/decklist/view/48985"
+    });
+    const rawResponse = await fetch(url);
+    const response = await rawResponse.json();
+    console.log(response);
+    console.log("JobID: " + response["job_id"]);
+    console.log("FileID: " + response["file_id"]);
+    sessionStorage.setItem("FileID", response["file_id"]);
+  }
+
+  async function downloadPdf() {
+    file_id = sessionStorage.getItem("FileID");
+    const url = "/job/download?" + new URLSearchParams({
+      file_id: file_id
+    });
+    const rawResponse = await fetch(url);
+    const blob = await rawResponse.blob();
+    var file = window.URL.createObjectURL(blob);
+    window.open(file, '_blank');
+  }
+
   function submitFromCardIdForm() {
     var input = $('#card_ids').val();
     input = input.replace(/ /g, "").split(',');
     console.log(input);
     var valid = validateCardIdArray(input);
-    console.log("valid: " + valid);
+    console.log(" valid: " + valid);
     if (valid) {
-      replaceContentsWithSpinner("byCardIdModalContent");
+      replaceContentsWithSpinner(" byCardIdModalContent");
       const url = "/from_card_list?" + new URLSearchParams({
         card_ids: input
       });
@@ -59,13 +90,11 @@
     };
     return true
   }
-
   async function callPdfApi(url) {
     try {
       fetch(url, {
           signal: AbortSignal.timeout(100000)
-        })
-        .then(res => res.blob())
+        }).then(res => res.blob())
         .then(blob => {
           var file = window.URL.createObjectURL(blob);
           window.open(file, '_blank');
@@ -83,10 +112,10 @@
 
   function replaceContentsWithSpinner(id) {
     $("#" + id).html(`
-      <div class="modal-body d-flex justify-content-center">
-        <div class="spinner-border" role="status"  style="width: 5rem; height: 5rem;"></div>
-      </div>
-    `);
+  <div class="modal-body d-flex justify-content-center">
+    <div class="spinner-border" role="status" style="width: 5rem; height: 5rem;"></div>
+  </div>
+  `);
   }
 
   function submitFromDeckForm() {
@@ -106,7 +135,7 @@
   }
 
   function validateDeckUrl(input) {
-    // expected input looks like this:  https://arkhamdb.com/decklist/view/48985
+    // expected input looks like this: https://arkhamdb.com/decklist/view/48985
     return new RegExp('https://arkhamdb.com/decklist/view/').test(input);
   }
 </script>

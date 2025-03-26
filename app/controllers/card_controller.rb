@@ -7,7 +7,7 @@ class CardController < ActionController::Base # this sends the file correctly, u
     Rails.logger.info(card_urls)
     # card_urls = Hash.new()
     # card_urls["https://arkhamdb.com/bundles/cards/60115.png"] = 3
-    data = PdfHelper.generate(card_urls, "LETTER")
+    data = PdfHelper.new.generate(card_urls, "LETTER")
     response.content_type = "application/pdf"
     send_data(data, filename: "test.pdf", type: "application/pdf",  disposition: "attachment")
   end
@@ -32,7 +32,7 @@ class CardController < ActionController::Base # this sends the file correctly, u
       end
     end
     Rails.logger.info(card_hash)
-    data = PdfHelper.generate(card_hash, "LETTER")
+    data = PdfHelper.new.generate(card_hash, "LETTER")
     response.content_type = "application/pdf"
     send_data(data, filename: "test.pdf", type: "application/pdf", disposition: "attachment")
     # render :nothing => true
