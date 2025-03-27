@@ -21,7 +21,7 @@
     <!--<button type="button" class="btn btn-primary mt-3" onClick="submitFromDeckForm()">
       Get PDF
     </button> -->
-    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#byDeckUrlModal">
+    <button type="button" class="btn btn-primary mt-3" onClick="submitByDeckUrl()">
       Get PDF
     </button> <!-- TODO: this button should do input validation first, then open the google modal.-->
   </div>
@@ -29,9 +29,10 @@
   <div class="tab-pane fade p-3" id="nav-card" role="tabpanel" aria-labelledby="nav-card-tab">
     <label for="card_ids">ArkhamDB card ID's seperated by commas</label>
     <input type="text" class="form-control" id="card_ids" name="card_ids" placeholder="01022, 01044">
-    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#byCardIdModal">
+    <button type="button" class="btn btn-primary mt-3" onClick="submitByCardId()">
       Get PDF
     </button>
+    <!-- data-bs-toggle="modal" data-bs-target="#byCardIdModal" -->
     <!-- onClick="submitFromCardIdForm()" -->
   </div>
 </div>
@@ -62,14 +63,8 @@
   // FromCardIDs entrypoint method
   async function submitFromCardIdForm() {
     var input = $('#card_ids').val();
-
     input = input.replace(/ /g, "").split(',');
-    console.log(input);
-    var valid = validateCardIdArray(input);
-    if (!valid) {
-      alert("Input list of card IDs is not valid")
-      return;
-    }
+    // input was already validated on btn click
     const url = "/job/from_card_list?" + new URLSearchParams({
       card_ids: input
     });
@@ -79,6 +74,19 @@
     $("#byCardIdModal").modal("hide")
     grecaptcha.reset();
     hideAndShowLoading("byCardIdModalLoading", "byCardIdModalContent");
+  }
+
+  function submitByCardId() {
+    var input = $('#card_ids').val().replace(/ /g, "").split(',');
+    var valid = validateCardIdArray(input);
+    if (valid) {
+      $("#card_ids").css("border", "1px solid lightgreen");
+      $("#byCardIdModal").modal("show"); // Open captcha modal
+      return true;
+    } else {
+      $("#card_ids").css("border", "1px solid red");
+      return false;
+    }
   }
 
   function validateCardIdArray(input) {
@@ -93,9 +101,25 @@
     return true
   }
 
+  function submitByDeckUrl() {
+    var input = $('#deck_url').val();
+    var valid = validateDeckUrl(input);
+    if (valid) {
+      $("#deck_url").css("border", "1px solid lightgreen");
+      $("#byDeckUrlModal").modal("show"); // Open captcha modal
+      return true;
+    } else {
+      $("#deck_url").css("border", "1px solid red");
+      return false;
+    }
+  }
+
   function validateDeckUrl(input) {
     // expected input: https://arkhamdb.com/decklist/view/48985
-    return new RegExp('https://arkhamdb.com/decklist/view/').test(input);
+    if (input == undefined) {
+      input = $('#deck_url').val();
+    }
+    return new RegExp('arkhamdb.com/decklist/view/').test(input);
   }
 
   async function submitJob(url) {
