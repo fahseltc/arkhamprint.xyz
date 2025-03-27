@@ -5,14 +5,33 @@
         <%= recaptcha_tags callback: "submitFromCardIdForm", class: "pt-3" %>
       </div>
     </div>
+    <div id="byCardIdModalLoading" class="modal-content" style="display: none">
+      <div class="modal-body vstack gap-3 mx-auto">
+        <p class="text-center">Please wait!</p>
+        <div class="d-flex justify-content-center">
+          <div class=" spinner-border text-center" role="status" style="width: 5rem; height: 5rem;"></div>
+        </div>
+        <p class="text-center">This can take up to 60 seconds....</p>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="modal fade" id="byDeckUrlModal" tabindex="-1" aria-labelledby="byDeckUrlModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div id="byDeckUrlModalContent" class="modal-content">
-      <div class="modal-body d-flex justify-content-center">
-        <%= recaptcha_tags callback: "submitFromDeckForm", class: "pt-3" %>
+
+  <div class="modal fade" id="byDeckUrlModal" tabindex="-1" aria-labelledby="byDeckUrlModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div id="byDeckUrlModalContent" class="modal-content">
+        <div class="modal-body d-flex justify-content-center">
+          <%= recaptcha_tags callback: "submitFromDeckForm", class: "pt-3" %>
+        </div>
+      </div>
+      <div id="byDeckModalLoading" class="modal-content" style="display: none">
+        <div class="modal-body vstack gap-3 mx-auto">
+          <p class="text-center">Please wait!</p>
+          <div class="d-flex justify-content-center">
+            <div class=" spinner-border text-center" role="status" style="width: 5rem; height: 5rem;"></div>
+          </div>
+          <p class="text-center">This can take up to 60 seconds....</p>
+        </div>
       </div>
     </div>
   </div>

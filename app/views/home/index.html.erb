@@ -18,9 +18,12 @@
   <div class="tab-pane fade show active p-3" id="nav-deck" role="tabpanel" aria-labelledby="nav-deck-tab">
     <label for="deck_url">ArkhamDB deck URL</label>
     <input type="text" class="form-control" id="deck_url" name="deck_url" placeholder="https://arkhamdb.com/decklist/view/48985">
+    <!--<button type="button" class="btn btn-primary mt-3" onClick="submitFromDeckForm()">
+      Get PDF
+    </button> -->
     <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#byDeckUrlModal">
       Get PDF
-    </button>
+    </button> <!-- TODO: this button should do input validation first, then open the google modal.-->
   </div>
 
   <div class="tab-pane fade p-3" id="nav-card" role="tabpanel" aria-labelledby="nav-card-tab">
@@ -29,113 +32,143 @@
     <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#byCardIdModal">
       Get PDF
     </button>
+    <!-- onClick="submitFromCardIdForm()" -->
   </div>
 </div>
 
-<button type="button" onClick="startAsyncJob()">
-  start async job
-</button>
-<input id="download_btn">
-<button type="button" onClick="downloadPdf()">
-  downloadPDF
-</button>
 
 <script>
-  async function startAsyncJob() {
+  // FromDeck entrypoint method
+  async function submitFromDeckForm() {
+    var input = $('#deck_url').val();
+    console.log(input);
+    var valid = validateDeckUrl(input);
+    if (!valid) {
+      alert("ArkhamDB Deck URL is invalid!");
+      return;
+    }
     const url = "/job/from_deck?" + new URLSearchParams({
-      deck_url: "https: //arkhamdb.com/decklist/view/48985"
+      deck_url: input
     });
-    const rawResponse = await fetch(url);
-    const response = await rawResponse.json();
-    console.log(response);
-    console.log("JobID: " + response["job_id"]);
-    console.log("FileID: " + response["file_id"]);
-    sessionStorage.setItem("FileID", response["file_id"]);
+    hideAndShowLoading("byDeckUrlModalContent", "byDeckUrlModalLoading");
+    await submitJob(url);
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await pollAndDownload();
+    $("#byDeckUrlModal").modal("hide")
+    grecaptcha.reset();
+    hideAndShowLoading("byDeckUrlModalLoading", "byDeckUrlModalContent");
   }
 
-  async function downloadPdf() {
-    file_id = sessionStorage.getItem("FileID");
-    const url = "/job/download?" + new URLSearchParams({
-      file_id: file_id
-    });
-    const rawResponse = await fetch(url);
-    const blob = await rawResponse.blob();
-    var file = window.URL.createObjectURL(blob);
-    window.open(file, '_blank');
-  }
-
-  function submitFromCardIdForm() {
+  // FromCardIDs entrypoint method
+  async function submitFromCardIdForm() {
     var input = $('#card_ids').val();
+
     input = input.replace(/ /g, "").split(',');
     console.log(input);
     var valid = validateCardIdArray(input);
-    console.log(" valid: " + valid);
-    if (valid) {
-      replaceContentsWithSpinner(" byCardIdModalContent");
-      const url = "/from_card_list?" + new URLSearchParams({
-        card_ids: input
-      });
-      callPdfApi(url);
-    } else {
+    if (!valid) {
       alert("Input list of card IDs is not valid")
+      return;
     }
+    const url = "/job/from_card_list?" + new URLSearchParams({
+      card_ids: input
+    });
+    hideAndShowLoading("byCardIdModalContent", "byCardIdModalLoading");
+    await submitJob(url);
+    await pollAndDownload();
+    $("#byCardIdModal").modal("hide")
+    grecaptcha.reset();
+    hideAndShowLoading("byCardIdModalLoading", "byCardIdModalContent");
   }
 
   function validateCardIdArray(input) {
+    if (input.length == 0) {
+      return false
+    }
     for (const element of input) {
-      console.log(element);
       if (!/\d/.test(element)) {
         return false;
       }
     };
     return true
   }
-  async function callPdfApi(url) {
-    try {
-      fetch(url, {
-          signal: AbortSignal.timeout(100000)
-        }).then(res => res.blob())
-        .then(blob => {
-          var file = window.URL.createObjectURL(blob);
-          window.open(file, '_blank');
-          setTimeout(function() {
-            window.location.reload();
-          }, 2000);
-
-        });
-    } catch (error) {
-      console.error("error in callPdfApi")
-      console.error(error.message);
-      console.error(error.cause);
-    }
-  }
-
-  function replaceContentsWithSpinner(id) {
-    $("#" + id).html(`
-  <div class="modal-body d-flex justify-content-center">
-    <div class="spinner-border" role="status" style="width: 5rem; height: 5rem;"></div>
-  </div>
-  `);
-  }
-
-  function submitFromDeckForm() {
-    var input = $('#deck_url').val();
-    console.log(input);
-    replaceContentsWithSpinner("byDeckUrlModalContent");
-    var valid = validateDeckUrl(input);
-    console.log("valid: " + valid);
-    if (valid) {
-      const url = "/from_deck?" + new URLSearchParams({
-        deck_url: input
-      });
-      callPdfApi(url);
-    } else {
-      alert("ArkhamDB Deck URL is not valid");
-    }
-  }
 
   function validateDeckUrl(input) {
-    // expected input looks like this: https://arkhamdb.com/decklist/view/48985
+    // expected input: https://arkhamdb.com/decklist/view/48985
     return new RegExp('https://arkhamdb.com/decklist/view/').test(input);
+  }
+
+  async function submitJob(url) {
+    const rawResponse = await fetch(url);
+    const response = await rawResponse.json();
+    console.log("JobID: " + response["job_id"]);
+    console.log("FileID: " + response["file_id"]);
+    if (rawResponse.ok) {
+      console.log("setting local storage");
+      sessionStorage.setItem("FileID", response["file_id"]);
+      sessionStorage.setItem("JobID", response["job_id"]);
+    } else {
+      alert("There was a problem submitting the job to the server. Please try again later.");
+      sessionStorage.clear();
+    }
+  }
+
+  async function pollAndDownload() {
+    var success = await downloadPdfAndRetry(0);
+    console.log("downloadPdfAndRetry result: " + success)
+    if (success) {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      sessionStorage.clear();
+    } else {
+      alert("The maximum duration of 80 seconds has passed and your cards failed to be processed. Please try again later!");
+    }
+  }
+
+  async function downloadPdfAndRetry(timeWaited) {
+    if (timeWaited > 80000) {
+      return false;
+    }
+    console.log("Seconds waited: " + timeWaited / 1000);
+    file_id = sessionStorage.getItem("FileID");
+    const url = "/job/download?" + new URLSearchParams({
+      file_id: file_id
+    });
+    const rawResponse = await fetch(url);
+    if (rawResponse.status == "200") {
+      const blob = await rawResponse.blob();
+      var file = window.URL.createObjectURL(blob);
+      window.open(file, '_blank');
+      return true;
+    } else {
+      timeWaited += 3000;
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      return await downloadPdfAndRetry(timeWaited);
+    }
+  }
+
+
+  // async function callPdfApi(url) {
+  //   try {
+  //     fetch(url, {
+  //         signal: AbortSignal.timeout(100000)
+  //       }).then(res => res.blob())
+  //       .then(blob => {
+  //         var file = window.URL.createObjectURL(blob);
+  //         window.open(file, '_blank');
+  //         setTimeout(function() {
+  //           window.location.reload();
+  //         }, 2000);
+
+  //       });
+  //   } catch (error) {
+  //     console.error("error in callPdfApi")
+  //     console.error(error.message);
+  //     console.error(error.cause);
+  //   }
+  // }
+
+  function hideAndShowLoading(id_to_hide, id_to_show) {
+    $("#" + id_to_hide).hide();
+    $("#" + id_to_show).show();
   }
 </script>

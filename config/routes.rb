@@ -15,8 +15,10 @@ Rails.application.routes.draw do
   get "/faq", to: "faq#index"
 
   get "/job/from_deck"
+  get "/job/from_card_list"
   get "/job/download"
-  #get "/job/download", to:"job#download"
+  get "/job/status"
+  # get "/job/download", to:"job#download"
 
 
   mount Sidekiq::Web => "/sidekiq" # access it at http://localhost:3000/sidekiq

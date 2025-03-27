@@ -12,7 +12,7 @@ class PdfHelper
   @x_cursor_position = 0
   @y_cursor_position = 756
 
-  def generate(cards, page_size, save_file_path=nil, job_id=nil)
+  def generate(cards, page_size, save_file_path = nil, job_id = nil)
     pdf = Prawn::Document.new(
       page_size: "LETTER",
       page_layout: :portrait,
@@ -34,10 +34,10 @@ class PdfHelper
       quantity.times do
         if job_id.nil?
           Rails.logger.info("Printing card (#{current_card} out of #{cards_count}) at (#{@x_cursor_position}, #{@y_cursor_position}) on page: #{pdf.page_number}")
-        else 
+        else
           Rails.logger.info("(JobID:#{job_id}) Printing card (#{current_card} out of #{cards_count}) at (#{@x_cursor_position}, #{@y_cursor_position}) on page: #{pdf.page_number}")
         end
-        add_image(pdf, img)
+        add_image(pdf, img, (current_card == cards_count))
         current_card += 1
       end
     end
@@ -48,7 +48,7 @@ class PdfHelper
     end
   end
 
-  def add_image(pdf, img)
+  def add_image(pdf, img, last_card = false)
     if img.width > img.height
       img.rotate(90)
     end
@@ -59,11 +59,12 @@ class PdfHelper
       @x_cursor_position = 0.0
       if (@y_cursor_position -= 252) < 100
         @y_cursor_position = 756.0
-        pdf.start_new_page
+        if !last_card
+          pdf.start_new_page
+        end
       end
     end
   end
-
 end
 
 
