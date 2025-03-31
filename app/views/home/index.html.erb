@@ -44,6 +44,9 @@
       const url = "/from_card_list?" + new URLSearchParams({
         card_ids: input
       });
+      gtag("event", "from_card_ids", {
+        "card_ids": input
+      });
       callPdfApi(url);
     } else {
       alert("Input list of card IDs is not valid")
@@ -61,12 +64,20 @@
   }
 
   async function callPdfApi(url) {
+    var start = Date.now();
     try {
       fetch(url, {
           signal: AbortSignal.timeout(100000)
         })
         .then(res => res.blob())
         .then(blob => {
+          var delta = Date.now() - start;
+          var requestDuration = Math.floor(delta / 1000);
+          console.log("request took: " + timeInSeconds + " seconds")
+          gtag("event", "request_finished", {
+            "url": url,
+            "requestDuration": requestDuration
+          });
           var file = window.URL.createObjectURL(blob);
           window.open(file, '_blank');
           setTimeout(function() {
@@ -77,7 +88,10 @@
     } catch (error) {
       console.error("error in callPdfApi")
       console.error(error.message);
-      console.error(error.cause);
+      gtag("event", "request_error", {
+        "url": url,
+        "message": error.message
+      });
     }
   }
 
@@ -98,6 +112,9 @@
     if (valid) {
       const url = "/from_deck?" + new URLSearchParams({
         deck_url: input
+      });
+      gtag("event", "from_deck_url", {
+        "url": deck_url
       });
       callPdfApi(url);
     } else {
