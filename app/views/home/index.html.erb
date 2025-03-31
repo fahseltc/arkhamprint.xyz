@@ -67,13 +67,13 @@
     var start = Date.now();
     try {
       fetch(url, {
-          signal: AbortSignal.timeout(100000)
+          signal: AbortSignal.timeout(120000)
         })
         .then(res => res.blob())
         .then(blob => {
           var delta = Date.now() - start;
           var requestDuration = Math.floor(delta / 1000);
-          console.log("request took: " + timeInSeconds + " seconds")
+          console.log("request took: " + requestDuration + " seconds")
           gtag("event", "request_finished", {
             "url": url,
             "requestDuration": requestDuration
