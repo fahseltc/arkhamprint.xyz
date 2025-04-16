@@ -28,7 +28,11 @@ class CardController < ActionController::Base # this sends the file correctly, u
     card_ids.each do |id|
       img_url = ArkhamDbHelper.get_card_image_url(id)
       if img_url.present?
-        card_hash[img_url] = 1
+        if card_hash[img_url].nil?
+          card_hash[img_url] = 1
+        else
+          card_hash[img_url] += 1
+        end
       end
     end
     Rails.logger.info(card_hash)
