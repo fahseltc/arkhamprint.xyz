@@ -69,4 +69,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "mini_magick", "~> 5.2"
+gem "mini_magick", "~> 5.3"

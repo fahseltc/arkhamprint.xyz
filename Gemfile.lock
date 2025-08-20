@@ -79,7 +79,7 @@ GEM
     bcrypt_pbkdf (1.1.1)
     bcrypt_pbkdf (1.1.1-arm64-darwin)
     bcrypt_pbkdf (1.1.1-x86_64-darwin)
-    benchmark (0.4.0)
+    benchmark (0.4.1)
     bigdecimal (3.1.9)
     bindex (0.8.1)
     bootsnap (1.18.4)
@@ -160,8 +160,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
-    mini_magick (5.2.0)
-      benchmark
+    mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
     minitest (5.25.5)
@@ -421,7 +420,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
-  mini_magick (~> 5.2)
+  mini_magick (~> 5.3)
   prawn
   propshaft
   puma (>= 5.0)
