@@ -15,3 +15,16 @@ This could be fixed with a background job system, but that would also add a lot 
 
 ## Code formatting
 run `rubocop -a` to auto-format the code.
+
+
+# Test Curl commands
+```
+curl -X POST http://localhost:3000/pdf_jobs \
+  -H "Content-Type: application/json" \
+  -d '{
+        "deck_id": 57317
+      }'
+```
+
+curl http://localhost:3000/pdf_jobs/2
+curl -L -O http://localhost:3000/pdf_jobs/2/download

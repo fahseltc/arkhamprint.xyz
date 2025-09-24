@@ -13,6 +13,12 @@ Rails.application.routes.draw do
 
   get "/faq", to: "faq#index"
 
+  resources :pdf_jobs, only: [:create, :show] do
+    member do
+      get :download
+    end
+  end
+
 
   mount Sidekiq::Web => "/sidekiq" # access it at http://localhost:3000/sidekiq
 end
