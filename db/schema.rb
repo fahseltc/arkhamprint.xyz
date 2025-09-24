@@ -10,13 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_24_021519) do
-  create_table "pdf_documents", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "file"
-  end
-
+ActiveRecord::Schema[8.0].define(version: 2025_09_24_231406) do
   create_table "pdf_jobs", force: :cascade do |t|
     t.string "status"
     t.string "file_url"
