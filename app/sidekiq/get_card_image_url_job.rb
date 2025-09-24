@@ -4,7 +4,7 @@ class GetCardImageUrlJob
 
   def perform(card_id)
     card = get_card(card_id)
-    pp "https://arkhamdb.com" + card["imagesrc"] + ".png"
+    pp "https://arkhamdb.com" + card["imagesrc"]
   end
 
   def get_card(card_id)

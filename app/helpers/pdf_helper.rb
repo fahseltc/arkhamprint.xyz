@@ -54,6 +54,7 @@ module PdfHelper
         pdf.start_new_page
       end
     end
+    img.destroy!
   end
 end
 
