@@ -26,10 +26,14 @@ jobs:
     #  run: bin/rails db:schema:load
       # Add or replace test runners here
       - name: DB
+        env:
+          RAILS_ENV: test
         run: |
           bundle exec rails db:create
           bundle exec rails db:migrate
       - name: Run tests
+        env:
+          RAILS_ENV: test
         run: bundle exec rspec
 
   lint:
