@@ -45,8 +45,6 @@ gem "prawn"
 gem "recaptcha"
 gem "sidekiq"
 gem "fastimage"
-gem "carrierwave", "~> 3.0"
-gem "fog-aws"
 gem "aws-sdk-s3"
 
 group :development, :test do
