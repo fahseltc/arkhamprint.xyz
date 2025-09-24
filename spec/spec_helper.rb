@@ -14,6 +14,19 @@
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.before(:suite) do
+    # Enable Fog mock mode
+    Fog.mock!
+
+    # Optionally, create a "fake" bucket so uploads don't fail
+    connection = Fog::Storage.new(
+      provider: 'AWS',
+      aws_access_key_id: 'fake',
+      aws_secret_access_key: 'fake',
+      region: 'us-west-2'
+    )
+    connection.directories.create(key: 'test-bucket')
+  end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

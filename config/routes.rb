@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   get "/faq", to: "faq#index"
 
-  resources :pdf_jobs, only: [:create, :show] do
+  resources :pdf_jobs, only: [ :create, :show ] do
     member do
       get :download
     end

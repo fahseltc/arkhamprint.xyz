@@ -5,12 +5,12 @@ class PdfUploader < CarrierWave::Uploader::Base
   # include CarrierWave::Vips
 
   # Choose what kind of storage to use for this uploader:
-  #storage :file
+  # storage :file
   storage :fog
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
-  
+
   def store_dir
     "uploads/pdfs"
   end
@@ -38,11 +38,11 @@ class PdfUploader < CarrierWave::Uploader::Base
   # Add an allowlist of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_allowlist
-    %w(pdf)
+    %w[pdf]
   end
 
   def content_type_allowlist
-    [/application\/pdf/]
+    [ /application\/pdf/ ]
   end
 
   # Override the filename of the uploaded files:

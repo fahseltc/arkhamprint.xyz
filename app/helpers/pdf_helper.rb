@@ -14,12 +14,12 @@ module PdfHelper
     pdf = Prawn::Document.new(page_size: "LETTER", page_layout: :portrait,
                               top_margin: 18, bottom_margin: 18,
                               left_margin: 36, right_margin: 36)
-    
+
     x_cursor = 0
     y_cursor = 756
     cards_count = cards.sum { |_, q| q }
     current_card = 1
-  
+
     cards.each do |url, quantity|
       begin
         img = MiniMagick::Image.open(url)
@@ -32,16 +32,16 @@ module PdfHelper
           next
         end
       end
-  
+
       quantity.times do
         Rails.logger.info("Printing card #{current_card}/#{cards_count} at (#{x_cursor}, #{y_cursor}) page #{pdf.page_number}")
         # Rotate if needed
         img.rotate(90) if img.width > img.height
-        Tempfile.create(["card", ".png"]) do |f|
+        Tempfile.create([ "card", ".png" ]) do |f|
           img.write(f.path)
-          pdf.image f.path, width: 2.5.in, height: 3.5.in, at: [x_cursor, y_cursor]
+          pdf.image f.path, width: 2.5.in, height: 3.5.in, at: [ x_cursor, y_cursor ]
         end
-        
+
         x_cursor += 180
         if x_cursor >= 540
           x_cursor = 0
@@ -54,10 +54,9 @@ module PdfHelper
         current_card += 1
       end
     end
-  
+
     pdf.render
   end
-  
 end
 
 
