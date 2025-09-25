@@ -11,7 +11,7 @@ gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
+# gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -47,12 +47,13 @@ gem "recaptcha"
 gem "sidekiq"
 gem "fastimage"
 gem "aws-sdk-s3"
+gem "dotenv"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   # gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "rspec-rails", "~> 8.0.2"
-  gem "dotenv"
+
 
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
