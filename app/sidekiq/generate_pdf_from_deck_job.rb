@@ -7,10 +7,13 @@ class GeneratePdfFromDeckJob
     pdf_job.update!(status: "processing")
 
     begin
-      card_urls = ArkhamDbHelper.get_cards_from_deck_id(deck_id)
-                     .transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) }
+      cards = ArkhamDbHelper.get_cards_from_deck_id(deck_id).transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) }
+      Rails.logger.info(cards)
+      pdf_job.update!(current_progress: 0, max_progress: cards.values.sum)
 
-      pdf_binary = PdfHelper.generate(card_urls, "LETTER")
+      pdf_binary = PdfHelper.generate(cards, "LETTER") do |idx|
+        pdf_job.update!(current_progress: idx)
+      end
 
       s3_key = "uploads/pdfs/deck_#{deck_id}_#{jid}.pdf"
       s3_client = Aws::S3::Resource.new(region: ENV.fetch("AWS_REGION"))
@@ -23,9 +26,12 @@ class GeneratePdfFromDeckJob
         acl: "private"
       )
 
-      pdf_job.update!(status: "completed", file_url: s3_key)
-
-      Rails.logger.info("Job #{pdf_job.id} finished successfully with file_url: #{pdf_job.file_url}")
+      pdf_job.update!(
+        status: "completed",
+        file_url: s3_key,
+        current_progress: pdf_job.max_progress
+      )
+      Rails.logger.info("Job #{pdf_job.id} completed successfully: #{pdf_job.file_url}")
 
     rescue => e
       pdf_job.update!(status: "failed", error_message: e.message)

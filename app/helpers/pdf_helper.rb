@@ -51,6 +51,7 @@ module PdfHelper
             pdf.start_new_page
           end
         end
+        yield(current_card)
         current_card += 1
       end
     end
