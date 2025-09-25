@@ -1,129 +1,141 @@
-<%= render "partials/modals" %>
+<p class="m-3">
+  ArkhamPrint.XYZ helps players print proxy decks at home.
+</p>
 
-<p class="m-3">ArkhamPrint.XYZ is a tool to help players of the Arkham Horror LCG to print out proxy decks at home.</p>
+<p class="m-3 pb-3">
+  It uses <%= link_to "ArkhamDB", "https://arkhamdb.com", target: :_blank %> for card images. Enter a deck URL or deck ID to generate a PDF.
+</p>
 
-<p class="m-3 pb-3">It uses <%= link_to "ArkhamDB", "https://arkhamdb.com", target: :_blank %> as the source of card images and can accept either a ArkhamDB decklist, or a list of individual card IDs.</p>
-
-<nav>
-  <div class=" nav nav-tabs" id="nav-tab" role="tablist">
-    <button class="nav-link active" id="nav-deck-tab" data-bs-toggle="tab" data-bs-target="#nav-deck" type="button" role="tab" aria-controls="nav-deck" aria-selected="true">
-      Deck URL
-    </button>
-    <button class="nav-link" id="nav-card-tab" data-bs-toggle="tab" data-bs-target="#nav-card" type="button" role="tab" aria-controls="nav-card" aria-selected="false">
-      Individual Card IDs
-    </button>
-  </div>
-</nav>
-<div class="tab-content mx-auto" id="nav-tabContent">
-  <div class="tab-pane fade show active p-3" id="nav-deck" role="tabpanel" aria-labelledby="nav-deck-tab">
-    <label for="deck_url">ArkhamDB deck URL</label>
-    <input type="text" class="form-control" id="deck_url" name="deck_url" placeholder="https://arkhamdb.com/decklist/view/48985">
-    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#byDeckUrlModal">
-      Get PDF
-    </button>
-  </div>
-
-  <div class="tab-pane fade p-3" id="nav-card" role="tabpanel" aria-labelledby="nav-card-tab">
-    <label for="card_ids">ArkhamDB card ID's seperated by commas. You can include a card ID twice to get two copies of it.</label>
-    <input type="text" class="form-control" id="card_ids" name="card_ids" placeholder="01022, 01044">
-    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#byCardIdModal">
-      Get PDF
-    </button>
-  </div>
+<div class="p-3">
+  <label for="deck_url">ArkhamDB deck URL or deck ID</label>
+  <input type="text" class="form-control" id="deck_url" placeholder="https://arkhamdb.com/decklist/view/48985 or 48985">
+  <button type="button" class="btn btn-primary mt-3" id="generatePdfBtn">
+    Get PDF
+  </button>
 </div>
 
+<%= render "partials/modals" %>
+
 <script>
-  function submitFromCardIdForm() {
-    var input = $('#card_ids').val();
-    input = input.replace(/ /g, "").split(',');
-    console.log(input);
-    var valid = validateCardIdArray(input);
-    console.log("valid: " + valid);
-    if (valid) {
-      replaceContentsWithSpinner("byCardIdModalContent");
-      const url = "/from_card_list?" + new URLSearchParams({
-        card_ids: input
-      });
-      gtag("event", "from_card_ids", {
-        "card_ids": input
-      });
-      callPdfApi(url);
-    } else {
-      alert("Input list of card IDs is not valid")
+  const deckModalEl = document.getElementById("byDeckUrlModal");
+  let modalInstance;
+
+  function extractDeckId(input) {
+    input = input.trim();
+    const match = input.match(/\/view\/(\d+)/);
+    return match ? match[1] : input; // full URL or just number
+  }
+
+  function submitPdfJob() {
+    const deckId = extractDeckId($('#deck_url').val());
+    if (!deckId) {
+      alert("Invalid deck URL or ID");
+      return;
     }
-  }
 
-  function validateCardIdArray(input) {
-    for (const element of input) {
-      console.log(element);
-      if (!/\d/.test(element)) {
-        return false;
-      }
-    };
-    return true
-  }
+    const modalContent = $("#byDeckUrlModalContent");
 
-  async function callPdfApi(url) {
-    var start = Date.now();
-    try {
-      fetch(url, {
-          signal: AbortSignal.timeout(120000)
-        })
-        .then(res => res.blob())
-        .then(blob => {
-          var delta = Date.now() - start;
-          var requestDuration = Math.floor(delta / 1000);
-          console.log("request took: " + requestDuration + " seconds")
-          gtag("event", "request_finished", {
-            "url": url,
-            "requestDuration": requestDuration
-          });
-          var file = window.URL.createObjectURL(blob);
-          window.open(file, '_blank');
-          setTimeout(function() {
-            window.location.reload();
-          }, 2000);
+    // Make modal static while job is running
+    modalInstance = new bootstrap.Modal(deckModalEl, {
+      backdrop: "static",
+      keyboard: false
+    });
+    modalInstance.show();
 
-        });
-    } catch (error) {
-      console.error("error in callPdfApi")
-      console.error(error.message);
-      gtag("event", "request_error", {
-        "url": url,
-        "message": error.message
-      });
-    }
-  }
-
-  function replaceContentsWithSpinner(id) {
-    $("#" + id).html(`
-      <div class="modal-body d-flex justify-content-center">
-        <div class="spinner-border" role="status"  style="width: 5rem; height: 5rem;"></div>
+    modalContent.html(`
+      <div class="modal-body">
+        <div class="d-flex justify-content-center align-items-center mb-2">
+          <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;"></div>
+          <span class="ms-3" id="pdfJobStatusText">Submitting job...</span>
+        </div>
+        <div class="progress">
+          <div id="pdfJobProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%">0%</div>
+        </div>
       </div>
     `);
+
+    // POST to pdf_jobs#create
+    fetch("/pdf_jobs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          deck_id: deckId
+        })
+      })
+      .then(res => res.json())
+      .then(data => pollPdfJob(data.pdf_job_id))
+      .catch(err => {
+        modalInstance._config.backdrop = true;
+        modalInstance._config.keyboard = true;
+
+        modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
+        console.error(err);
+      });
   }
 
-  function submitFromDeckForm() {
-    var input = $('#deck_url').val();
-    console.log(input);
-    replaceContentsWithSpinner("byDeckUrlModalContent");
-    var valid = validateDeckUrl(input);
-    console.log("valid: " + valid);
-    if (valid) {
-      const url = "/from_deck?" + new URLSearchParams({
-        deck_url: input
-      });
-      gtag("event", "from_deck_url", {
-        "url": deck_url
-      });
-      callPdfApi(url);
-    } else {
-      alert("ArkhamDB Deck URL is not valid");
+  function pollPdfJob(pdfJobId) {
+    const interval = 2000;
+    const modalContent = $("#byDeckUrlModalContent");
+    const statusText = $("#pdfJobStatusText");
+    const progressBar = $("#pdfJobProgressBar");
+
+    function checkStatus() {
+      fetch(`/pdf_jobs/${pdfJobId}`, {
+          headers: {
+            "Accept": "application/json"
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "completed") {
+            let downloadUrl = data.file_url.startsWith("http") ?
+              data.file_url :
+              `/pdf_jobs/${pdfJobId}/download`;
+
+            window.open(downloadUrl, "_blank");
+
+            modalContent.html(`<div class="modal-body text-center">Download ready!</div>`);
+
+            // Restore modal behavior and auto-close after short delay
+            modalInstance._config.backdrop = true;
+            modalInstance._config.keyboard = true;
+            setTimeout(() => modalInstance.hide(), 2000);
+
+          } else if (data.status === "failed") {
+            // Restore modal behavior if job fails
+            modalInstance._config.backdrop = true;
+            modalInstance._config.keyboard = true;
+
+            modalContent.html(`<div class="modal-body text-center text-danger">Failed: ${data.error_message}</div>`);
+          } else {
+            // Update progress bar
+            let progress = 0;
+            if (data.current_progress && data.max_progress) {
+              progress = Math.floor((data.current_progress / data.max_progress) * 100);
+            }
+            progressBar.css("width", progress + "%");
+            progressBar.text(progress + "%");
+
+            statusText.text(data.current_progress && data.max_progress ?
+              `Printing card ${data.current_progress}/${data.max_progress}...` :
+              "Processing...");
+
+            setTimeout(checkStatus, interval);
+          }
+        })
+        .catch(err => {
+          modalInstance._config.backdrop = true;
+          modalInstance._config.keyboard = true;
+          modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
+          console.error(err);
+        });
     }
+
+    checkStatus();
   }
 
-  function validateDeckUrl(input) {
-    // expected input looks like this:  https://arkhamdb.com/decklist/view/48985
-    return new RegExp('https://arkhamdb.com/decklist/view/').test(input);
-  }
+  // Trigger job submission on button click
+  $('#generatePdfBtn').on('click', submitPdfJob);
 </script>

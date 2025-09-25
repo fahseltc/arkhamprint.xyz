@@ -1,18 +1,12 @@
-<div class="modal fade" id="byCardIdModal" tabindex="-1" aria-labelledby="byCardIdModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div id="byCardIdModalContent" class="modal-content">
-      <div class="modal-body d-flex justify-content-center">
-        <%= recaptcha_tags callback: "submitFromCardIdForm", class: "pt-3" %>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="modal fade" id="byDeckUrlModal" tabindex="-1" aria-labelledby="byDeckUrlModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div id="byDeckUrlModalContent" class="modal-content">
-      <div class="modal-body d-flex justify-content-center">
-        <%= recaptcha_tags callback: "submitFromDeckForm", class: "pt-3" %>
+      <div class="modal-header">
+        <h5 class="modal-title" id="byDeckUrlModalLabel">Generating PDF</h5>
+      </div>
+      <div class="modal-body d-flex justify-content-center align-items-center">
+        <div class="spinner-border" role="status" style="width: 5rem; height: 5rem;"></div>
+        <span class="ms-3">Waiting to start...</span>
       </div>
     </div>
   </div>
