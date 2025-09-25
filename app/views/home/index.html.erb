@@ -1,20 +1,32 @@
-<p class="m-3">
-  ArkhamPrint.XYZ helps players print proxy decks at home.
-</p>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">ArkhamPrint.XYZ</h2>
+          <p class="card-text text-center mb-3">
+            ArkhamPrint.XYZ helps players print proxy decks at home.
+          </p>
+          <p class="card-text text-center mb-12">
+            It uses <%= link_to "ArkhamDB", "https://arkhamdb.com", target: :_blank %> for card images.
+            Enter a deck URL or deck ID to generate a PDF.
+          </p>
 
-<p class="m-3 pb-3">
-  It uses <%= link_to "ArkhamDB", "https://arkhamdb.com", target: :_blank %> for card images. Enter a deck URL or deck ID to generate a PDF.
-</p>
-
-<div class="p-3">
-  <label for="deck_url">ArkhamDB deck URL or deck ID</label>
-  <input type="text" class="form-control" id="deck_url" placeholder="https://arkhamdb.com/decklist/view/48985 or 48985">
-  <button type="button" class="btn btn-primary mt-3" id="generatePdfBtn">
-    Get PDF
-  </button>
+          <div class="mb-3 mt-5">
+            <label for="deck_url" class="form-label">ArkhamDB Deck URL or Deck ID</label>
+            <input type="text" class="form-control" id="deck_url" placeholder="https://arkhamdb.com/decklist/view/48985 or 48985">
+          </div>
+          <button type="button" class="btn btn-primary w-100" id="generatePdfBtn">
+            Get PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <%= render "partials/modals" %>
+
 
 <script>
   const deckModalEl = document.getElementById("byDeckUrlModal");
@@ -23,7 +35,15 @@
   function extractDeckId(input) {
     input = input.trim();
     const match = input.match(/\/view\/(\d+)/);
-    return match ? match[1] : input; // full URL or just number
+    if (match) {
+      return match[1]; // extracted deck ID from URL
+    }
+
+    // Otherwise, allow only numeric input
+    if (/^\d+$/.test(input)) {
+      return input; // plain number
+    }
+    return null
   }
 
   function submitPdfJob() {
@@ -65,7 +85,13 @@
         })
       })
       .then(res => res.json())
-      .then(data => pollPdfJob(data.pdf_job_id))
+      .then(data => {
+        gtag("event", "deck_job_created", {
+          "deck_id": deckId,
+          "pdf_job_id": data.pdf_job_id
+        });
+        pollPdfJob(data.pdf_job_id)
+      })
       .catch(err => {
         modalInstance._config.backdrop = true;
         modalInstance._config.keyboard = true;
@@ -77,6 +103,7 @@
 
   function pollPdfJob(pdfJobId) {
     const interval = 2000;
+    const startTime = Date.now()
     const modalContent = $("#byDeckUrlModalContent");
     const statusText = $("#pdfJobStatusText");
     const progressBar = $("#pdfJobProgressBar");
@@ -90,6 +117,12 @@
         .then(res => res.json())
         .then(data => {
           if (data.status === "completed") {
+            const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
+            gtag("event", "deck_pdf_completed", {
+              "pdf_job_id": pdfJobId,
+              "deck_id": $('#deck_url').val(), // optional
+              "duration_seconds": elapsedSec
+            });
             let downloadUrl = data.file_url.startsWith("http") ?
               data.file_url :
               `/pdf_jobs/${pdfJobId}/download`;
@@ -109,6 +142,11 @@
             modalInstance._config.keyboard = true;
 
             modalContent.html(`<div class="modal-body text-center text-danger">Failed: ${data.error_message}</div>`);
+            gtag("event", "deck_pdf_failed", {
+              "pdf_job_id": pdfJobId,
+              "deck_id": $('#deck_url').val(),
+              "error_message": data.error_message
+            });
           } else {
             // Update progress bar
             let progress = 0;
