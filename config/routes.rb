@@ -8,8 +8,8 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  post "/from_deck", to: "card#from_deck"
-  get "/from_card_list", to: "card#from_card_list"
+  # post "/from_deck", to: "card#from_deck"
+  # get "/from_card_list", to: "card#from_card_list"
 
   get "/faq", to: "faq#index"
 

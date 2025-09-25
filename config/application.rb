@@ -1,39 +1,37 @@
+# config/application.rb
+
 require_relative "boot"
 
 require "rails"
-# Pick the frameworks you want:
+# Only load the frameworks you need:
 require "active_model/railtie"
 require "active_job/railtie"
 require "action_controller/railtie"
 require "action_view/railtie"
-require "action_mailer/railtie"
+# Skip unused frameworks:
+# require "action_mailer/railtie"
+# require "action_mailbox/engine"
+# require "action_text/engine"
+# require "active_storage/engine"
+# require "action_cable/engine"
 # require "sprockets/railtie"
-# require "active_storage/engine" # only if you need it
-# require "action_cable/engine"   # only if you need it
-# require "rails/test_unit/railtie" # if you want Rails test framework
+# require "rails/test_unit/railtie"
 
-
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
+# Require gems listed in Gemfile
 Bundler.require(*Rails.groups)
 
 module Arkhamprint
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
+
+    # Add your custom hosts
     config.hosts << "arkhamprint-xyz.onrender.com"
     config.hosts << "arkhamprint.xyz"
 
-    # Please, add to the `ignore` list any other `lib` subdirectories that do
-    # not contain `.rb` files, or that should not be reloaded or eager loaded.
-    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    # Autoload lib/ ignoring directories without Ruby files
     config.autoload_lib(ignore: %w[assets tasks])
 
-    # Configuration for the application, engines, and railties goes here.
-    #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
+    # Optional settings you can uncomment if needed
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
   end
