@@ -1,10 +1,10 @@
 require "redis"
 require "securerandom"
+require "json"
 
 class PdfJob
   attr_accessor :id, :status, :file_url, :error_message, :job_jid, :current_progress, :max_progress
 
-  REDIS = Redis.new(url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0"))
 
   def initialize(attributes = {})
     @id = attributes[:id] || SecureRandom.uuid
@@ -23,18 +23,29 @@ class PdfJob
   end
 
   def self.find(id)
-    data = REDIS.hgetall(redis_key(id))
-    raise "PdfJob not found" if data.empty?
+    case Rails.configuration.save_data_mode
+    when :redis
+      data = redis.hgetall(redis_key(id))
+      raise "PdfJob not found" if data.empty?
 
-    new(
-      id: id,
-      status: data["status"],
-      file_url: data["file_url"],
-      error_message: data["error_message"],
-      job_jid: data["job_jid"],
-      current_progress: data["current_progress"].to_i,
-      max_progress: data["max_progress"].to_i
-    )
+    when :file
+      file_path = Rails.root.join("tmp", "jobdata", "#{id}.json")
+      raise "PdfJob not found" unless File.exist?(file_path)
+
+      data = JSON.parse(File.read(file_path))
+    else
+      raise "Unknown save_data_mode: #{Rails.configuration.save_data_mode.inspect}"
+    end
+
+  new(
+    id: id,
+    status: data["status"],
+    file_url: data["file_url"],
+    error_message: data["error_message"],
+    job_jid: data["job_jid"],
+    current_progress: data["current_progress"].to_i,
+    max_progress: data["max_progress"].to_i
+  )
   end
 
   def update!(attributes = {})
@@ -53,12 +64,42 @@ class PdfJob
       "current_progress" => current_progress || 0,
       "max_progress" => max_progress || 0
     }
-    REDIS.hmset(self.class.redis_key(id), *data.to_a.flatten)
+    case Rails.configuration.save_data_mode
+    when :redis
+      self.class.redis.hmset(self.class.redis_key(id), *data.to_a.flatten)
+    when :file
+      require "json"
+      dir_path = Rails.root.join("tmp", "jobdata")
+      FileUtils.mkdir_p(dir_path)  unless Dir.exist?(dir_path)
+
+      file_path = dir_path.join("#{id}.json")
+
+      File.atomic_write(file_path) do |f|
+        f.write(JSON.pretty_generate(data))
+      end
+    end
+  end
+
+  def delete!
+    case Rails.configuration.save_data_mode
+    when :redis
+      self.class.redis.del(self.class.redis_key(id))
+
+    when :file
+      file_path = Rails.root.join("tmp", "jobdata", "#{id}.json")
+      File.delete(file_path) if File.exist?(file_path)
+    else
+      raise "Unknown save_data_mode: #{Rails.configuration.save_data_mode.inspect}"
+    end
   end
 
   private
 
   def self.redis_key(id)
     "pdf_job:#{id}"
+  end
+
+  def self.redis
+    @redis ||= Redis.new(url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0"))
   end
 end

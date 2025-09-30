@@ -44,7 +44,7 @@ gem "thruster", require: false
 gem "httparty"
 gem "prawn"
 gem "recaptcha"
-gem "sidekiq"
+# gem "sidekiq"
 gem "fastimage"
 gem "aws-sdk-s3"
 gem "mini_magick", "~> 5.2"

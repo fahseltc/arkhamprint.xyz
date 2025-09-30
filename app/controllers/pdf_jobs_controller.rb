@@ -4,7 +4,7 @@ class PdfJobsController < ApplicationController
   # Create a new PDF job
   def create
     pdf_job = PdfJob.create!(status: "pending")
-    jid = GeneratePdfFromDeckJob.perform_async(pdf_job.id, pdf_params)
+    jid = GeneratePdfFromDeckJob.perform_later(pdf_job.id, pdf_params)
     pdf_job.update!(job_jid: jid)
 
     render json: { pdf_job_id: pdf_job.id, status: pdf_job.status }
@@ -12,7 +12,8 @@ class PdfJobsController < ApplicationController
 
   # Check the status of a PDF job
   def show
-    pdf_job = PdfJob.find(params[:id])
+    pdf_job = PdfJob.find(safe_id_param)
+
     render json: {
       id: pdf_job.id,
       status: pdf_job.status,
@@ -25,7 +26,7 @@ class PdfJobsController < ApplicationController
 
   # Download the generated PDF
   def download
-    pdf_job = PdfJob.find(params[:id])
+    pdf_job = PdfJob.find(safe_id_param)
 
     return head :not_found unless pdf_job.status == "completed"
 
@@ -40,11 +41,21 @@ class PdfJobsController < ApplicationController
       presigned_url = object.presigned_url(:get, expires_in: 300) # 5 minutes
       redirect_to presigned_url, allow_other_host: true
     end
+
+    pdf_job.delete!
   end
 
   private
 
   def pdf_params
     params.require(:deck_id)
+  end
+
+  def safe_id_param
+    # only allow alphanumeric, underscore, dash
+    raw = params[:id].to_s
+    sanitized = raw.gsub(/[^a-zA-Z0-9_\-]/, "")
+    raise ActionController::BadRequest, "Invalid ID" if sanitized.blank?
+    sanitized
   end
 end
