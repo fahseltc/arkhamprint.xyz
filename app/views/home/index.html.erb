@@ -11,14 +11,15 @@
             It uses <%= link_to "ArkhamDB", "https://arkhamdb.com", target: :_blank %> for card images.
             Enter a deck URL or deck ID to generate a PDF.
           </p>
-
-          <div class="mb-3 mt-5">
-            <label for="deck_url" class="form-label">ArkhamDB Deck URL or Deck ID</label>
-            <input type="text" class="form-control" id="deck_url" placeholder="https://arkhamdb.com/decklist/view/48985 or 48985">
-          </div>
-          <button type="button" class="btn btn-primary w-100" id="generatePdfBtn">
-            Get PDF
-          </button>
+          <form id="pdfForm">
+            <div class="mb-3 mt-5">
+              <label for="deck_url" class="form-label">ArkhamDB Deck URL or Deck ID</label>
+              <input type="text" class="form-control" id="deck_url" placeholder="https://arkhamdb.com/decklist/view/48985 or 48985">
+            </div>
+            <button type="button" class="btn btn-primary w-100" id="generatePdfBtn">
+              Get PDF
+            </button>
+          </form>
         </div>
       </div>
     </div>
@@ -176,4 +177,10 @@
 
   // Trigger job submission on button click
   $('#generatePdfBtn').on('click', submitPdfJob);
+
+  // Trigger job submission on enter key pressed
+  $('#pdfForm').on('submit', function(e) {
+    e.preventDefault(); // prevent normal page reload
+    submitPdfJob();
+  });
 </script>
