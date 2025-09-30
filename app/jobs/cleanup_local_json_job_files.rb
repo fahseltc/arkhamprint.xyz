@@ -1,10 +1,6 @@
 class CleanupLocalJsonJobFiles < ApplicationJob
   queue_as :default
 
-  TMP_DIR = Rails.root.join("tmp", "jobdata")
-  S3_BUCKET = ENV.fetch("AWS_BUCKET")
-  S3_REGION = ENV.fetch("AWS_REGION")
-
   def perform
     s3 = Aws::S3::Resource.new(region: S3_REGION)
     bucket = s3.bucket(S3_BUCKET)
@@ -22,6 +18,8 @@ class CleanupLocalJsonJobFiles < ApplicationJob
         if (status == "pending" && max_progress == 0) || status == "failed"
           # Delete S3 PDF using s3_key pattern
           if deck_id && job_id
+            s3 = Aws::S3::Resource.new(region: ENV.fetch("AWS_REGION"))
+            bucket = s3.bucket(ENV.fetch("AWS_BUCKET"))
             s3_key = "uploads/pdfs/deck_#{deck_id}_#{job_id}.pdf"
             object = bucket.object(s3_key)
             object.delete if object.exists?
