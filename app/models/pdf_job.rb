@@ -64,7 +64,6 @@ class PdfJob
       "current_progress" => current_progress || 0,
       "max_progress" => max_progress || 0
     }
-    console.log(Rails.application.config.save_data_mode)
     case Rails.application.config.save_data_mode
     when :redis
       self.class.redis.hmset(self.class.redis_key(id), *data.to_a.flatten)
