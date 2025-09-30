@@ -23,7 +23,7 @@ class PdfJob
   end
 
   def self.find(id)
-    case Rails.configuration.save_data_mode
+    case Rails.application.config.save_data_mode
     when :redis
       data = redis.hgetall(redis_key(id))
       raise "PdfJob not found" if data.empty?
@@ -34,7 +34,7 @@ class PdfJob
 
       data = JSON.parse(File.read(file_path))
     else
-      raise "Unknown save_data_mode: #{Rails.configuration.save_data_mode.inspect}"
+      raise "Unknown save_data_mode: #{Rails.application.config.save_data_mode.inspect}"
     end
 
   new(
@@ -64,7 +64,8 @@ class PdfJob
       "current_progress" => current_progress || 0,
       "max_progress" => max_progress || 0
     }
-    case Rails.configuration.save_data_mode
+    console.log(Rails.application.config.save_data_mode)
+    case Rails.application.config.save_data_mode
     when :redis
       self.class.redis.hmset(self.class.redis_key(id), *data.to_a.flatten)
     when :file
@@ -81,7 +82,7 @@ class PdfJob
   end
 
   def delete!
-    case Rails.configuration.save_data_mode
+    case Rails.application.config.save_data_mode
     when :redis
       self.class.redis.del(self.class.redis_key(id))
 
@@ -89,7 +90,7 @@ class PdfJob
       file_path = Rails.root.join("tmp", "jobdata", "#{id}.json")
       File.delete(file_path) if File.exist?(file_path)
     else
-      raise "Unknown save_data_mode: #{Rails.configuration.save_data_mode.inspect}"
+      raise "Unknown save_data_mode: #{Rails.application.config.save_data_mode.inspect}"
     end
   end
 
