@@ -1,6 +1,6 @@
-class GeneratePdfFromDeckJob
-  include Sidekiq::Job
-  sidekiq_options retry: false
+class GeneratePdfFromDeckJob < ApplicationJob
+  # include Sidekiq::Job
+  # sidekiq_options retry: false
 
   def perform(pdf_job_id, deck_id)
     pdf_job = PdfJob.find(pdf_job_id)
@@ -15,7 +15,7 @@ class GeneratePdfFromDeckJob
         pdf_job.update!(current_progress: idx)
       end
 
-      s3_key = "uploads/pdfs/deck_#{deck_id}_#{jid}.pdf"
+      s3_key = "uploads/pdfs/deck_#{deck_id}_#{job_id}.pdf"
       s3_client = Aws::S3::Resource.new(region: ENV.fetch("AWS_REGION"))
       bucket = s3_client.bucket(ENV.fetch("AWS_BUCKET"))
       object = bucket.object(s3_key)

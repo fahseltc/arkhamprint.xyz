@@ -24,6 +24,10 @@ module Arkhamprint
   class Application < Rails::Application
     config.load_defaults 8.0
 
+    # Custom variables
+    config.save_data_modes = [ :redis, :file ]
+    config.save_data_mode = :file
+
     # Add your custom hosts
     config.hosts << "arkhamprint-xyz.onrender.com"
     config.hosts << "arkhamprint.xyz"
