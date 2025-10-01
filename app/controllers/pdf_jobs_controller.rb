@@ -4,8 +4,10 @@ class PdfJobsController < ApplicationController
   # Create a new PDF job
   def create
     pdf_job = PdfJob.create!(status: "pending")
-    jid = GeneratePdfFromDeckJob.perform_later(pdf_job.id, pdf_params)
-    pdf_job.update!(job_jid: jid)
+    job = GeneratePdfFromDeckJob.perform_later(pdf_job.id, pdf_params)
+    Rails.logger.info("Job ID: #{job.job_id}, PDFJobID: #{pdf_job.id}, file saved at #{pdf_job.id}.json")
+    pdf_job.update!(job_jid: job.job_id)
+
 
     render json: { pdf_job_id: pdf_job.id, status: pdf_job.status }
   end
@@ -48,7 +50,7 @@ class PdfJobsController < ApplicationController
   private
 
   def pdf_params
-    params.require(:deck_id)
+    params.permit(:deck_id, :include_investigator)
   end
 
   def safe_id_param

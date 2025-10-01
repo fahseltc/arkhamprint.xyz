@@ -15,6 +15,12 @@ module PdfHelper
                               top_margin: 18, bottom_margin: 18,
                               left_margin: 36, right_margin: 36)
 
+    # Fill BG with black first.
+    # page_width = pdf.bounds.width
+    # page_height = pdf.bounds.height
+    # pdf.fill_color "000000" # black
+    # pdf.fill_rectangle [ 0, page_height ], page_width, page_height
+
     x_cursor = 0
     y_cursor = 756
     cards_count = cards.sum { |_, q| q }
@@ -38,6 +44,10 @@ module PdfHelper
         # Rotate if needed
         img.rotate(90) if img.width > img.height
         Tempfile.create([ "card", ".png" ]) do |f|
+          # # Flatten transparent PNG onto black background
+          # img.alpha "remove"           # Remove alpha channel completely
+          # img.background "black"       # Set background to black
+          # img.flatten                  # Merge everything onto black
           img.write(f.path)
           pdf.image f.path, width: 2.5.in, height: 3.5.in, at: [ x_cursor, y_cursor ]
         end
@@ -49,6 +59,11 @@ module PdfHelper
           if y_cursor < 100
             y_cursor = 756
             pdf.start_new_page
+            # Add black BG
+            # page_width = pdf.bounds.width
+            # page_height = pdf.bounds.height
+            # pdf.fill_color "000000"
+            # pdf.fill_rectangle [ 0, page_height ], page_width, page_height
           end
         end
         yield(current_card)
@@ -59,6 +74,8 @@ module PdfHelper
     pdf.render
   end
 end
+
+
 
 
 # 612.00 x 792.00

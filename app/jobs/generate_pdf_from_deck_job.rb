@@ -2,12 +2,15 @@ class GeneratePdfFromDeckJob < ApplicationJob
   # include Sidekiq::Job
   # sidekiq_options retry: false
 
-  def perform(pdf_job_id, deck_id)
+  def perform(pdf_job_id, pdf_params)
+    Rails.logger.info(pdf_params)
     pdf_job = PdfJob.find(pdf_job_id)
+    deck_id = pdf_params["deck_id"]
+    include_investigator = pdf_params["include_investigator"]
     pdf_job.update!(status: "processing")
 
     begin
-      cards = ArkhamDbHelper.get_cards_from_deck_id(deck_id).transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) }
+      cards = ArkhamDbHelper.get_cards_from_deck_id(deck_id, include_investigator).transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) }
       Rails.logger.info(cards)
       pdf_job.update!(current_progress: 0, max_progress: cards.values.sum)
 
@@ -15,7 +18,7 @@ class GeneratePdfFromDeckJob < ApplicationJob
         pdf_job.update!(current_progress: idx)
       end
 
-      s3_key = "uploads/pdfs/deck_#{deck_id}_#{job_id}.pdf"
+      s3_key = "uploads/pdfs/deck_#{deck_id}_#{pdf_job.id}.pdf"
       s3_client = Aws::S3::Resource.new(region: ENV.fetch("AWS_REGION"))
       bucket = s3_client.bucket(ENV.fetch("AWS_BUCKET"))
       object = bucket.object(s3_key)

@@ -30,6 +30,7 @@ class PdfJob
 
     when :file
       file_path = Rails.root.join("tmp", "jobdata", "#{id}.json")
+      # Rails.logger.info("Trying to open file: #{file_path}")
       raise "PdfJob not found" unless File.exist?(file_path)
 
       data = JSON.parse(File.read(file_path))
@@ -73,6 +74,7 @@ class PdfJob
       FileUtils.mkdir_p(dir_path)  unless Dir.exist?(dir_path)
 
       file_path = dir_path.join("#{id}.json")
+      # Rails.logger.info("Saving file #{file_path}...")
 
       File.atomic_write(file_path) do |f|
         f.write(JSON.pretty_generate(data))
