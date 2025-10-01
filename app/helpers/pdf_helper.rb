@@ -26,6 +26,8 @@ module PdfHelper
     cards_count = cards.sum { |_, q| q }
     current_card = 1
 
+    Rails.logger.info("generating PDF with cards count #{cards_count}")
+
     cards.each do |url, quantity|
       begin
         img = MiniMagick::Image.open(url)

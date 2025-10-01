@@ -16,7 +16,7 @@
               </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link disabled" id="from-cardlist-tab" data-bs-toggle="tooltip" data-bs-placement="top" title="Coming soon!" data-bs-target="#from-cardlist" type="button" role="tab">
+              <button class="nav-link" id="from-cardlist-tab" data-bs-toggle="tab" data-bs-target="#from-cardlist" type="button" role="tab">
                 From Card List
               </button>
             </li>
@@ -207,31 +207,50 @@
     e.preventDefault();
     const cardListRaw = $('#card_list').val();
     const cardListArray = parseCardList(cardListRaw);
-    console.log(cardListNumbers)
+    console.log(cardListArray)
+    const modalContent = $("#byDeckUrlModalContent");
 
-    // // Uses a separate JSON endpoint, modal logic can be reused if needed
-    // fetch("/pdf_jobs_card_list", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //       card_list: cardList
-    //     })
-    //   })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     gtag("event", "card_list_job_created", {
-    //       "card_list": cardList,
-    //       "pdf_job_id": data.pdf_job_id
-    //     });
-    //     pollPdfJob(data.pdf_job_id); // reuse same modal/polling if desired
-    //   })
-    //   .catch(err => {
-    //     const modalContent = $("#byDeckUrlModalContent");
-    //     modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
-    //     console.error(err);
-    //   });
+    modalInstance = new bootstrap.Modal(deckModalEl, {
+      backdrop: "static",
+      keyboard: false
+    });
+    modalInstance.show();
+
+    modalContent.html(`
+      <div class="modal-body">
+        <div class="d-flex justify-content-center align-items-center mb-2">
+          <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;"></div>
+          <span class="ms-3" id="pdfJobStatusText">Submitting job...</span>
+        </div>
+        <div class="progress">
+          <div id="pdfJobProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%">0%</div>
+        </div>
+      </div>
+    `);
+
+    fetch("/pdf_jobs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          card_ids: cardListArray
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        gtag("event", "card_list_job_created", {
+          "card_ids": cardListArray,
+          "pdf_job_id": data.pdf_job_id
+        });
+        pollPdfJob(data.pdf_job_id)
+      })
+      .catch(err => {
+        modalInstance._config.backdrop = true;
+        modalInstance._config.keyboard = true;
+        modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
+        console.error(err);
+      });
   });
 
   function parseCardList(input) {
@@ -241,8 +260,6 @@
     return input
       .split(/[\s,]+/) // splits on spaces, commas, or newlines
       .map(s => s.trim()) // remove extra whitespace
-      .filter(Boolean) // remove empty strings
-      .map(Number) // convert to numbers
-      .filter(n => !isNaN(n)); // remove invalid numbers
+      .filter(Boolean); // remove empty strings
   }
 </script>
