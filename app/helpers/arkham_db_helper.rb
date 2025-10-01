@@ -1,7 +1,14 @@
 module ArkhamDbHelper
-  def self.get_cards_from_deck_id(deck_id)
+  def self.get_cards_from_deck_id(deck_id, include_investigator = false)
     decklist_api = "https://arkhamdb.com/api/public/decklist/"
-    HTTParty.get(decklist_api + deck_id.to_s)["slots"].compact.reject { |id, quantity| id == "01000" }
+    response = HTTParty.get(decklist_api + deck_id.to_s)
+    cards = response["slots"].compact.reject { |id, quantity| id == "01000" }
+    if include_investigator
+      investigator_card_id = response["investigator_code"]
+      cards = { investigator_card_id => 1, investigator_card_id+"b" => 1 }.merge(cards)
+    end
+    Rails.logger.info(cards)
+    cards
   end
 
   def self.get_card(card_id)
