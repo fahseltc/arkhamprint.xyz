@@ -365,6 +365,9 @@ GEM
     tsort (0.2.0)
     ttfunk (1.8.0)
       bigdecimal (~> 3.1)
+    turbo-rails (2.0.17)
+      actionpack (>= 7.1.0)
+      railties (>= 7.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.2.0)
@@ -422,6 +425,7 @@ DEPENDENCIES
   selenium-webdriver
   stimulus-rails
   thruster
+  turbo-rails
   tzinfo-data
   web-console
 

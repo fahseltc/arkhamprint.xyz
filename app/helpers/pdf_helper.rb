@@ -1,6 +1,7 @@
 require "open-uri"
 require "prawn/measurement_extensions"
 require "tempfile"
+require "mini_magick"
 
 # Prawn PDF origin location is at the bottom-left corner of the page (0,0)
 # page still filled from top to bottom using the cursor - starts at the top
@@ -14,12 +15,6 @@ module PdfHelper
     pdf = Prawn::Document.new(page_size: "LETTER", page_layout: :portrait,
                               top_margin: 18, bottom_margin: 18,
                               left_margin: 36, right_margin: 36)
-
-    # Fill BG with black first.
-    # page_width = pdf.bounds.width
-    # page_height = pdf.bounds.height
-    # pdf.fill_color "000000" # black
-    # pdf.fill_rectangle [ 0, page_height ], page_width, page_height
 
     x_cursor = 0
     y_cursor = 756
@@ -45,11 +40,8 @@ module PdfHelper
         Rails.logger.info("Printing card #{current_card}/#{cards_count} at (#{x_cursor}, #{y_cursor}) page #{pdf.page_number}")
         # Rotate if needed
         img.rotate(90) if img.width > img.height
+        # img = PdfHelper.add_black_background(img)
         Tempfile.create([ "card", ".png" ]) do |f|
-          # # Flatten transparent PNG onto black background
-          # img.alpha "remove"           # Remove alpha channel completely
-          # img.background "black"       # Set background to black
-          # img.flatten                  # Merge everything onto black
           img.write(f.path)
           pdf.image f.path, width: 2.5.in, height: 3.5.in, at: [ x_cursor, y_cursor ]
         end
@@ -61,11 +53,6 @@ module PdfHelper
           if y_cursor < 100
             y_cursor = 756
             pdf.start_new_page
-            # Add black BG
-            # page_width = pdf.bounds.width
-            # page_height = pdf.bounds.height
-            # pdf.fill_color "000000"
-            # pdf.fill_rectangle [ 0, page_height ], page_width, page_height
           end
         end
         yield(current_card)
@@ -74,6 +61,42 @@ module PdfHelper
     end
 
     pdf.render
+  end
+
+  # doesnt really work in all cases
+  def self.add_black_background(image)
+    # Decide how big each corner region should be
+    region_w = (image.width * 0.05).to_i
+    region_h = (image.height * 0.05).to_i
+
+    corners = [
+      [ 0, 0 ],                                    # top-left
+      [ image.width - region_w, 0 ],               # top-right
+      [ 0, image.height - region_h ],              # bottom-left
+      [ image.width - region_w, image.height - region_h ] # bottom-right
+    ]
+
+    # Make near-white in each corner region transparent
+    corners.each do |x, y|
+      image.combine_options do |c|
+        c.fuzz "12%"
+        c.region "#{region_w}x#{region_h}+#{x}+#{y}"
+        c.transparent "white"
+      end
+    end
+
+    # Flatten any transparency to black
+    image.combine_options do |c|
+      c.background "black"
+      c.flatten
+    end
+
+    # Ensure no alpha remains
+    image.format "png" do |c|
+      c.alpha "off"
+    end
+
+    image
   end
 end
 
