@@ -52,7 +52,9 @@ module PdfHelper
           y_cursor -= 252
           if y_cursor < 100
             y_cursor = 756
-            pdf.start_new_page
+            if current_card != cards_count
+              pdf.start_new_page
+            end
           end
         end
         yield(current_card)
