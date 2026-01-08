@@ -20,6 +20,11 @@
                 From Card List
               </button>
             </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="campaigns-tab" data-bs-toggle="tab" data-bs-target="#campaigns" type="button" role="tab">
+                Campaigns
+              </button>
+            </li>
           </ul>
 
           <!-- Tab content -->
@@ -55,6 +60,24 @@
                 </button>
               </form>
             </div>
+
+            <!-- Campaigns -->
+            <div class="tab-pane fade" id="campaigns" role="tabpanel">
+              <form id="pdfFromCampaignForm">
+
+                <div class="mb-3 mt-5">
+                  <label for="campaign-name" class="form-label">Campaigns</label>
+                  <select id="campaign-title" class="form-select" aria-label="Default select example">
+                    <option disabled>The Forgotten Age</option>
+                    <option value="Threads of Fate">3. Threads of Fate</option>
+                    <option value="The Depths of Yoth">7. The Depths of Yoth</option>
+                  </select>
+                </div>
+                <button type=" submit" class="btn btn-primary w-100" id="generateCardListBtn">
+                  Get PDF
+                </button>
+              </form>
+            </div>
           </div>
 
         </div>
@@ -66,8 +89,6 @@
 <%= render "partials/modals" %>
 
 <script>
-  // **Everything from your original pasted JS remains untouched**
-
   const deckModalEl = document.getElementById("byDeckUrlModal");
   let modalInstance;
 
@@ -251,6 +272,62 @@
         modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
         console.error(err);
       });
+  });
+
+  // From Campaign
+  $('#pdfFromCampaignForm').on('submit', function(e) {
+    e.preventDefault();
+    const campaignTitle = $('#campaign-title').find(":selected").val()
+    console.log(campaignTitle)
+    const modalContent = $("#byDeckUrlModalContent");
+
+    if (campaignTitle.length == 0) {
+      alert("Invalid Campaign title");
+      return
+    }
+
+    modalInstance = new bootstrap.Modal(deckModalEl, {
+      backdrop: "static",
+      keyboard: false
+    });
+    modalInstance.show();
+
+    modalContent.html(`
+        <div class="modal-body">
+          <div class="d-flex justify-content-center align-items-center mb-2">
+            <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;"></div>
+            <span class="ms-3" id="pdfJobStatusText">Submitting job...</span>
+          </div>
+          <div class="progress">
+            <div id="pdfJobProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%">0%</div>
+          </div>
+        </div>
+      `);
+
+    fetch("/pdf_jobs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          scenario_title: campaignTitle,
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        gtag("event", "deck_job_created", {
+          "scenario_title": campaignTitle,
+          "pdf_job_id": data.pdf_job_id
+        });
+        pollPdfJob(data.pdf_job_id)
+      })
+      .catch(err => {
+        modalInstance._config.backdrop = true;
+        modalInstance._config.keyboard = true;
+        modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
+        console.error(err);
+      });
+
   });
 
   function parseCardList(input) {

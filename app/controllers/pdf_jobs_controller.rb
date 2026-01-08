@@ -6,6 +6,8 @@ class PdfJobsController < ApplicationController
     pdf_job = PdfJob.create!(status: "pending")
     if pdf_params["card_ids"].present?
       job = GeneratePdfFromCardListJob.perform_later(pdf_job.id, pdf_params)
+    elsif pdf_params["scenario_title"].present?
+      job = GeneratePdfFromScenarioJob.perform_later(pdf_job.id, pdf_params)
     else
       job = GeneratePdfFromDeckJob.perform_later(pdf_job.id, pdf_params)
     end
@@ -54,7 +56,7 @@ class PdfJobsController < ApplicationController
   private
 
   def pdf_params
-    params.permit(:deck_id, :include_investigator, card_ids: [])
+    params.permit(:deck_id, :include_investigator, :scenario_title, card_ids: [])
   end
 
   def safe_id_param
