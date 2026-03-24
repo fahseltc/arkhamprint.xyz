@@ -31,11 +31,20 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
     card_img_urls = {}
     cards_data.each do |card_info|
       quantity = card_info["quantity"]
-      card_url = ArkhamDbHelper.get_card_image_url(card_info["id"])
+      # normalizing the id for use with the back side
+      original_id = card_info["id"]
+
+      if original_id.end_with?("a")
+        base_id = original_id.delete_suffix("a")
+      else
+        base_id = original_id
+      end
+
+      card_url = ArkhamDbHelper.get_card_image_url(original_id)
       card_img_urls[card_url] = quantity
 
       if card_info["has_back"]
-        back_url = ArkhamDbHelper.get_card_image_url("#{card_info["id"]}b")
+        back_url = ArkhamDbHelper.get_card_image_url("#{base_id}b")
         card_img_urls[back_url] = quantity
       end
     end
