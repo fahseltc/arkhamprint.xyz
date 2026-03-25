@@ -2,10 +2,11 @@ class CleanupLocalJsonJobFiles < ApplicationJob
   queue_as :default
 
   def perform
-    s3 = Aws::S3::Resource.new(region: S3_REGION)
-    bucket = s3.bucket(S3_BUCKET)
+    Rails.logger.info "Cleaning up local JSON job files"
+    s3 = Aws::S3::Resource.new(region: ENV.fetch("AWS_REGION"))
+    bucket = s3.bucket(ENV.fetch("AWS_BUCKET"))
 
-    Dir.glob(TMP_DIR.join("*.json")).each do |file_path|
+    Dir.glob(Rails.root.join("tmp", "jobdata").join("*.json")).each do |file_path|
       begin
         data = JSON.parse(File.read(file_path))
         status = data["status"]

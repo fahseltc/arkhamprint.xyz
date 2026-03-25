@@ -48,6 +48,7 @@ gem "recaptcha"
 gem "fastimage"
 gem "aws-sdk-s3"
 gem "mini_magick", "~> 5.2"
+gem "whenever"
 
 
 group :development, :test do
