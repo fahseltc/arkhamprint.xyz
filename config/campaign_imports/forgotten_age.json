@@ -1,0 +1,59 @@
+{
+  "campaign_name": "The Forgotten Age",
+  "output_file": "01_the_forgotten_age.json",
+  "scenarios": [
+    {
+      "pack_code": "tfa",
+      "title": "Non-Scenario Encounters",
+      "label": "Non Scenario Encounter Decks"
+    },
+    {
+      "pack_code": "tfa",
+      "title": "The Untamed Wilds",
+      "label": "1. The Untamed Wilds",
+      "scenario_card_name": "The Untamed Wilds"
+    },
+    {
+      "pack_code": "tfa",
+      "title": "The Doom of Eztli",
+      "label": "2. The Doom of Eztli",
+      "scenario_card_name": "The Doom of Eztli"
+    },
+    {
+      "pack_code": "tof",
+      "title": "Threads of Fate",
+      "label": "3. Threads of Fate"
+    },
+    {
+      "pack_code": "tbb",
+      "title": "The Boundary Beyond",
+      "label": "4. The Boundary Beyond"
+    },
+    {
+      "pack_code": "hoe",
+      "title": "Heart of the Elders",
+      "label": "5. Heart of the Elders"
+    },
+    {
+      "pack_code": "tcoa",
+      "title": "The City of Archives",
+      "label": "6. The City of Archives"
+    },
+    {
+      "pack_code": "tdoy",
+      "title": "The Depths of Yoth",
+      "label": "7. The Depths of Yoth"
+    },
+    {
+      "pack_code": "sha",
+      "title": "Shattered Aeons",
+      "label": "8. Shattered Aeons"
+    },
+    {
+      "pack_code": "sha",
+      "title": "Turn Back Time",
+      "label": "9. Turn Back Time",
+      "scenario_card_name": "Turn Back Time"
+    }
+  ]
+}

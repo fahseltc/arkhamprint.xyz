@@ -3,12 +3,18 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
     @pdf_job_id = pdf_job_id
     @pdf_job = PdfJob.find(@pdf_job_id)
     begin
-      # load the json file from disk
-      scenario_file = File.read(Rails.root.join("01_the_forgotten_age.json"))
-      scenario_json = JSON.parse(scenario_file)
-      scenario_title = pdf_params["scenario_title"]
+      scenario_title = pdf_params.fetch("scenario_title")
+      campaign_file = pdf_params.fetch("campaign_file")
 
-      @scenario = scenario_json["missions"][scenario_title]
+      index_path = Rails.root.join("scenarios.json")
+      index = JSON.parse(File.read(index_path))
+      campaign = index.fetch("campaigns", []).find { |entry| entry["file"] == campaign_file }
+      raise "Campaign not found" unless campaign
+
+      scenario_file = File.read(Rails.root.join(campaign_file))
+      scenario_json = JSON.parse(scenario_file)
+
+      @scenario = scenario_json.fetch("missions", {})[scenario_title]
 
       if @scenario.nil?
         raise "Scenario not found"

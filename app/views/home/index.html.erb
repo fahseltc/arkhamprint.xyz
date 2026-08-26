@@ -66,23 +66,18 @@
               <form id="pdfFromCampaignForm">
 
                 <div class="mb-3 mt-5">
-                  <label for="campaign-name" class="form-label">Campaigns</label>
-                  <select id="campaign-title" class="form-select" aria-label="Default select example">
-                    <optgroup label="The Forgotten Age">
-                      <option value="Non-Scenario Encounters">Non Scenario Encounter Decks</option>
-                      <option value="The Untamed Wilds">1. The Untamed Wilds </option>
-                      <option value="The Doom of Eztli">2. The Doom of Eztli </option>
-                      <option value="Threads of Fate">3. Threads of Fate</option>
-                      <option value="The Boundary Beyond">4. The Boundary Beyond</option>
-                      <option value="Heart of the Elders">5. Heart of the Elders</option>
-                      <option value="The City of Archives">6. The City of Archives</option>
-                      <option value="The Depths of Yoth">7. The Depths of Yoth</option>
-                      <option value="Shattered Eons">8. Shattered Eons</option>
-                      <option value="Turn Back Time">9. Turn Back Time </option>
-                    </optgroup>
+                  <label for="campaign-title" class="form-label">Campaigns</label>
+                  <select id="campaign-title" class="form-select" aria-label="Campaign scenario">
+                    <% @campaigns.each do |campaign| %>
+                      <optgroup label="<%= campaign.fetch("name") %>">
+                        <% campaign.fetch("scenarios").each do |scenario| %>
+                          <option value="<%= scenario.fetch("title") %>" data-campaign-file="<%= campaign.fetch("file") %>"><%= scenario.fetch("label") %></option>
+                        <% end %>
+                      </optgroup>
+                    <% end %>
                   </select>
                 </div>
-                <button type=" submit" class="btn btn-primary w-100" id="generateCardListBtn">
+                <button type="submit" class="btn btn-primary w-100" id="generateCampaignPdfBtn">
                   Get PDF
                 </button>
               </form>
@@ -286,8 +281,10 @@
   // From Campaign
   $('#pdfFromCampaignForm').on('submit', function(e) {
     e.preventDefault();
-    const campaignTitle = $('#campaign-title').find(":selected").val()
-    console.log(campaignTitle)
+    const selectedScenario = $('#campaign-title').find(":selected")
+    const campaignTitle = selectedScenario.val()
+    const campaignFile = selectedScenario.data("campaign-file")
+    console.log(campaignTitle, campaignFile)
     const modalContent = $("#byDeckUrlModalContent");
 
     if (campaignTitle.length == 0) {
@@ -320,6 +317,7 @@
         },
         body: JSON.stringify({
           scenario_title: campaignTitle,
+          campaign_file: campaignFile
         })
       })
       .then(res => res.json())

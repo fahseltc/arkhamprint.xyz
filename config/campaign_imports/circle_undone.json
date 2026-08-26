@@ -1,0 +1,13 @@
+{
+  "campaign_name": "The Circle Undone",
+  "output_file": "02_the_circle_undone.json",
+  "scenarios": [
+    { "pack_code": "tcu", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
+    { "pack_code": "tsn", "title": "The Secret Name", "label": "1. The Secret Name" },
+    { "pack_code": "wos", "title": "The Wages of Sin", "label": "2. The Wages of Sin" },
+    { "pack_code": "fgg", "title": "For the Greater Good", "label": "3. For the Greater Good" },
+    { "pack_code": "uad", "title": "Union and Disillusion", "label": "4. Union and Disillusion" },
+    { "pack_code": "icc", "title": "In the Clutches of Chaos", "label": "5. In the Clutches of Chaos" },
+    { "pack_code": "bbt", "title": "Before the Black Throne", "label": "6. Before the Black Throne" }
+  ]
+}
