@@ -77,24 +77,35 @@ namespace :arkham do
       end
     end
 
+    # Encounter-side content is marked faction_code "mythos", but some scenario
+    # cards (e.g. neutral story assets/allies granted mid-campaign) are tagged
+    # faction_code "neutral" instead - both are part of the printed scenario,
+    # unlike actual player-deck cards (guardian/seeker/rogue/mystic/survivor),
+    # which are skipped.
+    encounter_factions = %w[mythos neutral].freeze
+
     # "Hidden" cards are the reverse side of a front card, printed as a
     # separate ArkhamDB entry linked via back_link (in either direction -
     # sometimes the front points forward to the hidden back, sometimes the
     # hidden back points backward to the front). Their faction_code can
     # differ from the front (e.g. a neutral asset hidden behind a mythos
     # story card), so this scan runs over ALL cards in the pack, not just
-    # the mythos-tagged ones, or hidden backs with a different faction get
+    # the encounter-tagged ones, or hidden backs with a different faction get
     # missed and their front is wrongly marked as single-sided.
     build_scenario_cards = lambda do |cards|
       hidden_codes = cards.select { |c| c["hidden"] }.map { |c| c["code"] }.to_set
       backward_targets = cards.select { |c| c["hidden"] && c["back_link"] }.map { |c| c["back_link"] }.to_set
 
-      # Encounter-side cards are marked faction_code "mythos". Player cards
-      # released alongside a scenario (faction guardian/seeker/etc) are not
-      # part of the scenario's printed encounter set, so we skip them here -
-      # but only after the hidden-card scan above, since a hidden back can
-      # itself be a non-mythos player-faction card.
-      front_cards = cards.select { |c| c["faction_code"] == "mythos" }.reject { |c| c["hidden"] }
+      # Player cards released alongside a scenario (faction guardian/seeker/
+      # etc) are not part of the scenario's printed encounter set, so we skip
+      # them here - but only after the hidden-card scan above, since a hidden
+      # back can itself be a non-encounter-faction player card. Neutral-faction
+      # signature/investigator cards (e.g. Roland's .38 Special) share the
+      # "neutral" faction with real neutral scenario content (e.g. story
+      # assets like Lita Chantler) but, unlike it, carry no encounter_code -
+      # requiring one excludes them without excluding any real encounter card
+      # (every mythos/neutral encounter card has one).
+      front_cards = cards.select { |c| encounter_factions.include?(c["faction_code"]) && c["encounter_code"] }.reject { |c| c["hidden"] }
 
       front_cards.map do |card|
         has_back = card["double_sided"] == true ||
@@ -104,6 +115,8 @@ namespace :arkham do
         {
           "id" => card["code"],
           "has_back" => has_back,
+          "type_code" => card["type_code"],
+          "faction_code" => card["faction_code"],
           "quantity" => card["quantity"] || 1
         }
       end
@@ -132,7 +145,7 @@ namespace :arkham do
       end
 
       if title == "Non-Scenario Encounters"
-        cards = cards.select { |c| c["faction_code"] == "mythos" && !claimed_encounter_codes[pack_code].include?(c["encounter_code"]) }
+        cards = cards.select { |c| encounter_factions.include?(c["faction_code"]) && !claimed_encounter_codes[pack_code].include?(c["encounter_code"]) }
       else
         # Newer campaign-expansion packs contain several scenarios in one
         # pack. ArkhamDB associates cards with an encounter_code, and the
@@ -162,7 +175,7 @@ namespace :arkham do
           end
         end
 
-        cards.each { |c| claimed_encounter_codes[pack_code] << c["encounter_code"] if c["faction_code"] == "mythos" }
+        cards.each { |c| claimed_encounter_codes[pack_code] << c["encounter_code"] if encounter_factions.include?(c["faction_code"]) }
       end
 
       scenario_cards = build_scenario_cards.call(cards)

@@ -1,10 +1,13 @@
 class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
+  DUPLEX_MODES = %w[none long_edge short_edge].freeze
+
   def perform(pdf_job_id, pdf_params)
     @pdf_job_id = pdf_job_id
     @pdf_job = PdfJob.find(@pdf_job_id)
     begin
       scenario_title = pdf_params.fetch("scenario_title")
       campaign_file = pdf_params.fetch("campaign_file")
+      @duplex_mode = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
 
       index_path = Rails.root.join("scenarios.json")
       index = JSON.parse(File.read(index_path))
@@ -31,29 +34,28 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
       raise
     end
   end
-  def get_cards_hash
-    # {"https://arkhamdb.com/bundles/cards/10019.png"=>1}
-    cards_data = @scenario["scenario_cards"]
-    card_img_urls = {}
-    cards_data.each do |card_info|
-      quantity = card_info["quantity"]
+  def generate_pdf_bin
+    records = get_scenario_card_records
+    @pdf_job.update!(max_progress: records.sum { |r| r[:quantity] } * 2)
+    PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode) do |idx|
+      @pdf_job.update!(current_progress: idx)
+    end
+  end
+
+  def get_scenario_card_records
+    @scenario["scenario_cards"].map do |card_info|
       # normalizing the id for use with the back side
       original_id = card_info["id"]
+      base_id = original_id.end_with?("a") ? original_id.delete_suffix("a") : original_id
 
-      if original_id.end_with?("a")
-        base_id = original_id.delete_suffix("a")
+      front_url = ArkhamDbHelper.get_card_image_url(original_id)
+      back_url = if card_info["has_back"]
+        ArkhamDbHelper.get_card_image_url("#{base_id}b")
       else
-        base_id = original_id
+        CardBackHelper.path_for(card_info["faction_code"])
       end
 
-      card_url = ArkhamDbHelper.get_card_image_url(original_id)
-      card_img_urls[card_url] = quantity
-
-      if card_info["has_back"]
-        back_url = ArkhamDbHelper.get_card_image_url("#{base_id}b")
-        card_img_urls[back_url] = quantity
-      end
+      { front_url: front_url, back_url: back_url, quantity: card_info["quantity"] }
     end
-    card_img_urls
   end
 end
