@@ -1,1189 +1,1165 @@
 {
-  "name": "The Forgotten Age",
-  "missions_count": 10,
+  "name": "The Feast of Hemlock Vale",
+  "missions_count": 9,
   "missions": {
     "Non-Scenario Encounters": {
       "scenario_cards": [
         {
-          "id": "04069",
-          "has_back": false,
+          "id": "10675",
+          "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04070",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04071",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04072",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04073",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04074",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04075",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04076",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04077",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04078",
+          "id": "10676",
           "has_back": false,
           "quantity": 3
         },
         {
-          "id": "04079",
+          "id": "10677",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10678",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "10679",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10680",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "10681",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10682",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10683",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10684",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10686",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10687",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10688",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10689",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10690a",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04080",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04081",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04082",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04083",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04084",
+          "id": "10691a",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04085",
+          "id": "10692",
           "has_back": false,
           "quantity": 2
         },
         {
-          "id": "04086",
-          "has_back": false,
-          "quantity": 2
+          "id": "10704",
+          "has_back": true,
+          "quantity": 1
         },
         {
-          "id": "04087",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04088",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04089",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04090",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04091",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04092",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04093",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04094",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04095",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04096",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04097",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04098",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04099",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04100",
+          "id": "10705a",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04101",
+          "id": "10706a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10707a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10708a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10709a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10710a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10711a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10712a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10716",
+          "has_back": true,
+          "quantity": 2
+        },
+        {
+          "id": "10717",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10718",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10719",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10720",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10721",
           "has_back": false,
           "quantity": 2
+        },
+        {
+          "id": "10722",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10723",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10724",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10725",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10726",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10727",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10728",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10729",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10730",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10731",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "10732",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10733",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10734",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10735",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10736",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10737",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10738",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10739",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10740",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10741",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10742",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10743",
+          "has_back": false,
+          "quantity": 5
         }
       ]
     },
-    "The Untamed Wilds": {
+    "Written in Rock": {
       "scenario_cards": [
         {
-          "id": "04043",
+          "id": "10501",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04044",
+          "id": "10502",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04045",
+          "id": "10503",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04046",
+          "id": "10504",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04047",
+          "id": "10505",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04048",
+          "id": "10506",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04049",
+          "id": "10508",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04050",
+          "id": "10509",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04052",
+          "id": "10510a",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10510b",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10511a",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10511b",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10512",
+          "has_back": true,
+          "quantity": 2
+        },
+        {
+          "id": "10513",
+          "has_back": true,
+          "quantity": 2
+        },
+        {
+          "id": "10514",
+          "has_back": true,
+          "quantity": 2
+        },
+        {
+          "id": "10515",
+          "has_back": true,
+          "quantity": 3
+        },
+        {
+          "id": "10516",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10517",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04053",
-          "has_back": false,
-          "quantity": 1
-        }
-      ]
-    },
-    "The Doom of Eztli": {
-      "scenario_cards": [
-        {
-          "id": "04054",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04055",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04056",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04057",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04058",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04059",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04060",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04062",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04063",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04064",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04065",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04066",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04067",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04068",
-          "has_back": false,
-          "quantity": 1
-        }
-      ]
-    },
-    "Threads of Fate": {
-      "scenario_cards": [
-        {
-          "id": "04113",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04114",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04115",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04116",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04117a",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04118a",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04119",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04120",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04121",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04122",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04123",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04124",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04125a",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04126a",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04127",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04128a",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04129",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04130a",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04131",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04132",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04133a",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04134a",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04135",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04136",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04137a",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04138",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04139",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04140",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04141",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04142",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04143",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04144",
+          "id": "10518",
           "has_back": false,
           "quantity": 3
         },
         {
-          "id": "04145",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04146",
-          "has_back": false,
-          "quantity": 2
-        }
-      ]
-    },
-    "The Boundary Beyond": {
-      "scenario_cards": [
-        {
-          "id": "04161",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04162",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04163",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04164",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04165",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04166",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04167",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04168",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04169",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04170",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04171",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04172",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04173",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04174",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04175",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04176",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04177",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04178",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04179",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04180",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04181",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04182",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04183",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04184",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04185",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04186",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04187",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04188",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04189",
+          "id": "10519",
           "has_back": false,
           "quantity": 3
         },
         {
-          "id": "04190",
+          "id": "10520",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10521",
           "has_back": false,
           "quantity": 3
         }
       ]
     },
-    "Heart of the Elders": {
+    "Hemlock House": {
       "scenario_cards": [
         {
-          "id": "04205",
+          "id": "10523",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04206",
+          "id": "10524",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04207",
+          "id": "10525",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04208",
+          "id": "10526",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04209",
+          "id": "10527",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10528",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10529",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10530",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10531",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10532",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04210",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04211",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04212",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04213",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04214",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04215",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04216",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04217",
+          "id": "10533",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04218",
+          "id": "10534",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04219",
+          "id": "10535",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10536",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10537",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10538",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10539",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10540",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10541",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10542",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10543",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10544",
           "has_back": false,
           "quantity": 2
         },
         {
-          "id": "04220",
+          "id": "10545",
+          "has_back": false,
+          "quantity": 4
+        },
+        {
+          "id": "10546",
           "has_back": false,
           "quantity": 2
         },
         {
-          "id": "04221",
+          "id": "10547",
+          "has_back": false,
+          "quantity": 1
+        }
+      ]
+    },
+    "The Silent Heath": {
+      "scenario_cards": [
+        {
+          "id": "10549",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10550",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10551",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10552",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10553",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10554",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10555",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10556",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10557",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10558",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10559",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10560",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10561",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10562",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10563",
           "has_back": false,
           "quantity": 3
         },
         {
-          "id": "04222",
+          "id": "10564",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "10565",
+          "has_back": false,
+          "quantity": 1
+        }
+      ]
+    },
+    "The Lost Sister": {
+      "scenario_cards": [
+        {
+          "id": "10569",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10570",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10571",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10572",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10573",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10574",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10575",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10576",
+          "has_back": true,
+          "quantity": 2
+        },
+        {
+          "id": "10577",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10578",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10579",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10580",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10581",
+          "has_back": true,
+          "quantity": 2
+        },
+        {
+          "id": "10582",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10583a",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04223",
+          "id": "10584a",
           "has_back": false,
-          "quantity": 1
+          "quantity": 2
         },
         {
-          "id": "04224",
+          "id": "10585",
           "has_back": false,
-          "quantity": 1
+          "quantity": 3
         },
         {
-          "id": "04225",
+          "id": "10586",
           "has_back": false,
-          "quantity": 1
+          "quantity": 3
         },
         {
-          "id": "04226",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04227",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04228",
+          "id": "10587",
           "has_back": false,
           "quantity": 3
         }
       ]
     },
-    "The City of Archives": {
+    "The Thing in the Depths": {
       "scenario_cards": [
         {
-          "id": "04237",
+          "id": "10588",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04238",
+          "id": "10589",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04239",
+          "id": "10590",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04240",
+          "id": "10591",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04241",
+          "id": "10592",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04242",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04243",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04245",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04246",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04247",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04248",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04249",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04250",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04251",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04252",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04253",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04254",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04255",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04257",
+          "id": "10593a",
           "has_back": false,
           "quantity": 2
         },
         {
-          "id": "04258",
+          "id": "10594a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10595a",
           "has_back": false,
           "quantity": 2
         },
         {
-          "id": "04259",
+          "id": "10596a",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10597a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10598a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10599a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10600",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10601",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10602",
+          "has_back": false,
+          "quantity": 5
+        },
+        {
+          "id": "10603",
           "has_back": false,
           "quantity": 3
         },
         {
-          "id": "04260",
+          "id": "10604",
           "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04261",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04262",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04263",
-          "has_back": false,
-          "quantity": 2
+          "quantity": 4
         }
       ]
     },
-    "The Depths of Yoth": {
+    "The Twisted Hollow": {
       "scenario_cards": [
         {
-          "id": "04277",
+          "id": "10605",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04278",
+          "id": "10606",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04279",
+          "id": "10607a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10608",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04280",
+          "id": "10609",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04281",
+          "id": "10612",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04282",
+          "id": "10613",
+          "has_back": true,
+          "quantity": 2
+        },
+        {
+          "id": "10614",
+          "has_back": true,
+          "quantity": 2
+        },
+        {
+          "id": "10615",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04283",
+          "id": "10616",
+          "has_back": true,
+          "quantity": 2
+        },
+        {
+          "id": "10617",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04284",
+          "id": "10618",
           "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04285",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04286",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04287",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04288",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04289",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04290",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04291",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04292",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04293",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04294",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04295",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04296",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04297",
-          "has_back": false,
           "quantity": 3
         },
         {
-          "id": "04298",
-          "has_back": false,
+          "id": "10619",
+          "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04299",
-          "has_back": false,
-          "quantity": 3
+          "id": "10620",
+          "has_back": true,
+          "quantity": 1
         },
         {
-          "id": "04300",
-          "has_back": false,
-          "quantity": 3
+          "id": "10621",
+          "has_back": true,
+          "quantity": 1
         },
         {
-          "id": "04301",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04302",
+          "id": "10622",
           "has_back": false,
           "quantity": 2
+        },
+        {
+          "id": "10623",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10624",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10625",
+          "has_back": false,
+          "quantity": 4
         }
       ]
     },
-    "Shattered Aeons": {
+    "The Longest Night": {
       "scenario_cards": [
         {
-          "id": "04314",
+          "id": "10626",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04315",
+          "id": "10627",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10628",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04316",
+          "id": "10629",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04317",
+          "id": "10630",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04318",
+          "id": "10631",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04319",
+          "id": "10632",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04320",
+          "id": "10633",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04321",
+          "id": "10634",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04322",
+          "id": "10635",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04323",
+          "id": "10636",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04324",
+          "id": "10637",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04325b",
+          "id": "10638",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10639",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10640",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10643",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04326b",
+          "id": "10644a",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04327",
+          "id": "10644b",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04328",
+          "id": "10644c",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04329",
+          "id": "10645a",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04330",
+          "id": "10645b",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04331",
+          "id": "10645c",
           "has_back": false,
           "quantity": 1
         },
         {
-          "id": "04332",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04333",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04334",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04335",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04336",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04337",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04338",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04339",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04340",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04341",
+          "id": "10646",
           "has_back": false,
           "quantity": 3
         },
         {
-          "id": "04342",
+          "id": "10647a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10647b",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10647c",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10648",
           "has_back": false,
           "quantity": 2
+        },
+        {
+          "id": "10649",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10650",
+          "has_back": false,
+          "quantity": 4
         }
       ]
     },
-    "Turn Back Time": {
+    "Fate of the Vale": {
       "scenario_cards": [
         {
-          "id": "04344",
+          "id": "10651",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04345",
+          "id": "10652",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04346",
+          "id": "10653",
           "has_back": true,
           "quantity": 1
         },
         {
-          "id": "04347",
+          "id": "10654",
           "has_back": true,
           "quantity": 1
+        },
+        {
+          "id": "10655",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10656",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10657",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10658",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10659",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10660",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10662a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10663a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10664a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10665a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10666",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10667",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10668",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10669",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "10670",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "10671",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10672",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10673",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "10674",
+          "has_back": false,
+          "quantity": 2
         }
       ]
     }

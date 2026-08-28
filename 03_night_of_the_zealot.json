@@ -1,0 +1,412 @@
+{
+  "name": "Night of the Zealot",
+  "missions_count": 4,
+  "missions": {
+    "Non-Scenario Encounters": {
+      "scenario_cards": [
+        {
+          "id": "01137",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01138",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01139",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01140",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01141",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01159",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "01160",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "01161",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01162",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "01163",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "01164",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01165",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01166",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "01167",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01168",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01169",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "01170",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01171",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01172",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01173",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01174",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01175",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01176",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01177",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01178",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01179",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01180",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "01181",
+          "has_back": false,
+          "quantity": 2
+        },
+        {
+          "id": "01182",
+          "has_back": false,
+          "quantity": 2
+        }
+      ]
+    },
+    "The Gathering": {
+      "scenario_cards": [
+        {
+          "id": "01104",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01105",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01106",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01107",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01108",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01109",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01110",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01111",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01112",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01113",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01114",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01115",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01116",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01118",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01119",
+          "has_back": false,
+          "quantity": 1
+        }
+      ]
+    },
+    "The Midnight Masks": {
+      "scenario_cards": [
+        {
+          "id": "01120",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01121a",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01122",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01123",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01124",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01125",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01126",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01127",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01128",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01129",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01130",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01131",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01132",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01133",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01134",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01135",
+          "has_back": false,
+          "quantity": 3
+        },
+        {
+          "id": "01136",
+          "has_back": false,
+          "quantity": 2
+        }
+      ]
+    },
+    "The Devourer Below": {
+      "scenario_cards": [
+        {
+          "id": "01142",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01143",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01144",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01145",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01146",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01147",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01148",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01149",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01150",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01151",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01152",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01153",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01154",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01155",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01156",
+          "has_back": true,
+          "quantity": 1
+        },
+        {
+          "id": "01157",
+          "has_back": false,
+          "quantity": 1
+        },
+        {
+          "id": "01158",
+          "has_back": false,
+          "quantity": 2
+        }
+      ]
+    }
+  }
+}

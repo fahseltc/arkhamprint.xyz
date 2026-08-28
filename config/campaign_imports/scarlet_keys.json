@@ -1,0 +1,17 @@
+{
+  "campaign_name": "The Scarlet Keys",
+  "output_file": "09_the_scarlet_keys.json",
+  "scenarios": [
+    { "pack_code": "tskc", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
+    { "pack_code": "tskc", "title": "Riddles and Rain", "label": "1. Riddles and Rain" },
+    { "pack_code": "tskc", "title": "Dead Heat", "label": "2. Dead Heat" },
+    { "pack_code": "tskc", "title": "Sanguine Shadows", "label": "3. Sanguine Shadows" },
+    { "pack_code": "tskc", "title": "Dealings in the Dark", "label": "4. Dealings in the Dark" },
+    { "pack_code": "tskc", "title": "Dancing Mad", "label": "5. Dancing Mad" },
+    { "pack_code": "tskc", "title": "On Thin Ice", "label": "6. On Thin Ice" },
+    { "pack_code": "tskc", "title": "Dogs of War", "label": "7. Dogs of War" },
+    { "pack_code": "tskc", "title": "Shades of Suffering", "label": "8. Shades of Suffering" },
+    { "pack_code": "tskc", "title": "Without a Trace", "label": "9. Without a Trace" },
+    { "pack_code": "tskc", "title": "Congress of the Keys", "label": "10. Congress of the Keys" }
+  ]
+}

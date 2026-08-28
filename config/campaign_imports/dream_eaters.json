@@ -1,0 +1,15 @@
+{
+  "campaign_name": "The Dream-Eaters",
+  "output_file": "06_the_dream_eaters.json",
+  "scenarios": [
+    { "pack_code": "tde", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
+    { "pack_code": "tde", "title": "Beyond the Gates of Sleep", "label": "1. Beyond the Gates of Sleep", "scenario_card_name": "Beyond the Gates of Sleep" },
+    { "pack_code": "tde", "title": "Waking Nightmare", "label": "2. Waking Nightmare", "scenario_card_name": "Waking Nightmare" },
+    { "pack_code": "sfk", "title": "The Search for Kadath", "label": "3a. The Search for Kadath" },
+    { "pack_code": "tsh", "title": "A Thousand Shapes of Horror", "label": "3b. A Thousand Shapes of Horror" },
+    { "pack_code": "dsm", "title": "Dark Side of the Moon", "label": "4a. Dark Side of the Moon" },
+    { "pack_code": "pnr", "title": "Point of No Return", "label": "4b. Point of No Return" },
+    { "pack_code": "wgd", "title": "Where the Gods Dwell", "label": "5. Where the Gods Dwell" },
+    { "pack_code": "woc", "title": "Weaver of the Cosmos", "label": "6. Weaver of the Cosmos" }
+  ]
+}
