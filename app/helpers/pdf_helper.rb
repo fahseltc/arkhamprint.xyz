@@ -112,16 +112,38 @@ module PdfHelper
   # `source` is either a remote card image URL or a local card-back asset
   # path (see CardBackHelper). Skips the slot (logs a warning) if the image
   # can't be opened, same as the original inline behavior. Drawn at exactly
-  # CARD_WIDTH x CARD_HEIGHT, unmodified from the source - GAP is spacing
-  # between slots (see GRID_POSITIONS), not a change to the card itself.
+  # CARD_WIDTH x CARD_HEIGHT - GAP is spacing between slots (see
+  # GRID_POSITIONS), not a change to the card itself.
   def self.draw_card(pdf, source, position)
     img = open_card_image(source)
     return unless img
 
     img.rotate(90) if img.width > img.height
+    crop_to_card_ratio(img)
     Tempfile.create([ "card", ".png" ]) do |f|
       img.write(f.path)
       pdf.image f.path, width: CARD_WIDTH, height: CARD_HEIGHT, at: position
+    end
+  end
+
+  # Prawn's image placement above stretches to exactly CARD_WIDTH x
+  # CARD_HEIGHT, non-uniformly if the source isn't quite 2.5:3.5 - card scans
+  # are close enough for this to be a non-issue, but the generic card-back
+  # art (CardBackHelper) is off enough to look subtly squashed. Center-crop
+  # (never upscale) to the card's ratio first so that stretch is uniform.
+  def self.crop_to_card_ratio(img)
+    card_ratio = CARD_WIDTH / CARD_HEIGHT
+    if img.width.to_f / img.height > card_ratio
+      target_w = (img.height * card_ratio).round
+      target_h = img.height
+    else
+      target_w = img.width
+      target_h = (img.width / card_ratio).round
+    end
+
+    img.combine_options do |c|
+      c.gravity "center"
+      c.extent "#{target_w}x#{target_h}"
     end
   end
 
