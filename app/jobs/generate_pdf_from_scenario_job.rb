@@ -1,6 +1,11 @@
 class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
   DUPLEX_MODES = %w[none long_edge short_edge].freeze
 
+  # Sentinel scenario_title (picked via a dedicated dropdown option, see
+  # home/index.html.erb) meaning "every mission in this campaign file,
+  # concatenated in their existing order" instead of a single scenario.
+  WHOLE_CAMPAIGN_SCENARIO_TITLE = "__ALL__"
+
   def perform(pdf_job_id, pdf_params)
     @pdf_job_id = pdf_job_id
     @pdf_job = PdfJob.find(@pdf_job_id)
@@ -16,16 +21,17 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
 
       scenario_file = File.read(Rails.root.join(campaign_file))
       scenario_json = JSON.parse(scenario_file)
+      missions = scenario_json.fetch("missions", {})
 
-      @scenario = scenario_json.fetch("missions", {})[scenario_title]
-
-      if @scenario.nil?
-        raise "Scenario not found"
+      @scenario_cards = if scenario_title == WHOLE_CAMPAIGN_SCENARIO_TITLE
+        missions.values.flat_map { |mission| mission["scenario_cards"] }
+      else
+        scenario = missions[scenario_title]
+        raise "Scenario not found" if scenario.nil?
+        scenario["scenario_cards"]
       end
 
-      if @scenario["scenario_cards"].empty?
-        raise "Scenario has no cards"
-      end
+      raise "Scenario has no cards" if @scenario_cards.empty?
 
       pdf_bin = generate_pdf_bin
       s3_key = upload_to_s3(pdf_bin)
@@ -43,7 +49,7 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
   end
 
   def get_scenario_card_records
-    @scenario["scenario_cards"].map do |card_info|
+    @scenario_cards.map do |card_info|
       # normalizing the id for use with the back side
       original_id = card_info["id"]
       base_id = original_id.end_with?("a") ? original_id.delete_suffix("a") : original_id
