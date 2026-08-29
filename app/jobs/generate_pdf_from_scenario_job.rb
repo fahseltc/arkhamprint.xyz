@@ -51,13 +51,13 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
     @pdf_job.update!(max_progress: records.sum { |r| r[:quantity] } * images_per_card)
 
     if @print_backs
-      PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap) do |idx|
+      PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
     else
       front_counts = Hash.new(0)
       records.each { |r| front_counts[r[:front_url]] += r[:quantity] }
-      PdfHelper.generate(front_counts, "LETTER", gap: @gap) do |idx|
+      PdfHelper.generate(front_counts, "LETTER", gap: @gap, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
     end

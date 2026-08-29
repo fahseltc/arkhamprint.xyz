@@ -2,11 +2,18 @@ module ArkhamDbHelper
   def self.get_cards_from_deck_id(deck_id, include_investigator = false)
     decklist_api = "https://arkhamdb.com/api/public/decklist/"
     response = HTTParty.get(decklist_api + deck_id.to_s)
-    cards = response["slots"].compact.reject { |id, quantity| id == "01000" }
-    if include_investigator
-      investigator_card_id = response["investigator_code"]
-      cards = { investigator_card_id => 1, investigator_card_id+"b" => 1 }.merge(cards)
+
+    # Extract only what's needed before dropping the response object
+    slots = response["slots"].compact.reject { |id, _quantity| id == "01000" }
+    investigator_code = include_investigator ? response["investigator_code"] : nil
+    response = nil # allow GC to reclaim the full parsed response body
+
+    cards = if investigator_code
+      { investigator_code => 1, "#{investigator_code}b" => 1 }.merge(slots)
+    else
+      slots
     end
+
     Rails.logger.info(cards)
     cards
   end

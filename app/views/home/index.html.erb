@@ -69,12 +69,12 @@
                   <label for="campaign-title" class="form-label">Campaigns</label>
                   <select id="campaign-title" class="form-select" aria-label="Campaign scenario">
                     <% @campaigns.each do |campaign| %>
-                      <optgroup label="<%= campaign.fetch("name") %>">
-                        <option value="__ALL__" data-campaign-file="<%= campaign.fetch("file") %>">&mdash; Entire <%= campaign.fetch("name") %> &mdash;</option>
-                        <% campaign.fetch("scenarios").each do |scenario| %>
-                          <option value="<%= scenario.fetch("title") %>" data-campaign-file="<%= campaign.fetch("file") %>"><%= scenario.fetch("label") %></option>
-                        <% end %>
-                      </optgroup>
+                    <optgroup label="<%= campaign.fetch("name") %>">
+                      <option value="__ALL__" data-campaign-file="<%= campaign.fetch("file") %>">&mdash; Entire <%= campaign.fetch("name") %> &mdash;</option>
+                      <% campaign.fetch("scenarios").each do |scenario| %>
+                      <option value="<%= scenario.fetch("title") %>" data-campaign-file="<%= campaign.fetch("file") %>"><%= scenario.fetch("label") %></option>
+                      <% end %>
+                    </optgroup>
                     <% end %>
                   </select>
                 </div>
@@ -302,7 +302,9 @@
 
     $(document).off("click", "#pdfJobCancelBtn").on("click", "#pdfJobCancelBtn", function() {
       $(this).prop("disabled", true).text("Cancelling...");
-      fetch(`/pdf_jobs/${pdfJobId}/cancel`, { method: "POST" }).catch(err => console.error(err));
+      fetch(`/pdf_jobs/${pdfJobId}/cancel`, {
+        method: "POST"
+      }).catch(err => console.error(err));
     });
 
     function checkStatus() {
