@@ -13,6 +13,8 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
       scenario_title = pdf_params.fetch("scenario_title")
       campaign_file = pdf_params.fetch("campaign_file")
       @duplex_mode = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
+      @print_backs = pdf_params["print_backs"] != false
+      @gap = pdf_params["card_spacing"] == false ? 0 : PdfHelper::DEFAULT_GAP
 
       index_path = Rails.root.join("scenarios.json")
       index = JSON.parse(File.read(index_path))
@@ -35,16 +37,29 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
 
       pdf_bin = generate_pdf_bin
       s3_key = upload_to_s3(pdf_bin)
+    rescue PdfGenerationCancelled
+      @pdf_job.update!(status: "cancelled")
     rescue => e
       @pdf_job.update!(status: "failed", error_message: e.message)
       raise
     end
   end
+
   def generate_pdf_bin
     records = get_scenario_card_records
-    @pdf_job.update!(max_progress: records.sum { |r| r[:quantity] } * 2)
-    PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode) do |idx|
-      @pdf_job.update!(current_progress: idx)
+    images_per_card = @print_backs ? 2 : 1
+    @pdf_job.update!(max_progress: records.sum { |r| r[:quantity] } * images_per_card)
+
+    if @print_backs
+      PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap) do |idx|
+        report_progress(idx)
+      end
+    else
+      front_counts = Hash.new(0)
+      records.each { |r| front_counts[r[:front_url]] += r[:quantity] }
+      PdfHelper.generate(front_counts, "LETTER", gap: @gap) do |idx|
+        report_progress(idx)
+      end
     end
   end
 

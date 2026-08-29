@@ -5,9 +5,21 @@ class GeneratePdfBaseJob < ApplicationJob
     cards_hash = get_cards_hash
     @pdf_job.update!(max_progress: cards_hash.values.sum)
     pdf_binary = PdfHelper.generate(cards_hash, "LETTER") do |idx|
-      @pdf_job.update!(current_progress: idx)
+      report_progress(idx)
     end
     pdf_binary
+  end
+
+  # Cooperative cancellation: the "Cancel" button (see pdf_jobs_controller's
+  # cancel action) just flips the job's stored status, so the running job has
+  # to notice it itself - checked on every drawn image, same cadence as the
+  # progress update it rides along with. Checked BEFORE updating progress:
+  # `@pdf_job` is a stale in-memory snapshot (its `status` is whatever it was
+  # when the job started), and `update!`/`save!` writes the whole record, so
+  # updating first would overwrite a fresh "cancelled" back to "pending".
+  def report_progress(idx)
+    raise PdfGenerationCancelled if PdfJob.find(@pdf_job.id).status == "cancelled"
+    @pdf_job.update!(current_progress: idx)
   end
 
   def upload_to_s3(pdf_binary)

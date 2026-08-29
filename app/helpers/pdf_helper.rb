@@ -15,30 +15,17 @@ module PdfHelper
   CARD_WIDTH = 180.0   # 2.5in, in points - cards are drawn at this exact size
   CARD_HEIGHT = 252.0  # 3.5in, in points
 
-  # White space left between adjacent cards on every side, so an imprecise
-  # cut can't slice into the neighboring card.
-  GAP = 2.mm
-  COLUMN_PITCH = CARD_WIDTH + GAP
-  ROW_PITCH = CARD_HEIGHT + GAP
+  # Default white space left between adjacent cards on every side, so an
+  # imprecise cut can't slice into the neighboring card. Callers may pass
+  # gap: 0 to print cards edge-to-edge instead.
+  DEFAULT_GAP = 2.mm
 
   PAGE_WIDTH = 612.0  # LETTER, portrait, in points
   PAGE_HEIGHT = 792.0
 
-  GRID_WIDTH = (3 * COLUMN_PITCH) - GAP  # 3 cards + 2 gaps between them (no trailing gap)
-  GRID_HEIGHT = (3 * ROW_PITCH) - GAP
-
-  # Margins are derived from GRID_WIDTH/HEIGHT (rather than fixed) so the
-  # 3x3 grid - cards plus their gaps - always fits fully inside the page:
-  # the original fixed 18/36pt margins left zero vertical slack even before
-  # GAP existed (3 * CARD_HEIGHT == page height minus margins exactly), so
-  # any gap pushed the bottom row past the margin and off the printable area.
-  LEFT_MARGIN = (PAGE_WIDTH - GRID_WIDTH) / 2
-  TOP_MARGIN = (PAGE_HEIGHT - GRID_HEIGHT) / 2
-
-  GRID_POSITIONS = (0...CARDS_PER_PAGE).map { |slot| [ (slot % 3) * COLUMN_PITCH, GRID_HEIGHT - (slot / 3) * ROW_PITCH ] }
-
-  def self.generate(cards, page_size)
-    pdf = new_document
+  def self.generate(cards, page_size, gap: DEFAULT_GAP)
+    pdf = new_document(gap)
+    positions = grid_positions(gap)
     instances = cards.flat_map { |url, quantity| Array.new(quantity, url) }
     current_card = 0
 
@@ -49,7 +36,7 @@ module PdfHelper
       chunk.each_with_index do |url, slot|
         current_card += 1
         Rails.logger.info("Printing card #{current_card}/#{instances.size} at slot #{slot} page #{pdf.page_number}")
-        draw_card(pdf, url, GRID_POSITIONS[slot])
+        draw_card(pdf, url, positions[slot])
         yield(current_card)
       end
     end
@@ -63,8 +50,9 @@ module PdfHelper
   # which axis the back grid mirrors to match how the printshop's duplexer
   # physically flips the sheet - "none" (no mirroring, manual alignment),
   # "long_edge" (mirrors columns) or "short_edge" (mirrors rows).
-  def self.generate_with_backs(records, page_size, duplex_mode: "none")
-    pdf = new_document
+  def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: DEFAULT_GAP)
+    pdf = new_document(gap)
+    positions = grid_positions(gap)
     instances = records.flat_map { |r| Array.new(r[:quantity], r) }
     current_card = 0
 
@@ -73,20 +61,39 @@ module PdfHelper
     instances.each_slice(CARDS_PER_PAGE).with_index do |chunk, page_index|
       pdf.start_new_page if page_index.positive?
       chunk.each_with_index do |record, slot|
-        draw_card(pdf, record[:front_url], GRID_POSITIONS[slot])
+        draw_card(pdf, record[:front_url], positions[slot])
         current_card += 1
         yield(current_card)
       end
 
       pdf.start_new_page
       chunk.each_with_index do |record, slot|
-        draw_card(pdf, record[:back_url], GRID_POSITIONS[back_slot_for(slot, duplex_mode)])
+        draw_card(pdf, record[:back_url], positions[back_slot_for(slot, duplex_mode)])
         current_card += 1
         yield(current_card)
       end
     end
 
     pdf.render
+  end
+
+  # 3x3 top-left corner positions for one page's cards, pitched by
+  # CARD_WIDTH/HEIGHT plus the given gap (0 packs cards edge-to-edge).
+  def self.grid_positions(gap)
+    column_pitch = CARD_WIDTH + gap
+    row_pitch = CARD_HEIGHT + gap
+    grid_height = (3 * row_pitch) - gap
+    (0...CARDS_PER_PAGE).map { |slot| [ (slot % 3) * column_pitch, grid_height - (slot / 3) * row_pitch ] }
+  end
+
+  # Margins derived from the grid+gap size (rather than fixed) so the 3x3
+  # grid always fits fully inside the page: fixed 18/36pt margins left zero
+  # vertical slack even with gap 0 (3 * CARD_HEIGHT == page height minus
+  # margins exactly), so any gap pushed the bottom row off the printable area.
+  def self.margins_for(gap)
+    grid_width = (3 * (CARD_WIDTH + gap)) - gap
+    grid_height = (3 * (CARD_HEIGHT + gap)) - gap
+    [ (PAGE_WIDTH - grid_width) / 2, (PAGE_HEIGHT - grid_height) / 2 ]
   end
 
   # Maps a front grid slot (0-8, row-major) to the grid slot its back image
@@ -103,10 +110,11 @@ module PdfHelper
     row * 3 + col
   end
 
-  def self.new_document
+  def self.new_document(gap)
+    left_margin, top_margin = margins_for(gap)
     Prawn::Document.new(page_size: "LETTER", page_layout: :portrait,
-                         top_margin: TOP_MARGIN, bottom_margin: TOP_MARGIN,
-                         left_margin: LEFT_MARGIN, right_margin: LEFT_MARGIN)
+                         top_margin: top_margin, bottom_margin: top_margin,
+                         left_margin: left_margin, right_margin: left_margin)
   end
 
   # `source` is either a remote card image URL or a local card-back asset

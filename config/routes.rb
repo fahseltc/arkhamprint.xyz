@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :pdf_jobs, only: [ :create, :show ] do
     member do
       get :download
+      post :cancel
     end
   end
 end
