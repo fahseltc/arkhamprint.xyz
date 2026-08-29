@@ -19,11 +19,12 @@ module PdfHelper
   # imprecise cut can't slice into the neighboring card. Callers may pass
   # gap: 0 to print cards edge-to-edge instead.
   DEFAULT_GAP = 2.mm
+  NO_GAP = 0
 
   PAGE_WIDTH = 612.0  # LETTER, portrait, in points
   PAGE_HEIGHT = 792.0
 
-  def self.generate(cards, page_size, gap: DEFAULT_GAP)
+  def self.generate(cards, page_size, gap: NO_GAP)
     pdf = new_document(gap)
     positions = grid_positions(gap)
     instances = cards.flat_map { |url, quantity| Array.new(quantity, url) }
@@ -50,7 +51,7 @@ module PdfHelper
   # which axis the back grid mirrors to match how the printshop's duplexer
   # physically flips the sheet - "none" (no mirroring, manual alignment),
   # "long_edge" (mirrors columns) or "short_edge" (mirrors rows).
-  def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: DEFAULT_GAP)
+  def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: NO_GAP)
     pdf = new_document(gap)
     positions = grid_positions(gap)
     instances = records.flat_map { |r| Array.new(r[:quantity], r) }
