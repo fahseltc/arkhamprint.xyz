@@ -24,25 +24,36 @@ module PdfHelper
   PAGE_WIDTH = 612.0  # LETTER, portrait, in points
   PAGE_HEIGHT = 792.0
 
-  def self.generate(cards, page_size, gap: NO_GAP)
+  def self.generate(cards, page_size, gap: NO_GAP, job_id: nil)
     pdf = new_document(gap)
     positions = grid_positions(gap)
-    instances = cards.flat_map { |url, quantity| Array.new(quantity, url) }
+    total = cards.values.sum
     current_card = 0
+    slot = 0
 
-    Rails.logger.info("generating PDF with cards count #{instances.size}")
+    Rails.logger.info("generating PDF with cards count #{total}")
 
-    instances.each_slice(CARDS_PER_PAGE).with_index do |chunk, page_index|
-      pdf.start_new_page if page_index.positive?
-      chunk.each_with_index do |url, slot|
+    cards.each do |url, quantity|
+      quantity.times do
+        if slot > 0 && (slot % CARDS_PER_PAGE).zero?
+          pdf.start_new_page
+        end
         current_card += 1
-        Rails.logger.info("Printing card #{current_card}/#{instances.size} at slot #{slot} page #{pdf.page_number}")
-        draw_card(pdf, url, positions[slot])
+        Rails.logger.info("Printing card #{current_card}/#{total} at slot #{slot % CARDS_PER_PAGE} page #{pdf.page_number}")
+        draw_card(pdf, url, positions[slot % CARDS_PER_PAGE])
         yield(current_card)
+        slot += 1
       end
     end
 
-    pdf.render
+    tmp = Tempfile.new([ "pdf_job_#{job_id}_", ".pdf" ])
+    begin
+      pdf.render_file(tmp.path)
+      tmp
+    rescue
+      tmp.close!
+      raise
+    end
   end
 
   # Draws a front page followed immediately by a back page for each group of
@@ -51,31 +62,63 @@ module PdfHelper
   # which axis the back grid mirrors to match how the printshop's duplexer
   # physically flips the sheet - "none" (no mirroring, manual alignment),
   # "long_edge" (mirrors columns) or "short_edge" (mirrors rows).
-  def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: NO_GAP)
+  def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: NO_GAP, job_id: nil)
     pdf = new_document(gap)
     positions = grid_positions(gap)
-    instances = records.flat_map { |r| Array.new(r[:quantity], r) }
+    total = records.sum { |r| r[:quantity] }
     current_card = 0
 
-    Rails.logger.info("generating duplex PDF with cards count #{instances.size}, duplex_mode=#{duplex_mode}")
+    Rails.logger.info("generating duplex PDF with cards count #{total}, duplex_mode=#{duplex_mode}")
 
-    instances.each_slice(CARDS_PER_PAGE).with_index do |chunk, page_index|
-      pdf.start_new_page if page_index.positive?
-      chunk.each_with_index do |record, slot|
-        draw_card(pdf, record[:front_url], positions[slot])
+    # Build chunks of up to CARDS_PER_PAGE without materializing the full
+    # duplicated list — iterate quantities directly and flush each chunk as
+    # soon as it's full or we've exhausted all records.
+    chunk = []
+    records.each do |record|
+      record[:quantity].times do
+        chunk << record
+        next unless chunk.size == CARDS_PER_PAGE
+
+        pdf.start_new_page if pdf.page_number > 1 || current_card > 0
+        chunk.each_with_index do |r, slot|
+          draw_card(pdf, r[:front_url], positions[slot])
+          current_card += 1
+          yield(current_card)
+        end
+        pdf.start_new_page
+        chunk.each_with_index do |r, slot|
+          draw_card(pdf, r[:back_url], positions[back_slot_for(slot, duplex_mode)])
+          current_card += 1
+          yield(current_card)
+        end
+        chunk = []
+      end
+    end
+
+    # Flush any remaining cards that didn't fill a full page
+    unless chunk.empty?
+      pdf.start_new_page if pdf.page_number > 1 || current_card > 0
+      chunk.each_with_index do |r, slot|
+        draw_card(pdf, r[:front_url], positions[slot])
         current_card += 1
         yield(current_card)
       end
-
       pdf.start_new_page
-      chunk.each_with_index do |record, slot|
-        draw_card(pdf, record[:back_url], positions[back_slot_for(slot, duplex_mode)])
+      chunk.each_with_index do |r, slot|
+        draw_card(pdf, r[:back_url], positions[back_slot_for(slot, duplex_mode)])
         current_card += 1
         yield(current_card)
       end
     end
 
-    pdf.render
+    tmp = Tempfile.new([ "pdf_job_#{job_id}_", ".pdf" ])
+    begin
+      pdf.render_file(tmp.path)
+      tmp
+    rescue
+      tmp.close!
+      raise
+    end
   end
 
   # 3x3 top-left corner positions for one page's cards, pitched by
@@ -133,6 +176,8 @@ module PdfHelper
       img.write(f.path)
       pdf.image f.path, width: CARD_WIDTH, height: CARD_HEIGHT, at: position
     end
+  ensure
+    img&.destroy! # explicitly frees ImageMagick memory
   end
 
   # Prawn's image placement above stretches to exactly CARD_WIDTH x

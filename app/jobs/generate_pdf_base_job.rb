@@ -1,13 +1,15 @@
+require "aws-sdk-s3"
+
 class GeneratePdfBaseJob < ApplicationJob
   BASE_BUCKET_PATH = "uploads/pdf/deck_"
 
   def generate_pdf_bin
     cards_hash = get_cards_hash
     @pdf_job.update!(max_progress: cards_hash.values.sum)
-    pdf_binary = PdfHelper.generate(cards_hash, "LETTER") do |idx|
+    pdf_tmp = PdfHelper.generate(cards_hash, "LETTER", job_id: @pdf_job.id) do |idx|
       report_progress(idx)
     end
-    pdf_binary
+    pdf_tmp
   end
 
   # Cooperative cancellation: the "Cancel" button (see pdf_jobs_controller's
@@ -22,17 +24,20 @@ class GeneratePdfBaseJob < ApplicationJob
     @pdf_job.update!(current_progress: idx)
   end
 
-  def upload_to_s3(pdf_binary)
+  def upload_to_s3(pdf_tmp)
     s3_key = "#{BASE_BUCKET_PATH}#{@pdf_job.id}.pdf"
-    s3_client = Aws::S3::Resource.new(region: ENV.fetch("AWS_REGION"))
-    bucket = s3_client.bucket(ENV.fetch("AWS_BUCKET"))
-    object = bucket.object(s3_key)
+    s3_client = Aws::S3::Client.new(region: ENV.fetch("AWS_REGION"))
 
-    object.put(
-      body: pdf_binary,
-      content_type: "application/pdf",
-      acl: "private"
-    )
+    File.open(pdf_tmp.path, "rb") do |file|
+      s3_client.put_object(
+        bucket: ENV.fetch("AWS_BUCKET"),
+        key: s3_key,
+        body: file,
+        content_type: "application/pdf",
+        acl: "private"
+      )
+    end
+
     Rails.logger.info("uploaded #{s3_key} to s3")
     @pdf_job.update!(
       status: "completed",
@@ -40,6 +45,8 @@ class GeneratePdfBaseJob < ApplicationJob
       current_progress: @pdf_job.max_progress
     )
     s3_key
+  ensure
+    pdf_tmp.close!
   end
 
 

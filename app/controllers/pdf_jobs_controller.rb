@@ -30,6 +30,8 @@ class PdfJobsController < ApplicationController
       current_progress: pdf_job.current_progress || 0,
       max_progress: pdf_job.max_progress || 0
     }
+  rescue RuntimeError => e
+    render json: { status: "failed", error_message: "Job not found" }, status: :not_found
   end
 
   # Cancel a running PDF job. Cooperative: flips the stored status, and the
@@ -51,15 +53,16 @@ class PdfJobsController < ApplicationController
       redirect_to pdf_job.file_url, allow_other_host: true
     else
       # Generate a presigned S3 URL
-      s3 = Aws::S3::Resource.new(region: ENV.fetch("AWS_REGION"))
-      bucket = s3.bucket(ENV.fetch("AWS_BUCKET"))
-      object = bucket.object(pdf_job.file_url)
-
-      presigned_url = object.presigned_url(:get, expires_in: 300) # 5 minutes
+      s3 = Aws::S3::Client.new(region: ENV.fetch("AWS_REGION"))
+      presigner = Aws::S3::Presigner.new(client: s3)
+      presigned_url = presigner.presigned_url(
+        :get_object,
+        bucket: ENV.fetch("AWS_BUCKET"),
+        key: pdf_job.file_url,
+        expires_in: 300
+      )
       redirect_to presigned_url, allow_other_host: true
     end
-
-    pdf_job.delete!
   end
 
   private
