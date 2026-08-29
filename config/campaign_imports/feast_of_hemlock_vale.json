@@ -1,0 +1,16 @@
+{
+  "campaign_name": "The Feast of Hemlock Vale",
+  "output_file": "10_the_feast_of_hemlock_vale.json",
+  "release_order": 10,
+  "scenarios": [
+    { "pack_code": "fhvc", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
+    { "pack_code": "fhvc", "title": "Written in Rock", "label": "1. Written in Rock" },
+    { "pack_code": "fhvc", "title": "Hemlock House", "label": "2. Hemlock House" },
+    { "pack_code": "fhvc", "title": "The Silent Heath", "label": "3. The Silent Heath" },
+    { "pack_code": "fhvc", "title": "The Lost Sister", "label": "4. The Lost Sister" },
+    { "pack_code": "fhvc", "title": "The Thing in the Depths", "label": "5. The Thing in the Depths" },
+    { "pack_code": "fhvc", "title": "The Twisted Hollow", "label": "6. The Twisted Hollow" },
+    { "pack_code": "fhvc", "title": "The Longest Night", "label": "7. The Longest Night" },
+    { "pack_code": "fhvc", "title": "Fate of the Vale", "label": "8. Fate of the Vale" }
+  ]
+}

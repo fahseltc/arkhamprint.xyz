@@ -1,0 +1,16 @@
+{
+  "campaign_name": "The Dunwich Legacy",
+  "output_file": "04_the_dunwich_legacy.json",
+  "release_order": 2,
+  "scenarios": [
+    { "pack_code": "dwl", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
+    { "pack_code": "dwl", "title": "Extracurricular Activity", "label": "1. Extracurricular Activity", "scenario_card_name": "Extracurricular Activity" },
+    { "pack_code": "dwl", "title": "The House Always Wins", "label": "2. The House Always Wins", "scenario_card_name": "The House Always Wins" },
+    { "pack_code": "tmm", "title": "The Miskatonic Museum", "label": "3. The Miskatonic Museum" },
+    { "pack_code": "tece", "title": "The Essex County Express", "label": "4. The Essex County Express" },
+    { "pack_code": "bota", "title": "Blood on the Altar", "label": "5. Blood on the Altar" },
+    { "pack_code": "uau", "title": "Undimensioned and Unseen", "label": "6. Undimensioned and Unseen" },
+    { "pack_code": "wda", "title": "Where Doom Awaits", "label": "7. Where Doom Awaits" },
+    { "pack_code": "litas", "title": "Lost in Time and Space", "label": "8. Lost in Time and Space" }
+  ]
+}

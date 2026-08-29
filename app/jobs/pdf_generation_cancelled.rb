@@ -1,0 +1,1 @@
+class PdfGenerationCancelled < StandardError; end

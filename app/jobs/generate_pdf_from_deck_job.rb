@@ -8,6 +8,8 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
       @include_investigator = pdf_params["include_investigator"]
       pdf_bin = generate_pdf_bin
       s3_key = upload_to_s3(pdf_bin)
+    rescue PdfGenerationCancelled
+      @pdf_job.update!(status: "cancelled")
     rescue => e
       @pdf_job.update!(status: "failed", error_message: e.message)
       raise

@@ -32,6 +32,15 @@ class PdfJobsController < ApplicationController
     }
   end
 
+  # Cancel a running PDF job. Cooperative: flips the stored status, and the
+  # running job notices it on its next progress update (see
+  # GeneratePdfBaseJob#report_progress) and stops.
+  def cancel
+    pdf_job = PdfJob.find(safe_id_param)
+    pdf_job.update!(status: "cancelled") unless pdf_job.status.in?(%w[completed failed cancelled])
+    render json: { id: pdf_job.id, status: pdf_job.status }
+  end
+
   # Download the generated PDF
   def download
     pdf_job = PdfJob.find(safe_id_param)
@@ -56,7 +65,7 @@ class PdfJobsController < ApplicationController
   private
 
   def pdf_params
-    params.permit(:deck_id, :include_investigator, :scenario_title, card_ids: [])
+    params.permit(:deck_id, :include_investigator, :scenario_title, :campaign_file, :duplex_mode, :print_backs, :card_spacing, card_ids: [])
   end
 
   def safe_id_param

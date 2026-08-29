@@ -1,0 +1,16 @@
+{
+  "campaign_name": "The Innsmouth Conspiracy",
+  "output_file": "07_the_innsmouth_conspiracy.json",
+  "release_order": 7,
+  "scenarios": [
+    { "pack_code": "tic", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
+    { "pack_code": "tic", "title": "The Pit of Despair", "label": "1. The Pit of Despair", "scenario_card_name": "The Pit of Despair" },
+    { "pack_code": "tic", "title": "The Vanishing of Elina Harper", "label": "2. The Vanishing of Elina Harper", "scenario_card_name": "The Vanishing of Elina Harper" },
+    { "pack_code": "itd", "title": "In Too Deep", "label": "3. In Too Deep" },
+    { "pack_code": "def", "title": "Devil Reef", "label": "4. Devil Reef" },
+    { "pack_code": "hhg", "title": "Horror in High Gear", "label": "5. Horror in High Gear" },
+    { "pack_code": "lif", "title": "A Light in the Fog", "label": "6. A Light in the Fog" },
+    { "pack_code": "lod", "title": "The Lair of Dagon", "label": "7. The Lair of Dagon" },
+    { "pack_code": "itm", "title": "Into the Maelstrom", "label": "8. Into the Maelstrom" }
+  ]
+}

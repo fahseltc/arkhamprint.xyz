@@ -66,23 +66,87 @@
               <form id="pdfFromCampaignForm">
 
                 <div class="mb-3 mt-5">
-                  <label for="campaign-name" class="form-label">Campaigns</label>
-                  <select id="campaign-title" class="form-select" aria-label="Default select example">
-                    <optgroup label="The Forgotten Age">
-                      <option value="Non-Scenario Encounters">Non Scenario Encounter Decks</option>
-                      <option value="The Untamed Wilds">1. The Untamed Wilds </option>
-                      <option value="The Doom of Eztli">2. The Doom of Eztli </option>
-                      <option value="Threads of Fate">3. Threads of Fate</option>
-                      <option value="The Boundary Beyond">4. The Boundary Beyond</option>
-                      <option value="Heart of the Elders">5. Heart of the Elders</option>
-                      <option value="The City of Archives">6. The City of Archives</option>
-                      <option value="The Depths of Yoth">7. The Depths of Yoth</option>
-                      <option value="Shattered Eons">8. Shattered Eons</option>
-                      <option value="Turn Back Time">9. Turn Back Time </option>
-                    </optgroup>
+                  <label for="campaign-title" class="form-label">Campaigns</label>
+                  <select id="campaign-title" class="form-select" aria-label="Campaign scenario">
+                    <% @campaigns.each do |campaign| %>
+                      <optgroup label="<%= campaign.fetch("name") %>">
+                        <option value="__ALL__" data-campaign-file="<%= campaign.fetch("file") %>">&mdash; Entire <%= campaign.fetch("name") %> &mdash;</option>
+                        <% campaign.fetch("scenarios").each do |scenario| %>
+                          <option value="<%= scenario.fetch("title") %>" data-campaign-file="<%= campaign.fetch("file") %>"><%= scenario.fetch("label") %></option>
+                        <% end %>
+                      </optgroup>
+                    <% end %>
                   </select>
                 </div>
-                <button type=" submit" class="btn btn-primary w-100" id="generateCardListBtn">
+
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="print_backs_check" checked>
+                  <label class="form-check-label" for="print_backs_check">
+                    Print card backs (duplex front/back pages)
+                  </label>
+                </div>
+
+                <div class="form-check mb-4">
+                  <input class="form-check-input" type="checkbox" id="card_spacing_check" checked>
+                  <label class="form-check-label" for="card_spacing_check">
+                    Add spacing between cards (2mm gap on every side)
+                  </label>
+                </div>
+
+                <div class="mb-4" id="duplexModeSection">
+                  <label class="form-label d-block">Duplex printing (front/back page pairing)</label>
+                  <div class="duplex-mode-options">
+                    <label class="duplex-mode-option">
+                      <input class="form-check-input" type="radio" name="duplex_mode" value="none" checked>
+                      <span class="form-check-label">No mirroring</span>
+                      <span class="duplex-diagram" aria-hidden="true">
+                        <span class="duplex-grid">
+                          <% (1..9).each do |n| %><span><%= n %></span><% end %>
+                        </span>
+                        <span class="duplex-arrow">&rarr;</span>
+                        <span class="duplex-grid">
+                          <% [1, 2, 3, 4, 5, 6, 7, 8, 9].each do |n| %><span><%= n %></span><% end %>
+                        </span>
+                      </span>
+                    </label>
+                    <label class="duplex-mode-option">
+                      <input class="form-check-input" type="radio" name="duplex_mode" value="long_edge">
+                      <span class="form-check-label">Long-edge flip (mirrors columns)</span>
+                      <span class="duplex-diagram" aria-hidden="true">
+                        <span class="duplex-grid">
+                          <% (1..9).each do |n| %><span><%= n %></span><% end %>
+                        </span>
+                        <span class="duplex-arrow">&rarr;</span>
+                        <span class="duplex-grid">
+                          <% [3, 2, 1, 6, 5, 4, 9, 8, 7].each do |n| %><span><%= n %></span><% end %>
+                        </span>
+                      </span>
+                    </label>
+                    <label class="duplex-mode-option">
+                      <input class="form-check-input" type="radio" name="duplex_mode" value="short_edge">
+                      <span class="form-check-label">Short-edge flip (mirrors rows)</span>
+                      <span class="duplex-diagram" aria-hidden="true">
+                        <span class="duplex-grid">
+                          <% (1..9).each do |n| %><span><%= n %></span><% end %>
+                        </span>
+                        <span class="duplex-arrow">&rarr;</span>
+                        <span class="duplex-grid">
+                          <% [7, 8, 9, 4, 5, 6, 1, 2, 3].each do |n| %><span><%= n %></span><% end %>
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="form-text">Pick the method matching your printshop's duplex setting. Numbers show where each front-page card lands on the back page.</div>
+                </div>
+
+                <div class="mb-4 text-center">
+                  <a href="/example_print_layout.jpg" target="_blank" rel="noopener">
+                    <img src="/example_print_layout.jpg" alt="Example output page: a 3x3 grid of cards with a 2mm gap between them" class="img-thumbnail" style="max-width: 220px;">
+                  </a>
+                  <div class="form-text">Example output page (click to enlarge) &mdash; cards are printed at full size with a small gap between them, so cutting doesn't slice into a neighboring card.</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100" id="generateCampaignPdfBtn">
                   Get PDF
                 </button>
               </form>
@@ -95,11 +159,84 @@
   </div>
 </div>
 
+<style>
+  .duplex-mode-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .duplex-mode-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+  }
+
+  .duplex-mode-option:has(input:checked) {
+    border-color: #0d6efd;
+    background-color: rgba(13, 110, 253, 0.05);
+  }
+
+  .duplex-mode-option .form-check-label {
+    flex: 1 0 auto;
+    min-width: 12rem;
+  }
+
+  .duplex-diagram {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: auto;
+  }
+
+  .duplex-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1.1rem);
+    grid-template-rows: repeat(3, 1.1rem);
+    gap: 1px;
+  }
+
+  .duplex-grid span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    background-color: #e9ecef;
+    color: #495057;
+  }
+
+  .duplex-arrow {
+    color: #6c757d;
+  }
+</style>
+
 <%= render "partials/modals" %>
 
 <script>
   const deckModalEl = document.getElementById("byDeckUrlModal");
   let modalInstance;
+
+  // Shared by all three "generate PDF" forms.
+  function progressModalHtml() {
+    return `
+      <div class="modal-body">
+        <div class="d-flex justify-content-center align-items-center mb-2">
+          <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;"></div>
+          <span class="ms-3" id="pdfJobStatusText">Submitting job...</span>
+        </div>
+        <div class="progress mb-3">
+          <div id="pdfJobProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%">0%</div>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-outline-danger btn-sm" id="pdfJobCancelBtn">Cancel</button>
+        </div>
+      </div>
+    `;
+  }
 
   function extractDeckId(input) {
     input = input.trim();
@@ -128,17 +265,7 @@
     });
     modalInstance.show();
 
-    modalContent.html(`
-      <div class="modal-body">
-        <div class="d-flex justify-content-center align-items-center mb-2">
-          <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;"></div>
-          <span class="ms-3" id="pdfJobStatusText">Submitting job...</span>
-        </div>
-        <div class="progress">
-          <div id="pdfJobProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%">0%</div>
-        </div>
-      </div>
-    `);
+    modalContent.html(progressModalHtml());
 
     fetch("/pdf_jobs", {
         method: "POST",
@@ -173,6 +300,11 @@
     const statusText = $("#pdfJobStatusText");
     const progressBar = $("#pdfJobProgressBar");
 
+    $(document).off("click", "#pdfJobCancelBtn").on("click", "#pdfJobCancelBtn", function() {
+      $(this).prop("disabled", true).text("Cancelling...");
+      fetch(`/pdf_jobs/${pdfJobId}/cancel`, { method: "POST" }).catch(err => console.error(err));
+    });
+
     function checkStatus() {
       fetch(`/pdf_jobs/${pdfJobId}`, {
           headers: {
@@ -203,6 +335,10 @@
               "deck_id": $('#deck_url').val(),
               "error_message": data.error_message
             });
+          } else if (data.status === "cancelled") {
+            modalInstance._config.backdrop = true;
+            modalInstance._config.keyboard = true;
+            modalContent.html(`<div class="modal-body text-center">Cancelled.</div>`);
           } else {
             let progress = 0;
             if (data.current_progress && data.max_progress) {
@@ -246,17 +382,7 @@
     });
     modalInstance.show();
 
-    modalContent.html(`
-      <div class="modal-body">
-        <div class="d-flex justify-content-center align-items-center mb-2">
-          <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;"></div>
-          <span class="ms-3" id="pdfJobStatusText">Submitting job...</span>
-        </div>
-        <div class="progress">
-          <div id="pdfJobProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%">0%</div>
-        </div>
-      </div>
-    `);
+    modalContent.html(progressModalHtml());
 
     fetch("/pdf_jobs", {
         method: "POST",
@@ -283,11 +409,23 @@
       });
   });
 
+  // Duplex mode only matters when backs are being printed at all
+  function toggleDuplexModeSection() {
+    $('#duplexModeSection').toggle($('#print_backs_check').is(':checked'));
+  }
+  $('#print_backs_check').on('change', toggleDuplexModeSection);
+  toggleDuplexModeSection();
+
   // From Campaign
   $('#pdfFromCampaignForm').on('submit', function(e) {
     e.preventDefault();
-    const campaignTitle = $('#campaign-title').find(":selected").val()
-    console.log(campaignTitle)
+    const selectedScenario = $('#campaign-title').find(":selected")
+    const campaignTitle = selectedScenario.val()
+    const campaignFile = selectedScenario.data("campaign-file")
+    const duplexMode = $('input[name="duplex_mode"]:checked').val()
+    const printBacks = $('#print_backs_check').is(':checked')
+    const cardSpacing = $('#card_spacing_check').is(':checked')
+    console.log(campaignTitle, campaignFile, duplexMode, printBacks, cardSpacing)
     const modalContent = $("#byDeckUrlModalContent");
 
     if (campaignTitle.length == 0) {
@@ -301,17 +439,7 @@
     });
     modalInstance.show();
 
-    modalContent.html(`
-        <div class="modal-body">
-          <div class="d-flex justify-content-center align-items-center mb-2">
-            <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;"></div>
-            <span class="ms-3" id="pdfJobStatusText">Submitting job...</span>
-          </div>
-          <div class="progress">
-            <div id="pdfJobProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%">0%</div>
-          </div>
-        </div>
-      `);
+    modalContent.html(progressModalHtml());
 
     fetch("/pdf_jobs", {
         method: "POST",
@@ -320,6 +448,10 @@
         },
         body: JSON.stringify({
           scenario_title: campaignTitle,
+          campaign_file: campaignFile,
+          duplex_mode: duplexMode,
+          print_backs: printBacks,
+          card_spacing: cardSpacing
         })
       })
       .then(res => res.json())

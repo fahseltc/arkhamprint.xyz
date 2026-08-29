@@ -1,0 +1,23 @@
+{
+  "campaign_name": "Edge of the Earth",
+  "output_file": "08_edge_of_the_earth.json",
+  "release_order": 8,
+  "scenarios": [
+    { "pack_code": "eoec", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
+    {
+      "pack_code": "eoec",
+      "title": "Ice and Death",
+      "label": "1. Ice and Death",
+      "encounter_codes": [ "ice_and_death", "the_crash", "lost_in_the_night", "seeping_nightmares" ]
+    },
+    { "pack_code": "eoec", "title": "Fatal Mirage", "label": "2. Fatal Mirage" },
+    { "pack_code": "eoec", "title": "To the Forbidden Peaks", "label": "3. To the Forbidden Peaks" },
+    { "pack_code": "eoec", "title": "City of the Elder Things", "label": "4. City of the Elder Things" },
+    {
+      "pack_code": "eoec",
+      "title": "The Heart of Madness",
+      "label": "5. The Heart of Madness",
+      "encounter_codes": [ "the_heart_of_madness", "the_great_seal", "stirring_in_the_deep" ]
+    }
+  ]
+}

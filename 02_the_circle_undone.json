@@ -1,1688 +1,687 @@
 {
-  "name": "The Forgotten Age",
-  "missions_count": 10,
+  "name": "The Circle Undone",
+  "missions_count": 7,
   "missions": {
     "Non-Scenario Encounters": {
       "scenario_cards": [
         {
-          "id": "04069",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04070",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04071",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04072",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04073",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04074",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04075",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04076",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04077",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04078",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04079",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04080",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04081",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04082",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04083",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04084",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04085",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04086",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04087",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04088",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04089",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04090",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04091",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04092",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04093",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04094",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04095",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04096",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04097",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04098",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04099",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04100",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04101",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04102",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "neutral",
-          "quantity": 4
-        }
-      ]
-    },
-    "The Untamed Wilds": {
-      "scenario_cards": [
-        {
-          "id": "04043",
+          "id": "05043",
           "has_back": true,
           "type_code": "scenario",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04044",
+          "id": "05044",
           "has_back": true,
           "type_code": "agenda",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04045",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04046",
+          "id": "05045",
           "has_back": true,
           "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04047",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04048",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04049",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04050",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04051",
-          "has_back": false,
-          "type_code": "asset",
-          "faction_code": "neutral",
-          "quantity": 1
-        },
-        {
-          "id": "04052",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04053",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        }
-      ]
-    },
-    "The Doom of Eztli": {
-      "scenario_cards": [
-        {
-          "id": "04054",
-          "has_back": true,
-          "type_code": "scenario",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04055",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04056",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04057",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04058",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04059",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04060",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04061",
-          "has_back": false,
-          "type_code": "asset",
-          "faction_code": "neutral",
-          "quantity": 1
-        },
-        {
-          "id": "04062",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04063",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04064",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04065",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04066",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04067",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04068",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        }
-      ]
-    },
-    "Threads of Fate": {
-      "scenario_cards": [
-        {
-          "id": "04113",
-          "has_back": true,
-          "type_code": "scenario",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04114",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04115",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04116",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04117a",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04118a",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04119",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04120",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04121",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04122",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04123",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04124",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04125a",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04126a",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04127",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04128a",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04129",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04130a",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04131",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04132",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04133a",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04134a",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04135",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04136",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04137a",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04138",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04139",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04140",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04141",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04142",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04143",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04144",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04145",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04146",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04147",
-          "has_back": false,
-          "type_code": "asset",
-          "faction_code": "neutral",
-          "quantity": 1
-        },
-        {
-          "id": "04148",
-          "has_back": false,
-          "type_code": "asset",
-          "faction_code": "neutral",
-          "quantity": 1
-        }
-      ]
-    },
-    "The Boundary Beyond": {
-      "scenario_cards": [
-        {
-          "id": "04161",
-          "has_back": true,
-          "type_code": "scenario",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04162",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04163",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04164",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04165",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04166",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04167",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04168",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04169",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04170",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04171",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04172",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04173",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04174",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04175",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04176",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04177",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04178",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04179",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04180",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04181",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04182",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04183",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04184",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04185",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04186",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04187",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04188",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04189",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04190",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04191",
-          "has_back": false,
-          "type_code": "asset",
-          "faction_code": "neutral",
-          "quantity": 1
-        }
-      ]
-    },
-    "Heart of the Elders": {
-      "scenario_cards": [
-        {
-          "id": "04205",
-          "has_back": true,
-          "type_code": "scenario",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04206",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04207",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04208",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04209",
-          "has_back": false,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04210",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04211",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04212",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04213",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04214",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04215",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04216",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04217",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04218",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04219",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04220",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04221",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04222",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04223",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04224",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04225",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04226",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04227",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04228",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        }
-      ]
-    },
-    "The City of Archives": {
-      "scenario_cards": [
-        {
-          "id": "04237",
-          "has_back": true,
-          "type_code": "scenario",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04238",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04239",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04240",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04241",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04242",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04243",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04244",
+          "id": "05046",
           "has_back": true,
           "type_code": "investigator",
           "faction_code": "neutral",
-          "quantity": 4
-        },
-        {
-          "id": "04245",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04246",
+          "id": "05047",
           "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04247",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04248",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04249",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04250",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04251",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04252",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04253",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04254",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04255",
-          "has_back": true,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04256",
-          "has_back": false,
-          "type_code": "asset",
+          "type_code": "investigator",
           "faction_code": "neutral",
           "quantity": 1
         },
         {
-          "id": "04257",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04258",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04259",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04260",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04261",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04262",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04263",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04264",
-          "has_back": false,
-          "type_code": "treachery",
+          "id": "05048",
+          "has_back": true,
+          "type_code": "investigator",
           "faction_code": "neutral",
-          "quantity": 4
-        }
-      ]
-    },
-    "The Depths of Yoth": {
-      "scenario_cards": [
+          "quantity": 1
+        },
         {
-          "id": "04277",
+          "id": "05049",
+          "has_back": true,
+          "type_code": "investigator",
+          "faction_code": "neutral",
+          "quantity": 1
+        },
+        {
+          "id": "05050",
           "has_back": true,
           "type_code": "scenario",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04278",
+          "id": "05051",
           "has_back": true,
           "type_code": "agenda",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04279",
+          "id": "05052",
           "has_back": true,
           "type_code": "agenda",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04280",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04281",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04282",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04283",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04284",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04285",
+          "id": "05053",
           "has_back": true,
           "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04286",
-          "has_back": false,
-          "type_code": "location",
+          "id": "05054",
+          "has_back": true,
+          "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04287",
+          "id": "05055",
           "has_back": false,
-          "type_code": "location",
+          "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04288",
-          "has_back": false,
-          "type_code": "location",
+          "id": "05056",
+          "has_back": true,
+          "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04289",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04290",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04291",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04292",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04293",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04294",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04295",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04296",
+          "id": "05057",
           "has_back": false,
           "type_code": "enemy",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04297",
-          "has_back": false,
-          "type_code": "enemy",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04298",
-          "has_back": false,
-          "type_code": "enemy",
+          "id": "05058",
+          "has_back": true,
+          "type_code": "location",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04299",
-          "has_back": false,
-          "type_code": "treachery",
+          "id": "05059",
+          "has_back": true,
+          "type_code": "location",
           "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04300",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04301",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 3
-        },
-        {
-          "id": "04302",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04303",
-          "has_back": false,
-          "type_code": "asset",
-          "faction_code": "neutral",
           "quantity": 1
-        }
-      ]
-    },
-    "Shattered Aeons": {
-      "scenario_cards": [
+        },
         {
-          "id": "04314",
+          "id": "05060",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05061",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05062",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05063",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05064",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05065",
           "has_back": true,
           "type_code": "scenario",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04315",
+          "id": "05066",
           "has_back": true,
           "type_code": "agenda",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04316",
+          "id": "05067",
           "has_back": true,
           "type_code": "agenda",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04317",
-          "has_back": true,
-          "type_code": "agenda",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04318",
+          "id": "05068",
           "has_back": true,
           "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04319",
+          "id": "05069",
           "has_back": true,
           "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04320",
+          "id": "05070",
           "has_back": true,
           "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04321",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04322",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04323",
-          "has_back": true,
-          "type_code": "act",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04324",
+          "id": "05071",
           "has_back": true,
           "type_code": "location",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04325b",
+          "id": "05072",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05073",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05074",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05075",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05076",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05077",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05078",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05079",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05080",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05081",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05082",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05083",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05084",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05085b",
           "has_back": false,
           "type_code": "story",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04326b",
-          "has_back": false,
-          "type_code": "story",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04327",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04328",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04329",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04330",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04331",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04332",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04333",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04334",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04335",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04336",
-          "has_back": false,
-          "type_code": "location",
-          "faction_code": "mythos",
-          "quantity": 1
-        },
-        {
-          "id": "04337",
+          "id": "05086",
           "has_back": false,
           "type_code": "enemy",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04338",
+          "id": "05087",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05088",
           "has_back": false,
           "type_code": "enemy",
           "faction_code": "mythos",
-          "quantity": 2
+          "quantity": 1
         },
         {
-          "id": "04339",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04340",
-          "has_back": false,
-          "type_code": "treachery",
-          "faction_code": "mythos",
-          "quantity": 2
-        },
-        {
-          "id": "04341",
+          "id": "05089",
           "has_back": false,
           "type_code": "treachery",
           "faction_code": "mythos",
           "quantity": 3
         },
         {
-          "id": "04342",
+          "id": "05090",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05091",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05092",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05093",
           "has_back": false,
           "type_code": "treachery",
           "faction_code": "mythos",
           "quantity": 2
         },
         {
-          "id": "04343",
+          "id": "05094",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05095",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05096",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05097",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05098",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05099",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05100",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05101",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05102",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05103",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05104",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05105",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05106",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05107",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05108",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 3
+        }
+      ]
+    },
+    "The Secret Name": {
+      "scenario_cards": [
+        {
+          "id": "05120",
+          "has_back": true,
+          "type_code": "scenario",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05121",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05122",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05123",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05124",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05125",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05126",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05127",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05128",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05129",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05130",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05131",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05132",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05133",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05134",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05135",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05136",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05137",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05138",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05139",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05140",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05141",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05142",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05143",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05144",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05145",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05146",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05147",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05148",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05149",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05150",
           "has_back": false,
           "type_code": "asset",
           "faction_code": "neutral",
@@ -1690,33 +689,1057 @@
         }
       ]
     },
-    "Turn Back Time": {
+    "The Wages of Sin": {
       "scenario_cards": [
         {
-          "id": "04344",
+          "id": "05161",
           "has_back": true,
           "type_code": "scenario",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04345",
+          "id": "05162",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05163",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05164",
           "has_back": true,
           "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04346",
+          "id": "05165",
           "has_back": true,
           "type_code": "act",
           "faction_code": "mythos",
           "quantity": 1
         },
         {
-          "id": "04347",
+          "id": "05166",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05167",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05168",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05169",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05170",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05171",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05172",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05173",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05174",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05175",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05176",
+          "has_back": false,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05177",
+          "has_back": false,
+          "type_code": "asset",
+          "faction_code": "neutral",
+          "quantity": 4
+        },
+        {
+          "id": "05178a",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05178c",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05178e",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05178g",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05178i",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05178k",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05179",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05180",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05181",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05182",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05183",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05184",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05185",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        }
+      ]
+    },
+    "For the Greater Good": {
+      "scenario_cards": [
+        {
+          "id": "05197",
+          "has_back": true,
+          "type_code": "scenario",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05198",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05199",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05200",
           "has_back": true,
           "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05201",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05202",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05203",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05204",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05205",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05206",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05207",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05208",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05209",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05210",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05211",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05212",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05213",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05214",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05215",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05216",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05217",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05218",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05219",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05220",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05221",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05222",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05223",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05224",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05225",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05226",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05227",
+          "has_back": false,
+          "type_code": "asset",
+          "faction_code": "neutral",
+          "quantity": 1
+        },
+        {
+          "id": "05228",
+          "has_back": false,
+          "type_code": "asset",
+          "faction_code": "neutral",
+          "quantity": 1
+        }
+      ]
+    },
+    "Union and Disillusion": {
+      "scenario_cards": [
+        {
+          "id": "05238",
+          "has_back": true,
+          "type_code": "scenario",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05239",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05240",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05241",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05242",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05243",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05244",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05245",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05246",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05247",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05248",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05249",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05250",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05251",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05252",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05253",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05254",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05255",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05256",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05257",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05258",
+          "has_back": false,
+          "type_code": "asset",
+          "faction_code": "neutral",
+          "quantity": 1
+        },
+        {
+          "id": "05259",
+          "has_back": false,
+          "type_code": "asset",
+          "faction_code": "neutral",
+          "quantity": 1
+        },
+        {
+          "id": "05260",
+          "has_back": false,
+          "type_code": "asset",
+          "faction_code": "neutral",
+          "quantity": 1
+        },
+        {
+          "id": "05261",
+          "has_back": false,
+          "type_code": "asset",
+          "faction_code": "neutral",
+          "quantity": 1
+        },
+        {
+          "id": "05262",
+          "has_back": false,
+          "type_code": "story",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05263",
+          "has_back": false,
+          "type_code": "story",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05264",
+          "has_back": false,
+          "type_code": "story",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05265",
+          "has_back": false,
+          "type_code": "story",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05266",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05267",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05268",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05269",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05270",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05271",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05272",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 1
+        }
+      ]
+    },
+    "In the Clutches of Chaos": {
+      "scenario_cards": [
+        {
+          "id": "05284",
+          "has_back": true,
+          "type_code": "scenario",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05285",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05286a",
+          "has_back": false,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05287",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05288a",
+          "has_back": false,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05289",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05290",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05291",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05292",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05293",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05294",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05295",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05296",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05297",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05298",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05299",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05300",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05301",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05302",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05303",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05304",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05305",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05306",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05307",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05308",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05309",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05310",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05311",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05312",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        }
+      ]
+    },
+    "Before the Black Throne": {
+      "scenario_cards": [
+        {
+          "id": "05325",
+          "has_back": true,
+          "type_code": "scenario",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05326",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05327",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05328",
+          "has_back": true,
+          "type_code": "agenda",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05329",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05330",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05331",
+          "has_back": true,
+          "type_code": "act",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05332",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05333",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05334",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05335",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05336",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05337",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05338",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05339",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 1
+        },
+        {
+          "id": "05340",
+          "has_back": true,
+          "type_code": "location",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05341",
+          "has_back": false,
+          "type_code": "enemy",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05342",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 3
+        },
+        {
+          "id": "05343",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05344",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05345",
+          "has_back": false,
+          "type_code": "treachery",
+          "faction_code": "mythos",
+          "quantity": 2
+        },
+        {
+          "id": "05346",
+          "has_back": false,
+          "type_code": "enemy",
           "faction_code": "mythos",
           "quantity": 1
         }

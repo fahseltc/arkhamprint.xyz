@@ -1,1248 +1,406 @@
 {
-  "name": "The Forgotten Age",
-  "missions_count": 10,
-  "missions": {
-    "Non-Scenario Encounters": {
-      "scenario_cards": [
+  "campaigns": [
+    {
+      "name": "Night of the Zealot",
+      "file": "03_night_of_the_zealot.json",
+      "release_order": 1,
+      "scenarios": [
         {
-          "id": "04069",
-          "has_back": false,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04070",
-          "has_back": false,
-          "quantity": 1
+          "title": "The Gathering",
+          "label": "1. The Gathering"
         },
         {
-          "id": "04071",
-          "has_back": false,
-          "quantity": 1
+          "title": "The Midnight Masks",
+          "label": "2. The Midnight Masks"
         },
         {
-          "id": "04072",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04073",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04074",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04075",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04076",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04077",
-          "has_back": false,
-          "quantity": 2
-        },
-          {
-          "id": "04078",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04079",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04080",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04081",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04082",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04083",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04084",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04085",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04086",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04087",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04088",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04089",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04090",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04091",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04092",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04093",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04094",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04095",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04096",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04097",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04098",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04099",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04100",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04101",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04102",
-          "has_back": false,
-          "quantity": 4
+          "title": "The Devourer Below",
+          "label": "3. The Devourer Below"
         }
       ]
     },
-    "The Untamed Wilds": {
-      "scenario_cards": [
+    {
+      "name": "The Dunwich Legacy",
+      "file": "04_the_dunwich_legacy.json",
+      "release_order": 2,
+      "scenarios": [
         {
-          "id": "04043",
-          "has_back": true,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04044",
-          "has_back": true,
-          "quantity": 1
+          "title": "Extracurricular Activity",
+          "label": "1. Extracurricular Activity"
         },
         {
-          "id": "04045",
-          "has_back": true,
-          "quantity": 1
+          "title": "The House Always Wins",
+          "label": "2. The House Always Wins"
         },
         {
-          "id": "04046",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Miskatonic Museum",
+          "label": "3. The Miskatonic Museum"
         },
         {
-          "id": "04047",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Essex County Express",
+          "label": "4. The Essex County Express"
         },
         {
-          "id": "04048",
-          "has_back": true,
-          "quantity": 1
+          "title": "Blood on the Altar",
+          "label": "5. Blood on the Altar"
         },
         {
-          "id": "04049",
-          "has_back": true,
-          "quantity": 1
+          "title": "Undimensioned and Unseen",
+          "label": "6. Undimensioned and Unseen"
         },
         {
-          "id": "04050",
-          "has_back": true,
-          "quantity": 1
+          "title": "Where Doom Awaits",
+          "label": "7. Where Doom Awaits"
         },
         {
-          "id": "04051",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04052",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04053",
-          "has_back": false,
-          "quantity": 1
+          "title": "Lost in Time and Space",
+          "label": "8. Lost in Time and Space"
         }
       ]
     },
-    "The Doom of Eztli": {
-      "scenario_cards": [
+    {
+      "name": "The Path to Carcosa",
+      "file": "05_the_path_to_carcosa.json",
+      "release_order": 3,
+      "scenarios": [
         {
-          "id": "04054",
-          "has_back": true,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04055",
-          "has_back": true,
-          "quantity": 1
+          "title": "Curtain Call",
+          "label": "1. Curtain Call"
         },
         {
-          "id": "04056",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Last King",
+          "label": "2. The Last King"
         },
         {
-          "id": "04057",
-          "has_back": true,
-          "quantity": 1
+          "title": "Echoes of the Past",
+          "label": "3. Echoes of the Past"
         },
         {
-          "id": "04058",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Unspeakable Oath",
+          "label": "4. The Unspeakable Oath"
         },
         {
-          "id": "04059",
-          "has_back": true,
-          "quantity": 1
+          "title": "A Phantom of Truth",
+          "label": "5. A Phantom of Truth"
         },
         {
-          "id": "04060",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Pallid Mask",
+          "label": "6. The Pallid Mask"
         },
         {
-          "id": "04061",
-          "has_back": false,
-          "quantity": 1
+          "title": "Black Stars Rise",
+          "label": "7. Black Stars Rise"
         },
         {
-          "id": "04062",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04063",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04064",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04065",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04066",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04067",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04068",
-          "has_back": false,
-          "quantity": 1
+          "title": "Dim Carcosa",
+          "label": "8. Dim Carcosa"
         }
       ]
     },
-    "Threads of Fate": {
-      "scenario_cards": [
+    {
+      "name": "The Forgotten Age",
+      "file": "01_the_forgotten_age.json",
+      "release_order": 4,
+      "scenarios": [
         {
-          "id": "04113",
-          "has_back": true,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04114",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Untamed Wilds",
+          "label": "1. The Untamed Wilds"
         },
         {
-          "id": "04115",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Doom of Eztli",
+          "label": "2. The Doom of Eztli"
         },
         {
-          "id": "04116",
-          "has_back": true,
-          "quantity": 1
+          "title": "Threads of Fate",
+          "label": "3. Threads of Fate"
         },
         {
-          "id": "04117a",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Boundary Beyond",
+          "label": "4. The Boundary Beyond"
         },
         {
-          "id": "04118a",
-          "has_back": true,
-          "quantity": 1
+          "title": "Heart of the Elders",
+          "label": "5. Heart of the Elders"
         },
         {
-          "id": "04119",
-          "has_back": true,
-          "quantity": 1
+          "title": "The City of Archives",
+          "label": "6. The City of Archives"
         },
         {
-          "id": "04120",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Depths of Yoth",
+          "label": "7. The Depths of Yoth"
         },
         {
-          "id": "04121",
-          "has_back": true,
-          "quantity": 1
+          "title": "Shattered Aeons",
+          "label": "8. Shattered Aeons"
         },
         {
-          "id": "04122",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04123",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04124",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04125a",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04126a",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04127",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04128a",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04129",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04130a",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04131",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04132",
-          "has_back": true,
-          "quantity": 2
-        },
-        {
-          "id": "04133a",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04134a",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04135",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04136",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04137a",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04138",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04139",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04140",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04141",
-          "has_back": true,
-          "quantity": 3
-        },
-        {
-          "id": "04142",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04143",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04144",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04145",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04146",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04147",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04148",
-          "has_back": false,
-          "quantity": 1
+          "title": "Turn Back Time",
+          "label": "9. Turn Back Time"
         }
       ]
     },
-    "The Boundary Beyond": {
-      "scenario_cards": [
+    {
+      "name": "The Circle Undone",
+      "file": "02_the_circle_undone.json",
+      "release_order": 5,
+      "scenarios": [
         {
-          "id": "04161",
-          "has_back": true,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04162",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Secret Name",
+          "label": "1. The Secret Name"
         },
         {
-          "id": "04163",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Wages of Sin",
+          "label": "2. The Wages of Sin"
         },
         {
-          "id": "04164",
-          "has_back": true,
-          "quantity": 1
+          "title": "For the Greater Good",
+          "label": "3. For the Greater Good"
         },
         {
-          "id": "04165",
-          "has_back": true,
-          "quantity": 1
+          "title": "Union and Disillusion",
+          "label": "4. Union and Disillusion"
         },
         {
-          "id": "04166",
-          "has_back": true,
-          "quantity": 1
+          "title": "In the Clutches of Chaos",
+          "label": "5. In the Clutches of Chaos"
         },
         {
-          "id": "04167",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04168",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04169",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04170",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04171",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04172",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04173",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04174",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04175",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04176",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04177",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04178",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04179",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04180",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04181",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04182",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04183",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04184",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04185",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04186",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04187",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04188",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04189",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04190",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04191",
-          "has_back": false,
-          "quantity": 1
+          "title": "Before the Black Throne",
+          "label": "6. Before the Black Throne"
         }
       ]
     },
-    "Heart of the Elders": {
-      "scenario_cards": [
+    {
+      "name": "The Dream-Eaters",
+      "file": "06_the_dream_eaters.json",
+      "release_order": 6,
+      "scenarios": [
         {
-          "id": "04205",
-          "has_back": true,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04206",
-          "has_back": true,
-          "quantity": 1
+          "title": "Beyond the Gates of Sleep",
+          "label": "1. Beyond the Gates of Sleep"
         },
         {
-          "id": "04215",
-          "has_back": false,
-          "quantity": 3
+          "title": "Waking Nightmare",
+          "label": "2. Waking Nightmare"
         },
         {
-          "id": "04216",
-          "has_back": false,
-          "quantity": 3
-        },
-
-        {
-          "id": "04207",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Search for Kadath",
+          "label": "3a. The Search for Kadath"
         },
         {
-          "id": "04208",
-          "has_back": true,
-          "quantity": 1
+          "title": "A Thousand Shapes of Horror",
+          "label": "3b. A Thousand Shapes of Horror"
         },
         {
-          "id": "04209",
-          "has_back": true,
-          "quantity": 1
+          "title": "Dark Side of the Moon",
+          "label": "4a. Dark Side of the Moon"
         },
         {
-          "id": "04210",
-          "has_back": true,
-          "quantity": 1
+          "title": "Point of No Return",
+          "label": "4b. Point of No Return"
         },
         {
-          "id": "04217",
-          "has_back": false,
-          "quantity": 1
+          "title": "Where the Gods Dwell",
+          "label": "5. Where the Gods Dwell"
         },
         {
-          "id": "04218",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04219",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04220",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04221",
-          "has_back": false,
-          "quantity": 3
-        },
-
-        {
-          "id": "04211",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04212",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04213",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04214",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04222",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04223",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04224",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04225",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04226",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04227",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04228",
-          "has_back": false,
-          "quantity": 3
+          "title": "Weaver of the Cosmos",
+          "label": "6. Weaver of the Cosmos"
         }
       ]
     },
-    "The City of Archives": {
-      "scenario_cards": [
+    {
+      "name": "The Innsmouth Conspiracy",
+      "file": "07_the_innsmouth_conspiracy.json",
+      "release_order": 7,
+      "scenarios": [
         {
-          "id": "04237",
-          "has_back": true,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04238",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Pit of Despair",
+          "label": "1. The Pit of Despair"
         },
         {
-          "id": "04239",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Vanishing of Elina Harper",
+          "label": "2. The Vanishing of Elina Harper"
         },
         {
-          "id": "04240",
-          "has_back": true,
-          "quantity": 1
+          "title": "In Too Deep",
+          "label": "3. In Too Deep"
         },
         {
-          "id": "04241",
-          "has_back": true,
-          "quantity": 1
+          "title": "Devil Reef",
+          "label": "4. Devil Reef"
         },
         {
-          "id": "04242",
-          "has_back": true,
-          "quantity": 1
+          "title": "Horror in High Gear",
+          "label": "5. Horror in High Gear"
         },
         {
-          "id": "04243",
-          "has_back": true,
-          "quantity": 1
+          "title": "A Light in the Fog",
+          "label": "6. A Light in the Fog"
         },
         {
-          "id": "04244",
-          "has_back": true,
-          "quantity": 4
+          "title": "The Lair of Dagon",
+          "label": "7. The Lair of Dagon"
         },
         {
-          "id": "04245",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04246",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04247",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04248",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04249",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04250",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04251",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04252",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04253",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04254",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04255",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04256",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04257",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04258",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04259",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04260",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04261",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04262",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04263",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04264",
-          "has_back": false,
-          "quantity": 4
+          "title": "Into the Maelstrom",
+          "label": "8. Into the Maelstrom"
         }
       ]
     },
-    "The Depths of Yoth": {
-      "scenario_cards": [
+    {
+      "name": "Edge of the Earth",
+      "file": "08_edge_of_the_earth.json",
+      "release_order": 8,
+      "scenarios": [
         {
-          "id": "04277",
-          "has_back": true,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04278",
-          "has_back": true,
-          "quantity": 1
+          "title": "Ice and Death",
+          "label": "1. Ice and Death"
         },
         {
-          "id": "04279",
-          "has_back": true,
-          "quantity": 1
+          "title": "Fatal Mirage",
+          "label": "2. Fatal Mirage"
         },
         {
-          "id": "04280",
-          "has_back": true,
-          "quantity": 1
+          "title": "To the Forbidden Peaks",
+          "label": "3. To the Forbidden Peaks"
         },
         {
-          "id": "04281",
-          "has_back": true,
-          "quantity": 1
+          "title": "City of the Elder Things",
+          "label": "4. City of the Elder Things"
         },
         {
-          "id": "04282",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04283",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04284",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04285",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04286",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04287",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04288",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04289",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04290",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04291",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04292",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04293",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04294",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04295",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04296",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04297",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04298",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04299",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04300",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04301",
-          "has_back": false,
-          "quantity": 3
-        },
-        {
-          "id": "04302",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04303",
-          "has_back": false,
-          "quantity": 1
+          "title": "The Heart of Madness",
+          "label": "5. The Heart of Madness"
         }
       ]
     },
-    "Shattered Eons": {
-      "scenario_cards": [
+    {
+      "name": "The Scarlet Keys",
+      "file": "09_the_scarlet_keys.json",
+      "release_order": 9,
+      "scenarios": [
         {
-          "id": "04314",
-          "has_back": true,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04315",
-          "has_back": true,
-          "quantity": 1
+          "title": "Riddles and Rain",
+          "label": "1. Riddles and Rain"
         },
         {
-          "id": "04316",
-          "has_back": true,
-          "quantity": 1
+          "title": "Dead Heat",
+          "label": "2. Dead Heat"
         },
         {
-          "id": "04317",
-          "has_back": true,
-          "quantity": 1
+          "title": "Sanguine Shadows",
+          "label": "3. Sanguine Shadows"
         },
         {
-          "id": "04318",
-          "has_back": true,
-          "quantity": 1
+          "title": "Dealings in the Dark",
+          "label": "4. Dealings in the Dark"
         },
         {
-          "id": "04319",
-          "has_back": true,
-          "quantity": 1
+          "title": "Dancing Mad",
+          "label": "5. Dancing Mad"
         },
         {
-          "id": "04320",
-          "has_back": true,
-          "quantity": 1
+          "title": "On Thin Ice",
+          "label": "6. On Thin Ice"
         },
         {
-          "id": "04321",
-          "has_back": true,
-          "quantity": 1
+          "title": "Dogs of War",
+          "label": "7. Dogs of War"
         },
         {
-          "id": "04322",
-          "has_back": true,
-          "quantity": 1
+          "title": "Shades of Suffering",
+          "label": "8. Shades of Suffering"
         },
         {
-          "id": "04323",
-          "has_back": true,
-          "quantity": 1
+          "title": "Without a Trace",
+          "label": "9. Without a Trace"
         },
         {
-          "id": "04324",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04325",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04326",
-          "has_back": true,
-          "quantity": 1
-        },
-        {
-          "id": "04327",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04328",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04329",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04330",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04331",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04332",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04333",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04334",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04335",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04336",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04337",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04338",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04339",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04340",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04341",
-          "has_back": false,
-          "quantity": 1
-        },
-        {
-          "id": "04342",
-          "has_back": false,
-          "quantity": 2
-        },
-        {
-          "id": "04343",
-          "has_back": false,
-          "quantity": 1
+          "title": "Congress of the Keys",
+          "label": "10. Congress of the Keys"
         }
       ]
     },
-    "Turn Back Time": {
-      "scenario_cards": [
+    {
+      "name": "The Feast of Hemlock Vale",
+      "file": "10_the_feast_of_hemlock_vale.json",
+      "release_order": 10,
+      "scenarios": [
         {
-          "id": "04344",
-          "has_back": true,
-          "quantity": 1
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
         },
         {
-          "id": "04345",
-          "has_back": true,
-          "quantity": 1
+          "title": "Written in Rock",
+          "label": "1. Written in Rock"
         },
         {
-          "id": "04346",
-          "has_back": true,
-          "quantity": 1
+          "title": "Hemlock House",
+          "label": "2. Hemlock House"
         },
         {
-          "id": "04347",
-          "has_back": true,
-          "quantity": 1
+          "title": "The Silent Heath",
+          "label": "3. The Silent Heath"
+        },
+        {
+          "title": "The Lost Sister",
+          "label": "4. The Lost Sister"
+        },
+        {
+          "title": "The Thing in the Depths",
+          "label": "5. The Thing in the Depths"
+        },
+        {
+          "title": "The Twisted Hollow",
+          "label": "6. The Twisted Hollow"
+        },
+        {
+          "title": "The Longest Night",
+          "label": "7. The Longest Night"
+        },
+        {
+          "title": "Fate of the Vale",
+          "label": "8. Fate of the Vale"
         }
       ]
     }
-  }
+  ]
 }
