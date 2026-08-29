@@ -1,6 +1,7 @@
 {
   "campaign_name": "Night of the Zealot",
   "output_file": "03_night_of_the_zealot.json",
+  "release_order": 1,
   "scenarios": [
     { "pack_code": "core", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
     { "pack_code": "core", "title": "The Gathering", "label": "1. The Gathering", "scenario_card_name": "The Gathering" },

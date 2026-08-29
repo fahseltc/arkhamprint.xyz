@@ -1,6 +1,7 @@
 {
   "campaign_name": "The Path to Carcosa",
   "output_file": "05_the_path_to_carcosa.json",
+  "release_order": 3,
   "scenarios": [
     { "pack_code": "ptc", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
     { "pack_code": "ptc", "title": "Curtain Call", "label": "1. Curtain Call", "scenario_card_name": "Curtain Call" },

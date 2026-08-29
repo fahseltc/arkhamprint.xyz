@@ -1,6 +1,7 @@
 {
   "campaign_name": "The Dunwich Legacy",
   "output_file": "04_the_dunwich_legacy.json",
+  "release_order": 2,
   "scenarios": [
     { "pack_code": "dwl", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
     { "pack_code": "dwl", "title": "Extracurricular Activity", "label": "1. Extracurricular Activity", "scenario_card_name": "Extracurricular Activity" },

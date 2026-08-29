@@ -1,6 +1,7 @@
 {
   "campaign_name": "Edge of the Earth",
   "output_file": "08_edge_of_the_earth.json",
+  "release_order": 8,
   "scenarios": [
     { "pack_code": "eoec", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
     {

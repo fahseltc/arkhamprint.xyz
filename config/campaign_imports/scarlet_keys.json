@@ -1,6 +1,7 @@
 {
   "campaign_name": "The Scarlet Keys",
   "output_file": "09_the_scarlet_keys.json",
+  "release_order": 9,
   "scenarios": [
     { "pack_code": "tskc", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
     { "pack_code": "tskc", "title": "Riddles and Rain", "label": "1. Riddles and Rain" },

@@ -1,6 +1,7 @@
 {
   "campaign_name": "The Forgotten Age",
   "output_file": "01_the_forgotten_age.json",
+  "release_order": 4,
   "scenarios": [
     {
       "pack_code": "tfa",

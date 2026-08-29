@@ -1,6 +1,7 @@
 {
   "campaign_name": "The Circle Undone",
   "output_file": "02_the_circle_undone.json",
+  "release_order": 5,
   "scenarios": [
     { "pack_code": "tcu", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
     { "pack_code": "tsn", "title": "The Secret Name", "label": "1. The Secret Name" },

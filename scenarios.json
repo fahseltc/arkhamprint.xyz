@@ -1,8 +1,118 @@
 {
   "campaigns": [
     {
+      "name": "Night of the Zealot",
+      "file": "03_night_of_the_zealot.json",
+      "release_order": 1,
+      "scenarios": [
+        {
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
+        },
+        {
+          "title": "The Gathering",
+          "label": "1. The Gathering"
+        },
+        {
+          "title": "The Midnight Masks",
+          "label": "2. The Midnight Masks"
+        },
+        {
+          "title": "The Devourer Below",
+          "label": "3. The Devourer Below"
+        }
+      ]
+    },
+    {
+      "name": "The Dunwich Legacy",
+      "file": "04_the_dunwich_legacy.json",
+      "release_order": 2,
+      "scenarios": [
+        {
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
+        },
+        {
+          "title": "Extracurricular Activity",
+          "label": "1. Extracurricular Activity"
+        },
+        {
+          "title": "The House Always Wins",
+          "label": "2. The House Always Wins"
+        },
+        {
+          "title": "The Miskatonic Museum",
+          "label": "3. The Miskatonic Museum"
+        },
+        {
+          "title": "The Essex County Express",
+          "label": "4. The Essex County Express"
+        },
+        {
+          "title": "Blood on the Altar",
+          "label": "5. Blood on the Altar"
+        },
+        {
+          "title": "Undimensioned and Unseen",
+          "label": "6. Undimensioned and Unseen"
+        },
+        {
+          "title": "Where Doom Awaits",
+          "label": "7. Where Doom Awaits"
+        },
+        {
+          "title": "Lost in Time and Space",
+          "label": "8. Lost in Time and Space"
+        }
+      ]
+    },
+    {
+      "name": "The Path to Carcosa",
+      "file": "05_the_path_to_carcosa.json",
+      "release_order": 3,
+      "scenarios": [
+        {
+          "title": "Non-Scenario Encounters",
+          "label": "Non Scenario Encounter Decks"
+        },
+        {
+          "title": "Curtain Call",
+          "label": "1. Curtain Call"
+        },
+        {
+          "title": "The Last King",
+          "label": "2. The Last King"
+        },
+        {
+          "title": "Echoes of the Past",
+          "label": "3. Echoes of the Past"
+        },
+        {
+          "title": "The Unspeakable Oath",
+          "label": "4. The Unspeakable Oath"
+        },
+        {
+          "title": "A Phantom of Truth",
+          "label": "5. A Phantom of Truth"
+        },
+        {
+          "title": "The Pallid Mask",
+          "label": "6. The Pallid Mask"
+        },
+        {
+          "title": "Black Stars Rise",
+          "label": "7. Black Stars Rise"
+        },
+        {
+          "title": "Dim Carcosa",
+          "label": "8. Dim Carcosa"
+        }
+      ]
+    },
+    {
       "name": "The Forgotten Age",
       "file": "01_the_forgotten_age.json",
+      "release_order": 4,
       "scenarios": [
         {
           "title": "Non-Scenario Encounters",
@@ -49,6 +159,7 @@
     {
       "name": "The Circle Undone",
       "file": "02_the_circle_undone.json",
+      "release_order": 5,
       "scenarios": [
         {
           "title": "Non-Scenario Encounters",
@@ -81,114 +192,9 @@
       ]
     },
     {
-      "name": "Night of the Zealot",
-      "file": "03_night_of_the_zealot.json",
-      "scenarios": [
-        {
-          "title": "Non-Scenario Encounters",
-          "label": "Non Scenario Encounter Decks"
-        },
-        {
-          "title": "The Gathering",
-          "label": "1. The Gathering"
-        },
-        {
-          "title": "The Midnight Masks",
-          "label": "2. The Midnight Masks"
-        },
-        {
-          "title": "The Devourer Below",
-          "label": "3. The Devourer Below"
-        }
-      ]
-    },
-    {
-      "name": "The Dunwich Legacy",
-      "file": "04_the_dunwich_legacy.json",
-      "scenarios": [
-        {
-          "title": "Non-Scenario Encounters",
-          "label": "Non Scenario Encounter Decks"
-        },
-        {
-          "title": "Extracurricular Activity",
-          "label": "1. Extracurricular Activity"
-        },
-        {
-          "title": "The House Always Wins",
-          "label": "2. The House Always Wins"
-        },
-        {
-          "title": "The Miskatonic Museum",
-          "label": "3. The Miskatonic Museum"
-        },
-        {
-          "title": "The Essex County Express",
-          "label": "4. The Essex County Express"
-        },
-        {
-          "title": "Blood on the Altar",
-          "label": "5. Blood on the Altar"
-        },
-        {
-          "title": "Undimensioned and Unseen",
-          "label": "6. Undimensioned and Unseen"
-        },
-        {
-          "title": "Where Doom Awaits",
-          "label": "7. Where Doom Awaits"
-        },
-        {
-          "title": "Lost in Time and Space",
-          "label": "8. Lost in Time and Space"
-        }
-      ]
-    },
-    {
-      "name": "The Path to Carcosa",
-      "file": "05_the_path_to_carcosa.json",
-      "scenarios": [
-        {
-          "title": "Non-Scenario Encounters",
-          "label": "Non Scenario Encounter Decks"
-        },
-        {
-          "title": "Curtain Call",
-          "label": "1. Curtain Call"
-        },
-        {
-          "title": "The Last King",
-          "label": "2. The Last King"
-        },
-        {
-          "title": "Echoes of the Past",
-          "label": "3. Echoes of the Past"
-        },
-        {
-          "title": "The Unspeakable Oath",
-          "label": "4. The Unspeakable Oath"
-        },
-        {
-          "title": "A Phantom of Truth",
-          "label": "5. A Phantom of Truth"
-        },
-        {
-          "title": "The Pallid Mask",
-          "label": "6. The Pallid Mask"
-        },
-        {
-          "title": "Black Stars Rise",
-          "label": "7. Black Stars Rise"
-        },
-        {
-          "title": "Dim Carcosa",
-          "label": "8. Dim Carcosa"
-        }
-      ]
-    },
-    {
       "name": "The Dream-Eaters",
       "file": "06_the_dream_eaters.json",
+      "release_order": 6,
       "scenarios": [
         {
           "title": "Non-Scenario Encounters",
@@ -231,6 +237,7 @@
     {
       "name": "The Innsmouth Conspiracy",
       "file": "07_the_innsmouth_conspiracy.json",
+      "release_order": 7,
       "scenarios": [
         {
           "title": "Non-Scenario Encounters",
@@ -273,6 +280,7 @@
     {
       "name": "Edge of the Earth",
       "file": "08_edge_of_the_earth.json",
+      "release_order": 8,
       "scenarios": [
         {
           "title": "Non-Scenario Encounters",
@@ -303,6 +311,7 @@
     {
       "name": "The Scarlet Keys",
       "file": "09_the_scarlet_keys.json",
+      "release_order": 9,
       "scenarios": [
         {
           "title": "Non-Scenario Encounters",
@@ -353,6 +362,7 @@
     {
       "name": "The Feast of Hemlock Vale",
       "file": "10_the_feast_of_hemlock_vale.json",
+      "release_order": 10,
       "scenarios": [
         {
           "title": "Non-Scenario Encounters",

@@ -1,6 +1,7 @@
 {
   "campaign_name": "The Innsmouth Conspiracy",
   "output_file": "07_the_innsmouth_conspiracy.json",
+  "release_order": 7,
   "scenarios": [
     { "pack_code": "tic", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
     { "pack_code": "tic", "title": "The Pit of Despair", "label": "1. The Pit of Despair", "scenario_card_name": "The Pit of Despair" },

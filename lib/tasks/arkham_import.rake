@@ -48,6 +48,7 @@ namespace :arkham do
     config = JSON.parse(File.read(args[:config_path]))
     campaign_name = config.fetch("campaign_name")
     output_file = config.fetch("output_file")
+    release_order = config["release_order"]
     scenario_defs = config.fetch("scenarios")
 
     missions = {}
@@ -206,8 +207,11 @@ namespace :arkham do
     index["campaigns"] << {
       "name" => campaign_name,
       "file" => output_file,
+      "release_order" => release_order,
       "scenarios" => scenario_defs.map { |s| { "title" => s["title"], "label" => s["label"] } }
     }
+    # Keep the dropdown in release order regardless of import order.
+    index["campaigns"].sort_by! { |c| c["release_order"] || Float::INFINITY }
     File.write(index_path, JSON.pretty_generate(index))
     puts "Updated #{index_path}"
   end

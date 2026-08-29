@@ -1,6 +1,7 @@
 {
   "campaign_name": "The Dream-Eaters",
   "output_file": "06_the_dream_eaters.json",
+  "release_order": 6,
   "scenarios": [
     { "pack_code": "tde", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
     { "pack_code": "tde", "title": "Beyond the Gates of Sleep", "label": "1. Beyond the Gates of Sleep", "scenario_card_name": "Beyond the Gates of Sleep" },

@@ -1,6 +1,7 @@
 {
   "campaign_name": "The Feast of Hemlock Vale",
   "output_file": "10_the_feast_of_hemlock_vale.json",
+  "release_order": 10,
   "scenarios": [
     { "pack_code": "fhvc", "title": "Non-Scenario Encounters", "label": "Non Scenario Encounter Decks" },
     { "pack_code": "fhvc", "title": "Written in Rock", "label": "1. Written in Rock" },
