@@ -295,10 +295,12 @@
 
   function pollPdfJob(pdfJobId) {
     const interval = 2000;
+    const maxConsecutiveErrors = 5;
     const startTime = Date.now()
     const modalContent = $("#byDeckUrlModalContent");
     const statusText = $("#pdfJobStatusText");
     const progressBar = $("#pdfJobProgressBar");
+    let consecutiveErrors = 0;
 
     $(document).off("click", "#pdfJobCancelBtn").on("click", "#pdfJobCancelBtn", function() {
       $(this).prop("disabled", true).text("Cancelling...");
@@ -315,6 +317,7 @@
         })
         .then(res => res.json())
         .then(data => {
+          consecutiveErrors = 0;
           if (data.status === "completed") {
             const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
             gtag("event", "deck_pdf_completed", {
@@ -355,10 +358,19 @@
           }
         })
         .catch(err => {
-          modalInstance._config.backdrop = true;
-          modalInstance._config.keyboard = true;
-          modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
+          consecutiveErrors++;
           console.error(err);
+          // A single dropped connection (e.g. a transient network blip during
+          // a long-running whole-campaign job) shouldn't kill the UI - keep
+          // polling for a bit before surfacing it as a fatal error.
+          if (consecutiveErrors < maxConsecutiveErrors) {
+            statusText.text("Connection hiccup, retrying...");
+            setTimeout(checkStatus, interval);
+          } else {
+            modalInstance._config.backdrop = true;
+            modalInstance._config.keyboard = true;
+            modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
+          }
         });
     }
     checkStatus();
