@@ -20,7 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 
 
-every 15.second do
+every 5.minutes do
   Rails.logger.info "Running CleanupLocalJsonJobFiles.perform_now"
   runner "CleanupLocalJsonJobFiles.perform_now"
 end
