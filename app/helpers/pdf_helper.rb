@@ -230,7 +230,11 @@ module PdfHelper
     tmp = Tempfile.new([ "pdf_job_#{job_id}_p#{ format('%04d', page_index) }_", ".pdf" ], PDF_TMP_DIR)
     begin
       pdf.render_file(tmp.path)
-      Rails.logger.info("Rendered page job=#{PdfJob.short_id(job_id)} page_index=#{page_index} file=#{File.basename(tmp.path)} size=#{File.size(tmp.path)} bytes mem=#{mem_mb}MB")
+      # Drop the Prawn document reference before reclaiming so its (large)
+      # object graph is collectible.
+      pdf = nil
+      reclaim_memory(page_index)
+      Rails.logger.info("Rendered page page_index=#{page_index} file=#{File.basename(tmp.path)} size=#{File.size(tmp.path)} bytes mem=#{mem_mb}MB")
       tmp
     rescue
       tmp.close!
@@ -238,6 +242,21 @@ module PdfHelper
     end
   end
   private_class_method :render_page
+
+  # Ruby's GC frees objects but does not readily return heap pages to the OS,
+  # so across a long multi-page job the process RSS ratchets upward even though
+  # each page is individually freed. Periodically forcing a full GC (with
+  # compaction) hands memory back and defragments the heap, keeping RSS flat.
+  # Running every page would be wasteful; every RECLAIM_EVERY pages is enough
+  # to hold the line without a meaningful speed cost.
+  RECLAIM_EVERY = 4
+  def self.reclaim_memory(page_index)
+    return unless (page_index % RECLAIM_EVERY).zero?
+
+    GC.start(full_mark: true, immediate_sweep: true)
+    GC.compact if GC.respond_to?(:compact)
+  end
+  private_class_method :reclaim_memory
 
   # Renders a front page and back page for one chunk of up to CARDS_PER_PAGE
   # records, yielding the count of images drawn for progress reporting.
@@ -275,9 +294,9 @@ module PdfHelper
   def self.combine_pages(page_files, job_id)
     raise "No pages to combine" if page_files.empty?
 
-    Rails.logger.info("Merge starting job=#{PdfJob.short_id(job_id)} total_pages=#{page_files.size} batch_size=#{MERGE_BATCH_SIZE} mem=#{mem_mb}MB")
+    Rails.logger.info("Merge starting total_pages=#{page_files.size} batch_size=#{MERGE_BATCH_SIZE} mem=#{mem_mb}MB")
     result = merge_recursive(page_files, job_id, depth: 0)
-    Rails.logger.info("Merge complete job=#{PdfJob.short_id(job_id)} output=#{File.basename(result.path)} size=#{File.size(result.path)} bytes mem=#{mem_mb}MB")
+    Rails.logger.info("Merge complete output=#{File.basename(result.path)} size=#{File.size(result.path)} bytes mem=#{mem_mb}MB")
     result
   end
   private_class_method :combine_pages
@@ -317,7 +336,7 @@ module PdfHelper
       end
       combined.save(out.path)
       combined = nil
-      Rails.logger.info("Merged batch job=#{PdfJob.short_id(job_id)} depth=#{depth} batch=#{batch_index} pages=#{batch.size} mem=#{mem_mb}MB")
+      Rails.logger.info("Merged batch depth=#{depth} batch=#{batch_index} pages=#{batch.size} mem=#{mem_mb}MB")
       out
     rescue
       out.close!
