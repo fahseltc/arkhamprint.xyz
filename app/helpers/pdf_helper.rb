@@ -202,15 +202,13 @@ module PdfHelper
   end
 
   def self.open_card_image(source)
-    MiniMagick::Image.open(source)
-  rescue OpenURI::HTTPError => e
-    begin
-      # Try again with JPG
-      MiniMagick::Image.open(source.gsub(".png", ".jpg"))
-    rescue OpenURI::HTTPError => e2
-      Rails.logger.warn("Failed to open #{source}: #{e2.message} with either PNG or JPG")
-      nil
-    end
+    # Resolve remote URLs through the local disk cache to avoid redundant HTTP
+    # fetches for the same card across jobs. Local asset paths (card backs) are
+    # passed through unchanged — CardImageCache only handles http(s) URLs.
+    resolved = source.start_with?("http") ? CardImageCache.fetch(source) : source
+    return nil unless resolved
+
+    MiniMagick::Image.open(resolved)
   rescue StandardError => e
     Rails.logger.warn("Failed to open #{source}: #{e.message}")
     nil

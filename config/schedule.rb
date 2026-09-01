@@ -24,3 +24,7 @@ every 5.minutes do
   Rails.logger.info "Running CleanupLocalJsonJobFiles.perform_now"
   runner "CleanupLocalJsonJobFiles.perform_now"
 end
+
+every 1.day, at: "3:00 am" do
+  runner "CardImageCache.prune_stale"
+end
