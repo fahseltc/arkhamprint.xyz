@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.3"
+gem "rails", "~> 8.1.3"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use sqlite3 as the database for Active Record
@@ -48,7 +48,7 @@ gem "recaptcha"
 # gem "sidekiq"
 gem "fastimage"
 gem "aws-sdk-s3", require: false
-gem "mini_magick", "~> 5.2"
+gem "mini_magick", "~> 5.3"
 gem "whenever"
 # Lightweight process memory reporting (reads /proc), used for job memory logs
 gem "get_process_mem"
@@ -56,7 +56,7 @@ gem "get_process_mem"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   # gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "rspec-rails", "~> 8.0.2"
+  gem "rspec-rails", "~> 8.0.4"
   gem "dotenv"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
