@@ -48,7 +48,7 @@ gem "recaptcha"
 # gem "sidekiq"
 gem "fastimage"
 gem "aws-sdk-s3", require: false
-gem "mini_magick", "~> 5.2"
+gem "mini_magick", "~> 5.3"
 gem "whenever"
 # Lightweight process memory reporting (reads /proc), used for job memory logs
 gem "get_process_mem"
