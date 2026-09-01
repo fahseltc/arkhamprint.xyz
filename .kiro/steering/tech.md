@@ -12,7 +12,8 @@
 ## Key gems
 
 - **prawn** — PDF generation (one page per Prawn document, see pdf-pipeline.md)
-- **combine_pdf** — pure-Ruby PDF merging (no system binary dependency)
+- **hexapdf** — pure-Ruby PDF merging (no system binary dependency; lazy
+  loading keeps merge memory low)
 - **mini_magick** — image processing (needs ImageMagick installed)
 - **httparty** — ArkhamDB API calls
 - **aws-sdk-s3** (`require: false`, loaded lazily in jobs) — PDF storage
@@ -30,7 +31,7 @@
   Render is a **native Ruby** service, not Docker — `apt-get` is unavailable
   at build time (runs unprivileged), so all dependencies must be gems or
   already present in Render's image. This is why PDF merging uses the
-  `combine_pdf` gem rather than the `pdfunite` binary.
+  `hexapdf` gem rather than the `pdfunite` binary.
 - **PDF storage:** AWS S3, private objects served via presigned URLs
   (`AWS_REGION`, `AWS_BUCKET` env vars).
 - **Job queue:** ActiveJob with the `:async` adapter — jobs run in-process on a

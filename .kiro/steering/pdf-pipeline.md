@@ -10,7 +10,7 @@ Render's ~512MB memory cap. Read this before changing `pdf_helper.rb`,
 Prawn holds an entire PDF document in memory until `render_file` is called.
 MiniMagick/ImageMagick can spike 10-20MB per image. A large campaign PDF can be
 200+ pages. Naively building one Prawn document for the whole job, or merging
-all pages into one `CombinePDF` object at once, exhausts the 512MB cap and the
+all pages into one in-memory PDF object at once, exhausts the 512MB cap and the
 container is killed and restarted. The pipeline below keeps peak memory flat
 regardless of card count.
 
@@ -50,12 +50,14 @@ ImageMagick memory immediately. Do not remove that `destroy!`.
 
 ## Batched hierarchical merge (`combine_pages`)
 
-Merging all pages into one `CombinePDF` object accumulates the whole document
-in memory — the exact thing we're avoiding. Instead:
+Merging uses **HexaPDF** (`HexaPDF::Document.open` + `target.import(page)` +
+`target.write(optimize: true)`), whose lazy loading avoids holding every source
+document fully in memory. The assembled document's object tree still lives in
+memory before write, so we merge in bounded batches anyway:
 
 - Pages are merged in batches of `MERGE_BATCH_SIZE` (currently 10) into
-  intermediate temp files. After each batch the `CombinePDF` object is set to
-  `nil` and released before the next batch.
+  intermediate temp files. After each batch the HexaPDF document is released
+  and a full GC is forced (`reclaim_memory(0, force: true)`).
 - Intermediates are then merged the same way, **recursively** (`merge_recursive`
   → `merge_batch`), until a single file remains.
 - Peak memory is bounded to ~one batch of pages regardless of total page count.
@@ -65,7 +67,7 @@ in memory — the exact thing we're avoiding. Instead:
 Tuning: lower `MERGE_BATCH_SIZE` = lower peak memory, more passes. If merge-time
 memory logs (`Merged batch ... mem=`) creep toward the cap, lower it.
 
-Merging uses the **`combine_pdf` gem** (pure Ruby), NOT the `pdfunite` binary —
+Merging uses the **`hexapdf` gem** (pure Ruby), NOT the `pdfunite` binary —
 Render's native build can't `apt-get` system packages.
 
 ## Temp files

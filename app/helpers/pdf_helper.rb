@@ -2,6 +2,7 @@ require "open-uri"
 require "prawn/measurement_extensions"
 require "tempfile"
 require "mini_magick"
+require "hexapdf"
 require "get_process_mem"
 
 # Prawn PDF origin location is at the bottom-left corner of the page (0,0)
@@ -250,8 +251,8 @@ module PdfHelper
   # Running every page would be wasteful; every RECLAIM_EVERY pages is enough
   # to hold the line without a meaningful speed cost.
   RECLAIM_EVERY = 4
-  def self.reclaim_memory(page_index)
-    return unless (page_index % RECLAIM_EVERY).zero?
+  def self.reclaim_memory(page_index, force: false)
+    return unless force || (page_index % RECLAIM_EVERY).zero?
 
     GC.start(full_mark: true, immediate_sweep: true)
     GC.compact if GC.respond_to?(:compact)
@@ -280,15 +281,15 @@ module PdfHelper
   end
   private_class_method :render_page_pair
 
-  # Merges an ordered array of single-page Tempfiles into one PDF.
+  # Merges an ordered array of single-page Tempfiles into one PDF using
+  # HexaPDF, which uses lazy loading so it does not hold every source
+  # document fully in memory at once.
   #
-  # A naive merge (loading every page into one CombinePDF object) holds the
-  # entire final document in memory before saving — for a large campaign that
-  # is hundreds of pages and crashes the server. Instead we merge in bounded
-  # batches: each batch of MERGE_BATCH_SIZE pages is merged to an intermediate
-  # file and released from memory, then the intermediates are merged the same
-  # way, recursively, until a single file remains. Peak memory is therefore
-  # bounded to one batch (~MERGE_BATCH_SIZE pages) regardless of total count.
+  # Even so, the assembled document's object tree lives in memory before write,
+  # so we still merge in bounded batches: each batch of MERGE_BATCH_SIZE pages
+  # is merged to an intermediate file and released, then the intermediates are
+  # merged the same way, recursively, until a single file remains. This keeps
+  # peak memory bounded regardless of total page count.
   #
   # Cleans up all input page files. Returns a Tempfile of the merged PDF.
   def self.combine_pages(page_files, job_id)
@@ -329,13 +330,17 @@ module PdfHelper
     FileUtils.mkdir_p(PDF_TMP_DIR)
     out = Tempfile.new([ "pdf_job_#{job_id}_merge_d#{depth}_b#{batch_index}_", ".pdf" ], PDF_TMP_DIR)
     begin
-      combined = CombinePDF.new
+      target = HexaPDF::Document.new
       batch.each do |f|
-        combined << CombinePDF.load(f.path)
-        f.close!  # free the source file handle + on-disk temp as we go
+        source = HexaPDF::Document.open(f.path)
+        source.pages.each { |page| target.pages << target.import(page) }
+        source = nil     # release the source document
+        f.close!         # free the source file handle + on-disk temp as we go
       end
-      combined.save(out.path)
-      combined = nil
+      # optimize: true de-duplicates shared objects, keeping the output small.
+      target.write(out.path, optimize: true)
+      target = nil
+      reclaim_memory(0, force: true)  # full GC after each batch to hand memory back
       Rails.logger.info("Merged batch depth=#{depth} batch=#{batch_index} pages=#{batch.size} mem=#{mem_mb}MB")
       out
     rescue
