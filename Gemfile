@@ -50,6 +50,8 @@ gem "fastimage"
 gem "aws-sdk-s3", require: false
 gem "mini_magick", "~> 5.2"
 gem "whenever"
+# Lightweight process memory reporting (reads /proc), used for job memory logs
+gem "get_process_mem"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
