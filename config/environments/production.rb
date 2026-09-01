@@ -3,6 +3,10 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Short-circuit automated scanner probes (PHP webshell scanners, WordPress
+  # probes, etc.) before they reach the router, eliminating log noise.
+  config.middleware.insert_before 0, RejectProbesMiddleware
+
   # Code is not reloaded between requests.
   config.enable_reloading = false
 

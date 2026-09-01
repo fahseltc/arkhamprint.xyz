@@ -34,3 +34,8 @@
 /config/master.key
 
 /config/credentials/development.key
+
+# Keep pdf work directory but ignore its contents
+!/tmp/pdf_work/
+/tmp/pdf_work/*
+!/tmp/pdf_work/.keep

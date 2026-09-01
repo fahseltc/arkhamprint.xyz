@@ -315,7 +315,13 @@
             "Accept": "application/json"
           }
         })
-        .then(res => res.json())
+        .then(res => {
+          const contentType = res.headers.get("content-type") || "";
+          if (!res.ok || !contentType.includes("application/json")) {
+            throw Object.assign(new Error("server_unavailable"), { status: res.status });
+          }
+          return res.json();
+        })
         .then(data => {
           consecutiveErrors = 0;
           if (data.status === "completed") {
@@ -369,7 +375,11 @@
           } else {
             modalInstance._config.backdrop = true;
             modalInstance._config.keyboard = true;
-            modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
+            const isServerDown = err.message === "server_unavailable" || err.message === "Failed to fetch";
+            const userMessage = isServerDown
+              ? "The server is temporarily unavailable. Please try again in a moment."
+              : `Something went wrong. Please try again.`;
+            modalContent.html(`<div class="modal-body text-center text-danger">${userMessage}</div>`);
           }
         });
     }
