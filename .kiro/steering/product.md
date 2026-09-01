@@ -14,8 +14,10 @@ exposed as a tab in the UI:
    (plus the investigator card) is printed.
 2. **From Card List** — paste a comma/space separated list of ArkhamDB card
    IDs (e.g. `01022, 01044`).
-3. **Campaigns** — pick a scenario (or a whole campaign) from a bundled index
-   of encounter-card data (`scenarios.json` + per-campaign JSON files).
+3. **Campaigns** — pick a single scenario from a bundled index of
+   encounter-card data (`scenarios.json` + per-campaign JSON files). There is
+   deliberately no "whole campaign at once" option — it produced PDFs large
+   enough to threaten the 512MB memory cap.
 
 ## Print options (shared across all three tabs)
 

@@ -1,11 +1,6 @@
 class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
   DUPLEX_MODES = %w[none long_edge short_edge].freeze
 
-  # Sentinel scenario_title (picked via a dedicated dropdown option, see
-  # home/index.html.erb) meaning "every mission in this campaign file,
-  # concatenated in their existing order" instead of a single scenario.
-  WHOLE_CAMPAIGN_SCENARIO_TITLE = "__ALL__"
-
   def perform(pdf_job_id, pdf_params)
     @pdf_job_id = pdf_job_id
     @pdf_job = PdfJob.find(@pdf_job_id)
@@ -25,13 +20,9 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
       scenario_json = JSON.parse(scenario_file)
       missions = scenario_json.fetch("missions", {})
 
-      @scenario_cards = if scenario_title == WHOLE_CAMPAIGN_SCENARIO_TITLE
-        missions.values.flat_map { |mission| mission["scenario_cards"] }
-      else
-        scenario = missions[scenario_title]
-        raise "Scenario not found" if scenario.nil?
-        scenario["scenario_cards"]
-      end
+      scenario = missions[scenario_title]
+      raise "Scenario not found" if scenario.nil?
+      @scenario_cards = scenario["scenario_cards"]
 
       raise "Scenario has no cards" if @scenario_cards.empty?
 

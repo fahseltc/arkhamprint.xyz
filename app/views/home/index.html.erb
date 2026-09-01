@@ -66,7 +66,6 @@
                   <select id="campaign-title" class="form-select" aria-label="Campaign scenario">
                     <% @campaigns.each do |campaign| %>
                     <optgroup label="<%= campaign.fetch("name") %>">
-                      <option value="__ALL__" data-campaign-file="<%= campaign.fetch("file") %>">&mdash; Entire <%= campaign.fetch("name") %> &mdash;</option>
                       <% campaign.fetch("scenarios").each do |scenario| %>
                       <option value="<%= scenario.fetch("title") %>" data-campaign-file="<%= campaign.fetch("file") %>"><%= scenario.fetch("label") %></option>
                       <% end %>
