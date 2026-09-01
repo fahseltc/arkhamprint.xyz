@@ -255,7 +255,8 @@ module PdfHelper
   private_class_method :render_page_pair
 
   # Merges an ordered array of single-page Tempfiles into one PDF using
-  # pdfunite (poppler-utils). Cleans up all page files in ensure.
+  # the combine_pdf gem (pure Ruby, no system dependencies).
+  # Cleans up all page files in ensure.
   # Returns a Tempfile of the merged PDF.
   def self.combine_pages(page_files, job_id)
     raise "No pages to combine" if page_files.empty?
@@ -263,35 +264,22 @@ module PdfHelper
     # Single page — no merge needed, return directly
     return page_files.first if page_files.size == 1
 
-    pdfunite = find_pdfunite
-    raise "pdfunite not found. Install poppler-utils (apt-get install -y poppler-utils)." unless pdfunite
-
     FileUtils.mkdir_p(PDF_TMP_DIR)
     output_tmp = Tempfile.new([ "pdf_job_#{job_id}_merged_", ".pdf" ], PDF_TMP_DIR)
     begin
-      page_paths = page_files.map(&:path)
-      cmd        = [ pdfunite, *page_paths, output_tmp.path ]
-      success    = system(*cmd)
-      raise "pdfunite failed (exit #{$?.exitstatus})" unless success
-
+      combined = CombinePDF.new
+      page_files.each { |f| combined << CombinePDF.load(f.path) }
+      combined.save(output_tmp.path)
       Rails.logger.info("combined #{page_files.size} pages into #{output_tmp.path}")
       output_tmp
     rescue
       output_tmp.close!
       raise
     ensure
-      # Clean up per-page temp files now that they've been merged
       page_files.each { |f| f.close! rescue nil }
     end
   end
   private_class_method :combine_pages
-
-  # Resolves the full path to the pdfunite binary, returning nil if absent.
-  def self.find_pdfunite
-    path = `which pdfunite 2>/dev/null`.strip
-    path.empty? ? nil : path
-  end
-  private_class_method :find_pdfunite
 
   # doesnt really work in all cases
   def self.add_black_background(image)

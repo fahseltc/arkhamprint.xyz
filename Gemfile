@@ -43,6 +43,7 @@ gem "thruster", require: false
 
 gem "httparty"
 gem "prawn"
+gem "combine_pdf"
 gem "recaptcha"
 # gem "sidekiq"
 gem "fastimage"
