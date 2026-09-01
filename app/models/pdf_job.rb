@@ -22,6 +22,16 @@ class PdfJob
     job
   end
 
+  # First 8 characters of a job id — short enough to scan in logs, long enough
+  # to stay unique in practice. Used for all log tagging.
+  def self.short_id(id)
+    id.to_s[0, 8]
+  end
+
+  def short_id
+    self.class.short_id(id)
+  end
+
   def self.find(id)
     case Rails.application.config.save_data_mode
     when :redis

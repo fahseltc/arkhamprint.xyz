@@ -1,5 +1,3 @@
-require "uri"
-
 class GeneratePdfFromDeckJob < GeneratePdfBaseJob
   DUPLEX_MODES = %w[none long_edge short_edge].freeze
 
@@ -9,7 +7,6 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
     begin
       @deck_id = pdf_params["deck_id"]
       raise ArgumentError, "deck_id must be present" unless @deck_id.present?
-      @include_investigator = pdf_params["include_investigator"]
       @print_backs  = pdf_params["print_backs"] != false
       @duplex_mode  = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
       @gap          = pdf_params["card_spacing"] == false ? PdfHelper::NO_GAP : PdfHelper::DEFAULT_GAP
@@ -24,20 +21,19 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
   end
 
   def generate_pdf_bin
+    # cards_hash is { front_image_url => quantity }
     cards_hash = get_cards_hash
     images_per_card = @print_backs ? 2 : 1
-    @pdf_job.update!(max_progress: cards_hash.values.sum * images_per_card)
+    total_images = cards_hash.values.sum * images_per_card
+    Rails.logger.info("Starting PDF job=#{@pdf_job.short_id} type=#{self.class.name} cards=#{cards_hash.values.sum} duplex=#{@print_backs} duplex_mode=#{@duplex_mode}")
 
     if @print_backs
-      records = cards_hash.map do |url, quantity|
-        base_id = File.basename(URI.parse(url).path, ".*")
-        back_url = ArkhamDbHelper.get_card_image_url("#{base_id}b")
-        { front_url: url, back_url: back_url, quantity: quantity }
-      end
+      records = build_records_with_backs(cards_hash, total_images)
       PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
     else
+      @pdf_job.update!(max_progress: total_images, current_progress: 0)
       PdfHelper.generate(cards_hash, "LETTER", gap: @gap, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
@@ -45,7 +41,8 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
   end
 
   def get_cards_hash
-    cards = ArkhamDbHelper.get_cards_from_deck_id(@deck_id, @include_investigator).transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) }
+    cards = ArkhamDbHelper.get_cards_from_deck_id(@deck_id)
+                          .transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) }
     Rails.logger.info(cards)
     cards
   end

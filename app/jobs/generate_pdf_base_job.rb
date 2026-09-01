@@ -6,6 +6,7 @@ class GeneratePdfBaseJob < ApplicationJob
   def generate_pdf_bin
     cards_hash = get_cards_hash
     @pdf_job.update!(max_progress: cards_hash.values.sum)
+    Rails.logger.info("Starting PDF job=#{@pdf_job.short_id} type=#{self.class.name} cards=#{@pdf_job.max_progress} duplex=false")
     pdf_tmp = PdfHelper.generate(cards_hash, "LETTER", job_id: @pdf_job.id) do |idx|
       report_progress(idx)
     end
@@ -22,6 +23,38 @@ class GeneratePdfBaseJob < ApplicationJob
   def report_progress(idx)
     raise PdfGenerationCancelled if PdfJob.find(@pdf_job.id).status == "cancelled"
     @pdf_job.update!(current_progress: idx)
+    # Log one progress line per page (every 9 cards) to keep logs readable
+    if idx % PdfHelper::CARDS_PER_PAGE == 0 || idx == @pdf_job.max_progress
+      Rails.logger.info("Progress job=#{@pdf_job.short_id} #{idx}/#{@pdf_job.max_progress} cards (#{(idx.to_f / @pdf_job.max_progress * 100).round}%)")
+    end
+  end
+
+  # Builds the [{ front_url:, back_url:, quantity: }] records array for a duplex
+  # job. Warms the card metadata cache concurrently first, driving the progress
+  # bar during the fetch phase so the UI isn't stuck "initializing" while all
+  # the ArkhamDB lookups happen. Progress during warm-up is scaled against the
+  # final total_images so the bar advances smoothly into the drawing phase.
+  #
+  # cards_hash is { front_image_url => quantity }.
+  def build_records_with_backs(cards_hash, total_images)
+    card_ids = cards_hash.keys.map { |url| File.basename(url, ".*") }
+
+    # Reserve the first ~10% of the progress bar for the metadata warm-up so
+    # the user sees immediate movement, then drawing fills the remaining 90%.
+    warmup_span = [ (total_images * 0.1).ceil, 1 ].max
+    @pdf_job.update!(max_progress: total_images, current_progress: 0)
+
+    ArkhamDbHelper.warm_card_meta_cache(card_ids) do |done, total|
+      scaled = (done.to_f / total * warmup_span).floor
+      @pdf_job.update!(current_progress: scaled)
+    end
+
+    cards_hash.map do |front_url, quantity|
+      card_id  = File.basename(front_url, ".*")
+      back_url = ArkhamDbHelper.resolve_back_url(card_id)
+      Rails.logger.debug("Card #{card_id} back_url=#{back_url}")
+      { front_url: front_url, back_url: back_url, quantity: quantity }
+    end
   end
 
   def upload_to_s3(pdf_tmp)
@@ -38,7 +71,7 @@ class GeneratePdfBaseJob < ApplicationJob
       )
     end
 
-    Rails.logger.info("uploaded #{s3_key} to s3")
+    Rails.logger.info("Uploaded job=#{@pdf_job.short_id} to s3_key=#{s3_key}")
     @pdf_job.update!(
       status: "completed",
       file_url: s3_key,
@@ -49,47 +82,6 @@ class GeneratePdfBaseJob < ApplicationJob
     pdf_tmp&.close!
   end
 
-
-
-  # begin
-  #   cards = ArkhamDbHelper.get_cards_from_deck_id(deck_id, include_investigator).transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) }
-  #   Rails.logger.info(cards)
-  #   pdf_job.update!(current_progress: 0, max_progress: cards.values.sum)
-
-  #   pdf_binary = PdfHelper.generate(cards, "LETTER") do |idx|
-  #     pdf_job.update!(current_progress: idx)
-  #   end
-
-  #   s3_key = "uploads/pdfs/deck_#{deck_id}_#{pdf_job.id}.pdf"
-  #   s3_client = Aws::S3::Resource.new(region: ENV.fetch("AWS_REGION"))
-  #   bucket = s3_client.bucket(ENV.fetch("AWS_BUCKET"))
-  #   object = bucket.object(s3_key)
-
-  #   object.put(
-  #     body: pdf_binary,
-  #     content_type: "application/pdf",
-  #     acl: "private"
-  #   )
-
-  #   pdf_job.update!(
-  #     status: "completed",
-  #     file_url: s3_key,
-  #     current_progress: pdf_job.max_progress
-  #   )
-  #   Rails.logger.info("Job #{pdf_job.id} completed successfully: #{pdf_job.file_url}")
-
-  # rescue => e
-  #   pdf_job.update!(status: "failed", error_message: e.message)
-  #   raise
-  # end
-  # end
-
-  # Cards hash is in the form of https://URLs => card_count
-  # {
-  #     https://arkhamdb.com/bundles/cards/01025.png"=>2,
-  #     https://arkhamdb.com/bundles/cards/04265.png"=>1
-  # }
-  #
   def get_cards_hash
     raise NotImplementedError, "#{self.class} must implement #{__method__}"
   end

@@ -49,6 +49,7 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
     records = get_scenario_card_records
     images_per_card = @print_backs ? 2 : 1
     @pdf_job.update!(max_progress: records.sum { |r| r[:quantity] } * images_per_card)
+    Rails.logger.info("Starting PDF job=#{@pdf_job.short_id} type=#{self.class.name} cards=#{records.sum { |r| r[:quantity] }} duplex=#{@print_backs} duplex_mode=#{@duplex_mode}")
 
     if @print_backs
       PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap, job_id: @pdf_job.id) do |idx|

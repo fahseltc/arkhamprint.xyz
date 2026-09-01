@@ -2,6 +2,7 @@ require "open-uri"
 require "prawn/measurement_extensions"
 require "tempfile"
 require "mini_magick"
+require "get_process_mem"
 
 # Prawn PDF origin location is at the bottom-left corner of the page (0,0)
 # page still filled from top to bottom using the cursor - starts at the top
@@ -18,6 +19,11 @@ module PdfHelper
   # Directory for all intermediate and final PDF temp files. Using Rails' own
   # tmp/ keeps everything in one known location, easier to inspect and clean up.
   PDF_TMP_DIR = Rails.root.join("tmp", "pdf_work")
+
+  # Max pages held in memory during a single merge pass. Larger merges are done
+  # in batches of this size and merged hierarchically so peak memory stays flat
+  # regardless of total page count. Tuned low to stay well under the 512MB cap.
+  MERGE_BATCH_SIZE = 10
 
   # Default white space left between adjacent cards on every side, so an
   # imprecise cut can't slice into the neighboring card. Callers may pass
@@ -224,6 +230,7 @@ module PdfHelper
     tmp = Tempfile.new([ "pdf_job_#{job_id}_p#{ format('%04d', page_index) }_", ".pdf" ], PDF_TMP_DIR)
     begin
       pdf.render_file(tmp.path)
+      Rails.logger.info("Rendered page job=#{PdfJob.short_id(job_id)} page_index=#{page_index} file=#{File.basename(tmp.path)} size=#{File.size(tmp.path)} bytes mem=#{mem_mb}MB")
       tmp
     rescue
       tmp.close!
@@ -254,32 +261,79 @@ module PdfHelper
   end
   private_class_method :render_page_pair
 
-  # Merges an ordered array of single-page Tempfiles into one PDF using
-  # the combine_pdf gem (pure Ruby, no system dependencies).
-  # Cleans up all page files in ensure.
-  # Returns a Tempfile of the merged PDF.
+  # Merges an ordered array of single-page Tempfiles into one PDF.
+  #
+  # A naive merge (loading every page into one CombinePDF object) holds the
+  # entire final document in memory before saving — for a large campaign that
+  # is hundreds of pages and crashes the server. Instead we merge in bounded
+  # batches: each batch of MERGE_BATCH_SIZE pages is merged to an intermediate
+  # file and released from memory, then the intermediates are merged the same
+  # way, recursively, until a single file remains. Peak memory is therefore
+  # bounded to one batch (~MERGE_BATCH_SIZE pages) regardless of total count.
+  #
+  # Cleans up all input page files. Returns a Tempfile of the merged PDF.
   def self.combine_pages(page_files, job_id)
     raise "No pages to combine" if page_files.empty?
 
-    # Single page — no merge needed, return directly
-    return page_files.first if page_files.size == 1
-
-    FileUtils.mkdir_p(PDF_TMP_DIR)
-    output_tmp = Tempfile.new([ "pdf_job_#{job_id}_merged_", ".pdf" ], PDF_TMP_DIR)
-    begin
-      combined = CombinePDF.new
-      page_files.each { |f| combined << CombinePDF.load(f.path) }
-      combined.save(output_tmp.path)
-      Rails.logger.info("combined #{page_files.size} pages into #{output_tmp.path}")
-      output_tmp
-    rescue
-      output_tmp.close!
-      raise
-    ensure
-      page_files.each { |f| f.close! rescue nil }
-    end
+    Rails.logger.info("Merge starting job=#{PdfJob.short_id(job_id)} total_pages=#{page_files.size} batch_size=#{MERGE_BATCH_SIZE} mem=#{mem_mb}MB")
+    result = merge_recursive(page_files, job_id, depth: 0)
+    Rails.logger.info("Merge complete job=#{PdfJob.short_id(job_id)} output=#{File.basename(result.path)} size=#{File.size(result.path)} bytes mem=#{mem_mb}MB")
+    result
   end
   private_class_method :combine_pages
+
+  # Recursively merges files in batches. Returns a single Tempfile.
+  # Input files are closed/deleted as they're consumed.
+  def self.merge_recursive(files, job_id, depth:)
+    # Base case: one file is already the merged result
+    return files.first if files.size == 1
+
+    intermediates = []
+    files.each_slice(MERGE_BATCH_SIZE).with_index do |batch, batch_index|
+      # A single leftover file needs no merge — carry it forward as-is
+      if batch.size == 1
+        intermediates << batch.first
+        next
+      end
+      intermediates << merge_batch(batch, job_id, depth, batch_index)
+    end
+
+    # Recurse until a single file remains
+    merge_recursive(intermediates, job_id, depth: depth + 1)
+  end
+  private_class_method :merge_recursive
+
+  # Merges one batch of files into a single intermediate Tempfile, loading and
+  # releasing each source file one at a time. Source files are closed as
+  # consumed; on error everything is cleaned up.
+  def self.merge_batch(batch, job_id, depth, batch_index)
+    FileUtils.mkdir_p(PDF_TMP_DIR)
+    out = Tempfile.new([ "pdf_job_#{job_id}_merge_d#{depth}_b#{batch_index}_", ".pdf" ], PDF_TMP_DIR)
+    begin
+      combined = CombinePDF.new
+      batch.each do |f|
+        combined << CombinePDF.load(f.path)
+        f.close!  # free the source file handle + on-disk temp as we go
+      end
+      combined.save(out.path)
+      combined = nil
+      Rails.logger.info("Merged batch job=#{PdfJob.short_id(job_id)} depth=#{depth} batch=#{batch_index} pages=#{batch.size} mem=#{mem_mb}MB")
+      out
+    rescue
+      out.close!
+      raise
+    ensure
+      # Close any source files not yet consumed (e.g. if we raised mid-batch)
+      batch.each { |f| f.close! rescue nil }
+    end
+  end
+  private_class_method :merge_batch
+
+  # Returns current process RSS memory in MB, rounded to 1 decimal place.
+  def self.mem_mb
+    GetProcessMem.new.mb.round(1)
+  end
+  private_class_method :mem_mb
 
   # doesnt really work in all cases
   def self.add_black_background(image)

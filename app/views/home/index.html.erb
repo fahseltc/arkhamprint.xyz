@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-8">
       <div class="card shadow-sm">
-        <div class="card-body">
+        <div class="card-body mb-3">
           <h2 class="card-title text-center mb-4">ArkhamPrint.XYZ</h2>
           <p class="card-text text-center mb-3">
             ArkhamPrint.XYZ helps players print proxy decks at home and uses <%= link_to "ArkhamDB", "https://arkhamdb.com", target: :_blank %> for card images.
@@ -36,12 +36,6 @@
                 <div class="mb-3 mt-5">
                   <label for="deck_url" class="form-label">ArkhamDB Deck URL or Deck ID</label>
                   <input type="text" id="deck_url" class="form-control" placeholder="https://arkhamdb.com/decklist/view/48985 or 48985">
-                </div>
-                <div class="form-check mb-4">
-                  <input class="form-check-input" type="checkbox" value="1" id="include_investigator" checked>
-                  <label class="form-check-label" for="include_investigator">
-                    Include investigator card
-                  </label>
                 </div>
                 <%= render "partials/print_options", tab: "deck" %>
                 <button type="submit" class="btn btn-primary w-100" id="generatePdfBtn">
@@ -213,7 +207,6 @@
     const deckId = extractDeckId($('#deck_url').val());
     if (!deckId) { alert("Invalid deck URL or ID"); return; }
 
-    const includeInvestigator = $('#include_investigator').is(':checked');
     const modalContent = $("#byDeckUrlModalContent");
     showModal(modalContent);
 
@@ -222,7 +215,6 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           deck_id: deckId,
-          include_investigator: includeInvestigator,
           ...printOptions('deck')
         })
       })
@@ -288,9 +280,15 @@
               progress = Math.floor((data.current_progress / data.max_progress) * 100);
             }
             progressBar.css("width", progress + "%").text(progress + "%");
-            statusText.text(data.current_progress && data.max_progress
-              ? `Printing card ${data.current_progress}/${data.max_progress}...`
-              : "Processing...");
+            // The first slice of progress is the card-metadata warm-up phase
+            // (fetching card backs from ArkhamDB) rather than drawing.
+            if (!data.max_progress) {
+              statusText.text("Processing...");
+            } else if (progress < 10) {
+              statusText.text("Preparing card data...");
+            } else {
+              statusText.text(`Printing card ${data.current_progress}/${data.max_progress}...`);
+            }
             setTimeout(checkStatus, interval);
           }
         })
