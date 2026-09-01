@@ -47,7 +47,7 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :memory_store, { size: 16.megabytes }
+  config.cache_store = :memory_store, { size: 16 * 1024 * 1024 } # 16MB
 
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
