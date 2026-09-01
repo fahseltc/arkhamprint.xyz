@@ -1,12 +1,29 @@
 version: 2
 updates:
-- package-ecosystem: bundler
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-- package-ecosystem: github-actions
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Bundle all minor and patch gem updates into a single weekly PR so the
+      # PR list doesn't fill up with one-line bumps. Major updates are excluded
+      # so they still come as individual PRs that get reviewed on their own.
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        applies-to: version-updates
+        update-types:
+          - major
+          - minor
+          - patch
