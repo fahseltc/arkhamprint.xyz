@@ -86,4 +86,15 @@ class GeneratePdfBaseJob < ApplicationJob
 
     !%w[false 0].include?(value.to_s.strip.downcase) && value != false
   end
+
+  # Maps the "card_spacing" param (from the shared _print_options partial)
+  # to a gap size. `false` is kept for older cached JS that still sends a
+  # boolean rather than "none"/"home"/"printshop".
+  def resolve_gap(card_spacing)
+    case card_spacing
+    when false, "none" then PdfHelper::NO_GAP
+    when "printshop" then PdfHelper::PRINTSHOP_GAP
+    else PdfHelper::HOME_GAP
+    end
+  end
 end

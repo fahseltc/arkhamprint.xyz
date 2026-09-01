@@ -29,7 +29,15 @@ module PdfHelper
   # Default white space left between adjacent cards on every side, so an
   # imprecise cut can't slice into the neighboring card. Callers may pass
   # gap: 0 to print cards edge-to-edge instead.
-  DEFAULT_GAP = 2.mm
+  #
+  # The gap trades off against the page's outer margin (see margins_for) -
+  # a bigger gap shrinks the margin. HOME_GAP keeps ~4.3mm of margin, safely
+  # above the ~4.2mm hardware-enforced minimum on many consumer printers.
+  # PRINTSHOP_GAP drops that to ~3.35mm, which is fine for a printshop that
+  # trims to size but can get clipped on a home printer.
+  HOME_GAP = 2.mm
+  PRINTSHOP_GAP = 3.mm
+  DEFAULT_GAP = HOME_GAP
   NO_GAP = 0
 
   PAGE_WIDTH  = 612.0  # LETTER, portrait, in points

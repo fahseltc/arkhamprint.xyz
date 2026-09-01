@@ -176,7 +176,7 @@
   function printOptions(tab) {
     return {
       print_backs:  $(`#print_backs_check_${tab}`).is(':checked'),
-      card_spacing: $(`#card_spacing_check_${tab}`).is(':checked'),
+      card_spacing: $(`#card_spacing_select_${tab}`).val(),
       duplex_mode:  $(`input[name="duplex_mode_${tab}"]:checked`).val()
     };
   }

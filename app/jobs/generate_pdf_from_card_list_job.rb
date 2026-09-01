@@ -9,7 +9,7 @@ class GeneratePdfFromCardListJob < GeneratePdfBaseJob
       raise ArgumentError, "card_ids must be present" unless @card_ids.present?
       @print_backs = param_flag(pdf_params["print_backs"])
       @duplex_mode = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
-      @gap         = param_flag(pdf_params["card_spacing"]) ? PdfHelper::DEFAULT_GAP : PdfHelper::NO_GAP
+      @gap         = resolve_gap(pdf_params["card_spacing"])
       pdf_bin = generate_pdf_bin
       store_pdf(pdf_bin)
     rescue PdfGenerationCancelled
