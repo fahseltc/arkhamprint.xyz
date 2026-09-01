@@ -1,0 +1,66 @@
+<%#
+  Shared print options used by the Deck URL, Card List, and Campaigns tabs.
+  IDs are suffixed with the tab name (passed as `tab` local) so each tab has
+  independent checkbox state even though the markup is identical.
+  e.g. tab="deck" → #print_backs_check_deck, #card_spacing_check_deck
+%>
+
+<div class="form-check mb-3">
+  <input class="form-check-input print-backs-check" type="checkbox" id="print_backs_check_<%= tab %>" checked>
+  <label class="form-check-label" for="print_backs_check_<%= tab %>">
+    Print card backs (duplex front/back pages)
+  </label>
+</div>
+
+<div class="form-check mb-4">
+  <input class="form-check-input card-spacing-check" type="checkbox" id="card_spacing_check_<%= tab %>" checked>
+  <label class="form-check-label" for="card_spacing_check_<%= tab %>">
+    Add spacing between cards (2mm gap on every side)
+  </label>
+</div>
+
+<div class="mb-4 duplex-mode-section" id="duplexModeSection_<%= tab %>">
+  <label class="form-label d-block">Duplex printing (front/back page pairing)</label>
+  <div class="duplex-mode-options">
+    <label class="duplex-mode-option">
+      <input class="form-check-input" type="radio" name="duplex_mode_<%= tab %>" value="none" checked>
+      <span class="form-check-label">No mirroring</span>
+      <span class="duplex-diagram" aria-hidden="true">
+        <span class="duplex-grid">
+          <% (1..9).each do |n| %><span><%= n %></span><% end %>
+        </span>
+        <span class="duplex-arrow">&rarr;</span>
+        <span class="duplex-grid">
+          <% [1, 2, 3, 4, 5, 6, 7, 8, 9].each do |n| %><span><%= n %></span><% end %>
+        </span>
+      </span>
+    </label>
+    <label class="duplex-mode-option">
+      <input class="form-check-input" type="radio" name="duplex_mode_<%= tab %>" value="long_edge">
+      <span class="form-check-label">Long-edge flip (mirrors columns)</span>
+      <span class="duplex-diagram" aria-hidden="true">
+        <span class="duplex-grid">
+          <% (1..9).each do |n| %><span><%= n %></span><% end %>
+        </span>
+        <span class="duplex-arrow">&rarr;</span>
+        <span class="duplex-grid">
+          <% [3, 2, 1, 6, 5, 4, 9, 8, 7].each do |n| %><span><%= n %></span><% end %>
+        </span>
+      </span>
+    </label>
+    <label class="duplex-mode-option">
+      <input class="form-check-input" type="radio" name="duplex_mode_<%= tab %>" value="short_edge">
+      <span class="form-check-label">Short-edge flip (mirrors rows)</span>
+      <span class="duplex-diagram" aria-hidden="true">
+        <span class="duplex-grid">
+          <% (1..9).each do |n| %><span><%= n %></span><% end %>
+        </span>
+        <span class="duplex-arrow">&rarr;</span>
+        <span class="duplex-grid">
+          <% [7, 8, 9, 4, 5, 6, 1, 2, 3].each do |n| %><span><%= n %></span><% end %>
+        </span>
+      </span>
+    </label>
+  </div>
+  <div class="form-text">Pick the method matching your printshop's duplex setting. Numbers show where each front-page card lands on the back page.</div>
+</div>

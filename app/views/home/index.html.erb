@@ -29,6 +29,7 @@
 
           <!-- Tab content -->
           <div class="tab-content" id="pdfTabContent">
+
             <!-- From Deck URL -->
             <div class="tab-pane fade show active" id="from-deck" role="tabpanel">
               <form id="pdfForm">
@@ -42,6 +43,7 @@
                     Include investigator card
                   </label>
                 </div>
+                <%= render "partials/print_options", tab: "deck" %>
                 <button type="submit" class="btn btn-primary w-100" id="generatePdfBtn">
                   Get PDF
                 </button>
@@ -55,6 +57,7 @@
                   <label for="card_list" class="form-label">List of ArkhamDB CardID's (comma or space separated)</label>
                   <input type="text" class="form-control" id="card_list" placeholder="10019, 60111, 01000 06111">
                 </div>
+                <%= render "partials/print_options", tab: "cardlist" %>
                 <button type="submit" class="btn btn-primary w-100" id="generateCardListBtn">
                   Get PDF
                 </button>
@@ -64,7 +67,6 @@
             <!-- Campaigns -->
             <div class="tab-pane fade" id="campaigns" role="tabpanel">
               <form id="pdfFromCampaignForm">
-
                 <div class="mb-3 mt-5">
                   <label for="campaign-title" class="form-label">Campaigns</label>
                   <select id="campaign-title" class="form-select" aria-label="Campaign scenario">
@@ -78,81 +80,20 @@
                     <% end %>
                   </select>
                 </div>
-
-                <div class="form-check mb-3">
-                  <input class="form-check-input" type="checkbox" id="print_backs_check" checked>
-                  <label class="form-check-label" for="print_backs_check">
-                    Print card backs (duplex front/back pages)
-                  </label>
-                </div>
-
-                <div class="form-check mb-4">
-                  <input class="form-check-input" type="checkbox" id="card_spacing_check" checked>
-                  <label class="form-check-label" for="card_spacing_check">
-                    Add spacing between cards (2mm gap on every side)
-                  </label>
-                </div>
-
-                <div class="mb-4" id="duplexModeSection">
-                  <label class="form-label d-block">Duplex printing (front/back page pairing)</label>
-                  <div class="duplex-mode-options">
-                    <label class="duplex-mode-option">
-                      <input class="form-check-input" type="radio" name="duplex_mode" value="none" checked>
-                      <span class="form-check-label">No mirroring</span>
-                      <span class="duplex-diagram" aria-hidden="true">
-                        <span class="duplex-grid">
-                          <% (1..9).each do |n| %><span><%= n %></span><% end %>
-                        </span>
-                        <span class="duplex-arrow">&rarr;</span>
-                        <span class="duplex-grid">
-                          <% [1, 2, 3, 4, 5, 6, 7, 8, 9].each do |n| %><span><%= n %></span><% end %>
-                        </span>
-                      </span>
-                    </label>
-                    <label class="duplex-mode-option">
-                      <input class="form-check-input" type="radio" name="duplex_mode" value="long_edge">
-                      <span class="form-check-label">Long-edge flip (mirrors columns)</span>
-                      <span class="duplex-diagram" aria-hidden="true">
-                        <span class="duplex-grid">
-                          <% (1..9).each do |n| %><span><%= n %></span><% end %>
-                        </span>
-                        <span class="duplex-arrow">&rarr;</span>
-                        <span class="duplex-grid">
-                          <% [3, 2, 1, 6, 5, 4, 9, 8, 7].each do |n| %><span><%= n %></span><% end %>
-                        </span>
-                      </span>
-                    </label>
-                    <label class="duplex-mode-option">
-                      <input class="form-check-input" type="radio" name="duplex_mode" value="short_edge">
-                      <span class="form-check-label">Short-edge flip (mirrors rows)</span>
-                      <span class="duplex-diagram" aria-hidden="true">
-                        <span class="duplex-grid">
-                          <% (1..9).each do |n| %><span><%= n %></span><% end %>
-                        </span>
-                        <span class="duplex-arrow">&rarr;</span>
-                        <span class="duplex-grid">
-                          <% [7, 8, 9, 4, 5, 6, 1, 2, 3].each do |n| %><span><%= n %></span><% end %>
-                        </span>
-                      </span>
-                    </label>
-                  </div>
-                  <div class="form-text">Pick the method matching your printshop's duplex setting. Numbers show where each front-page card lands on the back page.</div>
-                </div>
-
+                <%= render "partials/print_options", tab: "campaign" %>
                 <div class="mb-4 text-center">
                   <a href="/example_print_layout.jpg" target="_blank" rel="noopener">
                     <img src="/example_print_layout.jpg" alt="Example output page: a 3x3 grid of cards with a 2mm gap between them" class="img-thumbnail" style="max-width: 220px;">
                   </a>
                   <div class="form-text">Example output page (click to enlarge) &mdash; cards are printed at full size with a small gap between them, so cutting doesn't slice into a neighboring card.</div>
                 </div>
-
                 <button type="submit" class="btn btn-primary w-100" id="generateCampaignPdfBtn">
                   Get PDF
                 </button>
               </form>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </div>
@@ -238,52 +179,57 @@
     `;
   }
 
+  // Read the shared print options for a given tab suffix.
+  function printOptions(tab) {
+    return {
+      print_backs:  $(`#print_backs_check_${tab}`).is(':checked'),
+      card_spacing: $(`#card_spacing_check_${tab}`).is(':checked'),
+      duplex_mode:  $(`input[name="duplex_mode_${tab}"]:checked`).val()
+    };
+  }
+
+  // Wire up duplex section visibility for a given tab suffix.
+  function initDuplexToggle(tab) {
+    const toggle = () => $(`#duplexModeSection_${tab}`).toggle($(`#print_backs_check_${tab}`).is(':checked'));
+    $(`#print_backs_check_${tab}`).on('change', toggle);
+    toggle();
+  }
+
   function extractDeckId(input) {
     input = input.trim();
     const match = input.match(/\/view\/(\d+)/);
-    if (match) {
-      return match[1];
-    }
-    if (/^\d+$/.test(input)) {
-      return input;
-    }
+    if (match) return match[1];
+    if (/^\d+$/.test(input)) return input;
     return null;
+  }
+
+  function showModal(modalContent) {
+    modalInstance = new bootstrap.Modal(deckModalEl, { backdrop: "static", keyboard: false });
+    modalInstance.show();
+    modalContent.html(progressModalHtml());
   }
 
   function submitPdfJob() {
     const deckId = extractDeckId($('#deck_url').val());
-    if (!deckId) {
-      alert("Invalid deck URL or ID");
-      return;
-    }
+    if (!deckId) { alert("Invalid deck URL or ID"); return; }
+
     const includeInvestigator = $('#include_investigator').is(':checked');
     const modalContent = $("#byDeckUrlModalContent");
-
-    modalInstance = new bootstrap.Modal(deckModalEl, {
-      backdrop: "static",
-      keyboard: false
-    });
-    modalInstance.show();
-
-    modalContent.html(progressModalHtml());
+    showModal(modalContent);
 
     fetch("/pdf_jobs", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           deck_id: deckId,
-          include_investigator: includeInvestigator
+          include_investigator: includeInvestigator,
+          ...printOptions('deck')
         })
       })
       .then(res => res.json())
       .then(data => {
-        gtag("event", "deck_job_created", {
-          "deck_id": deckId,
-          "pdf_job_id": data.pdf_job_id
-        });
-        pollPdfJob(data.pdf_job_id)
+        gtag("event", "deck_job_created", { "deck_id": deckId, "pdf_job_id": data.pdf_job_id });
+        pollPdfJob(data.pdf_job_id);
       })
       .catch(err => {
         modalInstance._config.backdrop = true;
@@ -296,7 +242,7 @@
   function pollPdfJob(pdfJobId) {
     const interval = 2000;
     const maxConsecutiveErrors = 5;
-    const startTime = Date.now()
+    const startTime = Date.now();
     const modalContent = $("#byDeckUrlModalContent");
     const statusText = $("#pdfJobStatusText");
     const progressBar = $("#pdfJobProgressBar");
@@ -304,17 +250,11 @@
 
     $(document).off("click", "#pdfJobCancelBtn").on("click", "#pdfJobCancelBtn", function() {
       $(this).prop("disabled", true).text("Cancelling...");
-      fetch(`/pdf_jobs/${pdfJobId}/cancel`, {
-        method: "POST"
-      }).catch(err => console.error(err));
+      fetch(`/pdf_jobs/${pdfJobId}/cancel`, { method: "POST" }).catch(err => console.error(err));
     });
 
     function checkStatus() {
-      fetch(`/pdf_jobs/${pdfJobId}`, {
-          headers: {
-            "Accept": "application/json"
-          }
-        })
+      fetch(`/pdf_jobs/${pdfJobId}`, { headers: { "Accept": "application/json" } })
         .then(res => {
           const contentType = res.headers.get("content-type") || "";
           if (!res.ok || !contentType.includes("application/json")) {
@@ -326,12 +266,8 @@
           consecutiveErrors = 0;
           if (data.status === "completed") {
             const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
-            gtag("event", "deck_pdf_completed", {
-              "pdf_job_id": pdfJobId,
-              "deck_id": $('#deck_url').val(),
-              "duration_seconds": elapsedSec
-            });
-            let downloadUrl = data.file_url.startsWith("http") ? data.file_url : `/pdf_jobs/${pdfJobId}/download`;
+            gtag("event", "deck_pdf_completed", { "pdf_job_id": pdfJobId, "duration_seconds": elapsedSec });
+            const downloadUrl = data.file_url.startsWith("http") ? data.file_url : `/pdf_jobs/${pdfJobId}/download`;
             window.open(downloadUrl, "_blank");
             modalContent.html(`<div class="modal-body text-center">Download ready!</div>`);
             modalInstance._config.backdrop = true;
@@ -341,11 +277,7 @@
             modalInstance._config.backdrop = true;
             modalInstance._config.keyboard = true;
             modalContent.html(`<div class="modal-body text-center text-danger">Failed: ${data.error_message}</div>`);
-            gtag("event", "deck_pdf_failed", {
-              "pdf_job_id": pdfJobId,
-              "deck_id": $('#deck_url').val(),
-              "error_message": data.error_message
-            });
+            gtag("event", "deck_pdf_failed", { "pdf_job_id": pdfJobId, "error_message": data.error_message });
           } else if (data.status === "cancelled") {
             modalInstance._config.backdrop = true;
             modalInstance._config.keyboard = true;
@@ -355,20 +287,16 @@
             if (data.current_progress && data.max_progress) {
               progress = Math.floor((data.current_progress / data.max_progress) * 100);
             }
-            progressBar.css("width", progress + "%");
-            progressBar.text(progress + "%");
-            statusText.text(data.current_progress && data.max_progress ?
-              `Printing card ${data.current_progress}/${data.max_progress}...` :
-              "Processing...");
+            progressBar.css("width", progress + "%").text(progress + "%");
+            statusText.text(data.current_progress && data.max_progress
+              ? `Printing card ${data.current_progress}/${data.max_progress}...`
+              : "Processing...");
             setTimeout(checkStatus, interval);
           }
         })
         .catch(err => {
           consecutiveErrors++;
           console.error(err);
-          // A single dropped connection (e.g. a transient network blip during
-          // a long-running whole-campaign job) shouldn't kill the UI - keep
-          // polling for a bit before surfacing it as a fatal error.
           if (consecutiveErrors < maxConsecutiveErrors) {
             statusText.text("Connection hiccup, retrying...");
             setTimeout(checkStatus, interval);
@@ -376,17 +304,14 @@
             modalInstance._config.backdrop = true;
             modalInstance._config.keyboard = true;
             const isServerDown = err.message === "server_unavailable" || err.message === "Failed to fetch";
-            const userMessage = isServerDown
-              ? "The server is temporarily unavailable. Please try again in a moment."
-              : `Something went wrong. Please try again.`;
-            modalContent.html(`<div class="modal-body text-center text-danger">${userMessage}</div>`);
+            modalContent.html(`<div class="modal-body text-center text-danger">${isServerDown ? "The server is temporarily unavailable. Please try again in a moment." : "Something went wrong. Please try again."}</div>`);
           }
         });
     }
     checkStatus();
   }
 
-  // **Trigger original form submission**
+  // From Deck URL
   $('#pdfForm').on('submit', function(e) {
     e.preventDefault();
     submitPdfJob();
@@ -395,35 +320,22 @@
   // From Card List
   $('#pdfFormCardList').on('submit', function(e) {
     e.preventDefault();
-    const cardListRaw = $('#card_list').val();
-    const cardListArray = parseCardList(cardListRaw);
-    console.log(cardListArray)
+    const cardListArray = parseCardList($('#card_list').val());
     const modalContent = $("#byDeckUrlModalContent");
-
-    modalInstance = new bootstrap.Modal(deckModalEl, {
-      backdrop: "static",
-      keyboard: false
-    });
-    modalInstance.show();
-
-    modalContent.html(progressModalHtml());
+    showModal(modalContent);
 
     fetch("/pdf_jobs", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          card_ids: cardListArray
+          card_ids: cardListArray,
+          ...printOptions('cardlist')
         })
       })
       .then(res => res.json())
       .then(data => {
-        gtag("event", "card_list_job_created", {
-          "card_ids": cardListArray,
-          "pdf_job_id": data.pdf_job_id
-        });
-        pollPdfJob(data.pdf_job_id)
+        gtag("event", "card_list_job_created", { "card_ids": cardListArray, "pdf_job_id": data.pdf_job_id });
+        pollPdfJob(data.pdf_job_id);
       })
       .catch(err => {
         modalInstance._config.backdrop = true;
@@ -432,59 +344,31 @@
         console.error(err);
       });
   });
-
-  // Duplex mode only matters when backs are being printed at all
-  function toggleDuplexModeSection() {
-    $('#duplexModeSection').toggle($('#print_backs_check').is(':checked'));
-  }
-  $('#print_backs_check').on('change', toggleDuplexModeSection);
-  toggleDuplexModeSection();
 
   // From Campaign
   $('#pdfFromCampaignForm').on('submit', function(e) {
     e.preventDefault();
-    const selectedScenario = $('#campaign-title').find(":selected")
-    const campaignTitle = selectedScenario.val()
-    const campaignFile = selectedScenario.data("campaign-file")
-    const duplexMode = $('input[name="duplex_mode"]:checked').val()
-    const printBacks = $('#print_backs_check').is(':checked')
-    const cardSpacing = $('#card_spacing_check').is(':checked')
-    console.log(campaignTitle, campaignFile, duplexMode, printBacks, cardSpacing)
+    const selectedScenario = $('#campaign-title').find(":selected");
+    const campaignTitle = selectedScenario.val();
+    const campaignFile = selectedScenario.data("campaign-file");
+    if (!campaignTitle || campaignTitle.length === 0) { alert("Invalid Campaign title"); return; }
+
     const modalContent = $("#byDeckUrlModalContent");
-
-    if (campaignTitle.length == 0) {
-      alert("Invalid Campaign title");
-      return
-    }
-
-    modalInstance = new bootstrap.Modal(deckModalEl, {
-      backdrop: "static",
-      keyboard: false
-    });
-    modalInstance.show();
-
-    modalContent.html(progressModalHtml());
+    showModal(modalContent);
 
     fetch("/pdf_jobs", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           scenario_title: campaignTitle,
           campaign_file: campaignFile,
-          duplex_mode: duplexMode,
-          print_backs: printBacks,
-          card_spacing: cardSpacing
+          ...printOptions('campaign')
         })
       })
       .then(res => res.json())
       .then(data => {
-        gtag("event", "deck_job_created", {
-          "scenario_title": campaignTitle,
-          "pdf_job_id": data.pdf_job_id
-        });
-        pollPdfJob(data.pdf_job_id)
+        gtag("event", "deck_job_created", { "scenario_title": campaignTitle, "pdf_job_id": data.pdf_job_id });
+        pollPdfJob(data.pdf_job_id);
       })
       .catch(err => {
         modalInstance._config.backdrop = true;
@@ -492,16 +376,15 @@
         modalContent.html(`<div class="modal-body text-center text-danger">Error: ${err.message}</div>`);
         console.error(err);
       });
-
   });
+
+  // Initialise duplex toggle for all three tabs
+  initDuplexToggle('deck');
+  initDuplexToggle('cardlist');
+  initDuplexToggle('campaign');
 
   function parseCardList(input) {
     if (!input) return [];
-
-    // Split by comma, whitespace, or line breaks, then filter out empty strings
-    return input
-      .split(/[\s,]+/) // splits on spaces, commas, or newlines
-      .map(s => s.trim()) // remove extra whitespace
-      .filter(Boolean); // remove empty strings
+    return input.split(/[\s,]+/).map(s => s.trim()).filter(Boolean);
   }
 </script>
