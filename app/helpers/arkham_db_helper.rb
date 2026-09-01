@@ -7,7 +7,10 @@ module ArkhamDbHelper
   CARD_META_CACHE = {}
   CARD_META_MUTEX = Mutex.new
 
-  def self.get_cards_from_deck_id(deck_id)
+  # Returns { cards: { card_id => quantity }, investigator_code: String|nil }.
+  # The investigator card is always included in cards (added once as its front
+  # id; its back is resolved via double_sided metadata — see resolve_back_url).
+  def self.fetch_deck(deck_id)
     decklist_api = "https://arkhamdb.com/api/public/decklist/"
     response = HTTParty.get(decklist_api + deck_id.to_s)
 
@@ -16,12 +19,14 @@ module ArkhamDbHelper
     investigator_code = response["investigator_code"]
     response = nil # allow GC to reclaim the full parsed response body
 
-    # Always include the investigator card. It's double-sided, so we add only
-    # the front id once — the back side is resolved automatically via the
-    # card's `double_sided`/`backimagesrc` metadata (see resolve_back_url).
-    # Adding a separate `#{code}b` entry here would double-print the back.
     cards = investigator_code ? { investigator_code => 1 }.merge(slots) : slots
 
+    { cards: cards, investigator_code: investigator_code }
+  end
+
+  # Backwards-compatible accessor returning only the { card_id => quantity } hash.
+  def self.get_cards_from_deck_id(deck_id)
+    cards = fetch_deck(deck_id)[:cards]
     Rails.logger.info(cards)
     cards
   end
