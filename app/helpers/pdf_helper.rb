@@ -19,12 +19,6 @@ module PdfHelper
   # tmp/ keeps everything in one known location, easier to inspect and clean up.
   PDF_TMP_DIR = Rails.root.join("tmp", "pdf_work")
 
-  # Target image dimensions for 300dpi at the card's printed size (2.5 x 3.5in).
-  # Images are resized to exactly this before being embedded in Prawn, reducing
-  # the per-card memory footprint inside the document object by ~60-70%.
-  IMAGE_WIDTH_PX  = 750   # 300dpi × 2.5in
-  IMAGE_HEIGHT_PX = 1050  # 300dpi × 3.5in
-
   # Default white space left between adjacent cards on every side, so an
   # imprecise cut can't slice into the neighboring card. Callers may pass
   # gap: 0 to print cards edge-to-edge instead.
@@ -171,7 +165,6 @@ module PdfHelper
 
     img.rotate(90) if img.width > img.height
     crop_to_card_ratio(img)
-    img.resize("#{IMAGE_WIDTH_PX}x#{IMAGE_HEIGHT_PX}!")  # Option B: 300dpi target
     Tempfile.create([ "card", ".png" ]) do |f|
       img.write(f.path)
       pdf.image f.path, width: CARD_WIDTH, height: CARD_HEIGHT, at: position
