@@ -46,7 +46,7 @@ class GeneratePdfBaseJob < ApplicationJob
     )
     s3_key
   ensure
-    pdf_tmp.close!
+    pdf_tmp&.close!
   end
 
 

@@ -6,7 +6,7 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
       @deck_id = pdf_params["deck_id"]
       raise ArgumentError, "deck_id must be present" unless @deck_id.present?
       @include_investigator = pdf_params["include_investigator"]
-      pdf_bin = 
+      pdf_bin = generate_pdf_bin
       s3_key = upload_to_s3(pdf_bin)
     rescue PdfGenerationCancelled
       @pdf_job.update!(status: "cancelled")
