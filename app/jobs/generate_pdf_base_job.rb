@@ -97,4 +97,11 @@ class GeneratePdfBaseJob < ApplicationJob
     else PdfHelper::HOME_GAP
     end
   end
+
+  # "printshop" pairs PRINTSHOP_GAP with a matching bleed, so the two
+  # neighboring cards' bleed exactly fills the gap instead of leaving it
+  # blank (see PdfHelper::BLEED). Other spacing modes get no bleed.
+  def resolve_bleed(card_spacing)
+    card_spacing == "printshop" ? PdfHelper::BLEED : PdfHelper::NO_GAP
+  end
 end

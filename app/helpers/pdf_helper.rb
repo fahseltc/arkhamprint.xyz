@@ -40,6 +40,14 @@ module PdfHelper
   DEFAULT_GAP = HOME_GAP
   NO_GAP = 0
 
+  # Printshop bleed: instead of leaving PRINTSHOP_GAP as blank paper, each
+  # card is drawn oversized by this many points on every side, filled by
+  # mirroring the card's own edge pixels outward (see add_mirror_bleed).
+  # Two neighboring cards' bleed then meets in the middle of the gap, so
+  # an imprecise cut lands on continuous card art instead of blank paper -
+  # 2 * BLEED == PRINTSHOP_GAP exactly, no gap remains unfilled.
+  BLEED = 1.5.mm
+
   PAGE_WIDTH  = 612.0  # LETTER, portrait, in points
   PAGE_HEIGHT = 792.0
 
@@ -49,7 +57,7 @@ module PdfHelper
   # memory footprint is bounded to a single page regardless of total card count.
   # Yields current_card index after each card is drawn for progress reporting.
   # Returns a Tempfile of the merged PDF (caller is responsible for close!).
-  def self.generate(cards, page_size, gap: NO_GAP, job_id: nil)
+  def self.generate(cards, page_size, gap: NO_GAP, bleed: 0, job_id: nil)
     positions = grid_positions(gap)
     total     = cards.values.sum
     current_card = 0
@@ -69,7 +77,7 @@ module PdfHelper
             chunk.each_with_index do |card_url, slot|
               current_card += 1
               Rails.logger.info("Printing card #{current_card}/#{total} slot #{slot} page #{page_index + 1}")
-              draw_card(pdf, card_url, positions[slot])
+              draw_card(pdf, card_url, positions[slot], bleed: bleed)
               yield(current_card)
             end
           end
@@ -85,7 +93,7 @@ module PdfHelper
         chunk.each_with_index do |card_url, slot|
           current_card += 1
           Rails.logger.info("Printing card #{current_card}/#{total} slot #{slot} page #{page_index + 1}")
-          draw_card(pdf, card_url, positions[slot])
+          draw_card(pdf, card_url, positions[slot], bleed: bleed)
           yield(current_card)
         end
       end
@@ -100,7 +108,7 @@ module PdfHelper
   # `duplex_mode` controls back-page slot mirroring (see back_slot_for).
   # Same page-at-a-time memory strategy as generate — yields progress per card.
   # Returns a Tempfile of the merged PDF (caller is responsible for close!).
-  def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: NO_GAP, job_id: nil)
+  def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: NO_GAP, bleed: 0, job_id: nil)
     positions    = grid_positions(gap)
     total        = records.sum { |r| r[:quantity] } * 2  # front + back per card
     current_card = 0
@@ -115,7 +123,7 @@ module PdfHelper
         chunk << record
         next unless chunk.size == CARDS_PER_PAGE
 
-        page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, job_id, page_index) do |drawn|
+        page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, bleed, job_id, page_index) do |drawn|
           current_card += drawn
           yield(current_card)
         end)
@@ -126,7 +134,7 @@ module PdfHelper
 
     # Flush remaining cards that didn't fill a full page
     unless chunk.empty?
-      page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, job_id, page_index) do |drawn|
+      page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, bleed, job_id, page_index) do |drawn|
         current_card += drawn
         yield(current_card)
       end)
@@ -168,21 +176,29 @@ module PdfHelper
   end
 
   # ---------------------------------------------------------------------------
-  # Card drawing — unchanged except for the 300dpi resize (Option B)
+  # Card drawing
   # ---------------------------------------------------------------------------
 
   # Draws a single card image into the Prawn document at the given position.
-  # Images are resized to IMAGE_WIDTH_PX × IMAGE_HEIGHT_PX (300dpi target)
-  # before embedding so the Prawn document object stays lean.
-  def self.draw_card(pdf, source, position)
+  # When `bleed` is positive (see BLEED), the card art is mirrored outward by
+  # that many points on every side and drawn oversized, centered on
+  # `position`, instead of at the exact CARD_WIDTH x CARD_HEIGHT box.
+  def self.draw_card(pdf, source, position, bleed: 0)
     img = open_card_image(source)
     return unless img
 
     img.rotate(90) if img.width > img.height
     crop_to_card_ratio(img)
+    add_mirror_bleed(img, bleed) if bleed.positive?
+
     Tempfile.create([ "card", ".png" ]) do |f|
       img.write(f.path)
-      pdf.image f.path, width: CARD_WIDTH, height: CARD_HEIGHT, at: position
+      if bleed.positive?
+        pdf.image f.path, width: CARD_WIDTH + (2 * bleed), height: CARD_HEIGHT + (2 * bleed),
+                           at: [ position[0] - bleed, position[1] + bleed ]
+      else
+        pdf.image f.path, width: CARD_WIDTH, height: CARD_HEIGHT, at: position
+      end
     end
   ensure
     img&.destroy!  # explicitly frees ImageMagick memory
@@ -200,6 +216,28 @@ module PdfHelper
     img.combine_options do |c|
       c.gravity "center"
       c.extent "#{target_w}x#{target_h}"
+    end
+  end
+
+  # Extends `img`'s canvas outward by `bleed_pt` points on every side (in the
+  # scale where CARD_WIDTH/CARD_HEIGHT map to the image's current pixel size),
+  # filling the new border by mirroring the pixels just inside each edge
+  # rather than leaving it blank. `img` must already be cropped to the card's
+  # aspect ratio (crop_to_card_ratio) so pixels-per-point is the same on both
+  # axes. Uses ImageMagick's mirror virtual-pixel method via a no-op distort,
+  # which reflects edge pixels exactly (no blur/interpolation).
+  def self.add_mirror_bleed(img, bleed_pt)
+    border_x = (bleed_pt * img.width / CARD_WIDTH).round
+    border_y = (bleed_pt * img.height / CARD_HEIGHT).round
+    new_w = img.width + (2 * border_x)
+    new_h = img.height + (2 * border_y)
+
+    img.combine_options do |c|
+      c.set "option:distort:viewport", "#{new_w}x#{new_h}-#{border_x}-#{border_y}"
+      c.virtual_pixel "mirror"
+      c.filter "point"
+      c.distort "SRT", "0"
+      c.repage.+
     end
   end
 
@@ -270,17 +308,17 @@ module PdfHelper
   # Renders a front page and back page for one chunk of up to CARDS_PER_PAGE
   # records, yielding the count of images drawn for progress reporting.
   # Returns [front_tmp, back_tmp].
-  def self.render_page_pair(chunk, positions, duplex_mode, gap, job_id, page_index)
+  def self.render_page_pair(chunk, positions, duplex_mode, gap, bleed, job_id, page_index)
     front_tmp = render_page(job_id, page_index, gap) do |pdf|
       chunk.each_with_index do |r, slot|
-        draw_card(pdf, r[:front_url], positions[slot])
+        draw_card(pdf, r[:front_url], positions[slot], bleed: bleed)
       end
     end
     yield chunk.size
 
     back_tmp = render_page(job_id, page_index + 1, gap) do |pdf|
       chunk.each_with_index do |r, slot|
-        draw_card(pdf, r[:back_url], positions[back_slot_for(slot, duplex_mode)])
+        draw_card(pdf, r[:back_url], positions[back_slot_for(slot, duplex_mode)], bleed: bleed)
       end
     end
     yield chunk.size

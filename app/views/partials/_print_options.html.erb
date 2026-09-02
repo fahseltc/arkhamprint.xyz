@@ -10,9 +10,9 @@
   <select class="form-select card-spacing-select" id="card_spacing_select_<%= tab %>">
     <option value="none">No spacing (edge-to-edge)</option>
     <option value="home" selected>2mm gap &mdash; better suited for home printing</option>
-    <option value="printshop">3mm gap &mdash; better suited for printshop printing</option>
+    <option value="printshop">1.5mm bleed &mdash; better suited for printshop printing</option>
   </select>
-  <div class="form-text">A bigger gap leaves more room for an imprecise cut, but eats into the page's outer margin. Home printers usually have a larger hardware-enforced margin, so the smaller gap prints more reliably there; a printshop that trims to size can use the larger gap.</div>
+  <div class="form-text">Home printing leaves a plain 2mm gap between cards, sized to stay inside a typical printer's hardware margin. Printshop instead extends each card 1.5mm past its edge, mirroring the card's own art outward, so the two neighboring cards' edges meet with no blank paper between them &mdash; an imprecise trim still lands on card art rather than a white sliver.</div>
 </div>
 
 <div class="form-check mb-4">

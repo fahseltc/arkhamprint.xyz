@@ -10,6 +10,7 @@ class GeneratePdfFromCardListJob < GeneratePdfBaseJob
       @print_backs = param_flag(pdf_params["print_backs"])
       @duplex_mode = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
       @gap         = resolve_gap(pdf_params["card_spacing"])
+      @bleed       = resolve_bleed(pdf_params["card_spacing"])
       pdf_bin = generate_pdf_bin
       store_pdf(pdf_bin)
     rescue PdfGenerationCancelled
@@ -29,12 +30,12 @@ class GeneratePdfFromCardListJob < GeneratePdfBaseJob
 
     if @print_backs
       records = build_records_with_backs(cards_hash, total_images)
-      PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap, job_id: @pdf_job.id) do |idx|
+      PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap, bleed: @bleed, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
     else
       @pdf_job.update!(max_progress: total_images, current_progress: 0)
-      PdfHelper.generate(cards_hash, "LETTER", gap: @gap, job_id: @pdf_job.id) do |idx|
+      PdfHelper.generate(cards_hash, "LETTER", gap: @gap, bleed: @bleed, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
     end
