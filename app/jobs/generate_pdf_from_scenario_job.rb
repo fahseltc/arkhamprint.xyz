@@ -8,8 +8,8 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
       scenario_title = pdf_params.fetch("scenario_title")
       campaign_file = pdf_params.fetch("campaign_file")
       @duplex_mode = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
-      @print_backs = pdf_params["print_backs"] != false
-      @gap = pdf_params["card_spacing"] == false ? PdfHelper::NO_GAP : PdfHelper::DEFAULT_GAP
+      @print_backs = param_flag(pdf_params["print_backs"])
+      @gap = param_flag(pdf_params["card_spacing"]) ? PdfHelper::DEFAULT_GAP : PdfHelper::NO_GAP
 
       index_path = Rails.root.join("scenarios.json")
       index = JSON.parse(File.read(index_path))

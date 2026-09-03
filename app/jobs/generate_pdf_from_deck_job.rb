@@ -7,9 +7,9 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
     begin
       @deck_id = pdf_params["deck_id"]
       raise ArgumentError, "deck_id must be present" unless @deck_id.present?
-      @print_backs  = pdf_params["print_backs"] != false
+      @print_backs  = param_flag(pdf_params["print_backs"])
       @duplex_mode  = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
-      @gap          = pdf_params["card_spacing"] == false ? PdfHelper::NO_GAP : PdfHelper::DEFAULT_GAP
+      @gap          = param_flag(pdf_params["card_spacing"]) ? PdfHelper::DEFAULT_GAP : PdfHelper::NO_GAP
       pdf_bin = generate_pdf_bin
       store_pdf(pdf_bin)
     rescue PdfGenerationCancelled

@@ -72,4 +72,18 @@ class GeneratePdfBaseJob < ApplicationJob
   def get_cards_hash
     raise NotImplementedError, "#{self.class} must implement #{__method__}"
   end
+
+  private
+
+  # Coerces a checkbox-style param to a boolean. The frontend sends a real JSON
+  # boolean, but depending on parameter parsing it can arrive as the boolean
+  # `false` OR the string "false"/"0" — so a bare `param != false` check is
+  # unreliable. Treats false, "false", "0", "" and nil as false; everything
+  # else (including true and "true") as true. `default` is used when the param
+  # is absent entirely.
+  def param_flag(value, default: true)
+    return default if value.nil?
+
+    !%w[false 0].include?(value.to_s.strip.downcase) && value != false
+  end
 end

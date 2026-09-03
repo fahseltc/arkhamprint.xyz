@@ -7,9 +7,9 @@ class GeneratePdfFromCardListJob < GeneratePdfBaseJob
     begin
       @card_ids    = Array(pdf_params["card_ids"]).map(&:to_s) if pdf_params["card_ids"].present?
       raise ArgumentError, "card_ids must be present" unless @card_ids.present?
-      @print_backs = pdf_params["print_backs"] != false
+      @print_backs = param_flag(pdf_params["print_backs"])
       @duplex_mode = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
-      @gap         = pdf_params["card_spacing"] == false ? PdfHelper::NO_GAP : PdfHelper::DEFAULT_GAP
+      @gap         = param_flag(pdf_params["card_spacing"]) ? PdfHelper::DEFAULT_GAP : PdfHelper::NO_GAP
       pdf_bin = generate_pdf_bin
       store_pdf(pdf_bin)
     rescue PdfGenerationCancelled

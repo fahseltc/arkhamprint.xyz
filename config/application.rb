@@ -31,7 +31,11 @@ module Arkhamprint
     # PDF storage backend. Uses S3 when AWS credentials are configured,
     # otherwise falls back to the local filesystem so the app runs end-to-end
     # in development without any AWS setup (see PdfStorage).
-    config.pdf_storage_mode = ENV["AWS_BUCKET"].present? ? :s3 : :local
+    #
+    # FORCE_USE_LOCAL=true forces local storage even when AWS is configured —
+    # useful for testing the local path locally without unsetting AWS vars.
+    force_local = ActiveModel::Type::Boolean.new.cast(ENV["FORCE_USE_LOCAL"])
+    config.pdf_storage_mode = (ENV["AWS_BUCKET"].present? && !force_local) ? :s3 : :local
 
     # Add your custom hosts
     config.hosts << "arkhamprint-xyz.onrender.com"

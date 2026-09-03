@@ -80,8 +80,9 @@ responsible for `close!`ing it — `store_pdf` does this in an `ensure`.
 ## Storage backend (`PdfStorage`)
 
 Finished PDFs go through `PdfStorage`, which has two backends chosen at boot by
-`config.pdf_storage_mode` (set in `config/application.rb` based on whether
-`AWS_BUCKET` is present in the env):
+`config.pdf_storage_mode` (set in `config/application.rb`). The mode is `:s3`
+when `AWS_BUCKET` is present, otherwise `:local`. Setting `FORCE_USE_LOCAL=true`
+forces `:local` even when AWS is configured (for testing the local path):
 
 - `:s3` (production) — uploads to S3, `file_url` is the S3 object key, served
   via a short-lived presigned URL.
@@ -91,6 +92,17 @@ Finished PDFs go through `PdfStorage`, which has two backends chosen at boot by
 
 `aws-sdk-s3` is required lazily inside `PdfStorage` only when the S3 backend is
 actually used, so local dev never loads it.
+
+### S3 cleanup (not in app code)
+
+Generated PDFs in S3 are NOT deleted by the app. Cleanup is handled by an **S3
+lifecycle rule** on the bucket (`expire-generated-pdfs`, prefix `uploads/pdf/`,
+expire after 1 day), which S3 runs server-side daily. This is intentional — it
+runs even when the Render instance is asleep and costs no app memory/CPU.
+Download links are presigned with a 5-minute expiry, so PDFs never need to
+persist long. If you go looking for S3 cleanup logic in Ruby, there isn't any —
+it lives in the bucket's lifecycle configuration
+(`aws s3api get-bucket-lifecycle-configuration --bucket <bucket>`).
 
 ## Two caches
 
