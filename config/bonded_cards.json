@@ -1,0 +1,327 @@
+{
+  "05316": [
+    {
+      "code": "05317",
+      "quantity": 3,
+      "name": "Blood-Rite"
+    }
+  ],
+  "54004": [
+    {
+      "code": "05317",
+      "quantity": 3,
+      "name": "Blood-Rite"
+    }
+  ],
+  "05313": [
+    {
+      "code": "05314",
+      "quantity": 3,
+      "name": "Soothing Melody"
+    }
+  ],
+  "54002": [
+    {
+      "code": "05314",
+      "quantity": 3,
+      "name": "Soothing Melody"
+    }
+  ],
+  "06018": [
+    {
+      "code": "06019",
+      "quantity": 3,
+      "name": "Bloodlust"
+    }
+  ],
+  "06021": [
+    {
+      "code": "06022",
+      "quantity": 1,
+      "name": "Pendant of the Queen"
+    }
+  ],
+  "06027": [
+    {
+      "code": "06028",
+      "quantity": 1,
+      "name": "The Stars Are Right"
+    }
+  ],
+  "06030": [
+    {
+      "code": "06031",
+      "quantity": 1,
+      "name": "Hope"
+    },
+    {
+      "code": "06032",
+      "quantity": 1,
+      "name": "Zeal"
+    },
+    {
+      "code": "06033",
+      "quantity": 1,
+      "name": "Augur"
+    }
+  ],
+  "06013": [
+    {
+      "code": "06015a",
+      "quantity": 1,
+      "name": "Dream-Gate"
+    }
+  ],
+  "06014": [
+    {
+      "code": "06015b",
+      "quantity": 1,
+      "name": "Dream-Gate"
+    }
+  ],
+  "06024": [
+    {
+      "code": "06025",
+      "quantity": 1,
+      "name": "Guardian of the Crystallizer"
+    }
+  ],
+  "06112": [
+    {
+      "code": "06113",
+      "quantity": 1,
+      "name": "Essence of the Dream"
+    }
+  ],
+  "06236": [
+    {
+      "code": "06113",
+      "quantity": 1,
+      "name": "Essence of the Dream"
+    }
+  ],
+  "06237": [
+    {
+      "code": "06113",
+      "quantity": 1,
+      "name": "Essence of the Dream"
+    }
+  ],
+  "06238": [
+    {
+      "code": "06113",
+      "quantity": 1,
+      "name": "Essence of the Dream"
+    }
+  ],
+  "06282": [
+    {
+      "code": "06283",
+      "quantity": 1,
+      "name": "Unbound Beast"
+    }
+  ],
+  "06330": [
+    {
+      "code": "06331",
+      "quantity": 3,
+      "name": "Dream Parasite"
+    }
+  ],
+  "06276": [
+    {
+      "code": "06277",
+      "quantity": 1,
+      "name": "Wish Eater"
+    }
+  ],
+  "10044": [
+    {
+      "code": "10045",
+      "quantity": 1,
+      "name": "Uncanny Growth"
+    }
+  ],
+  "10059": [
+    {
+      "code": "10045",
+      "quantity": 1,
+      "name": "Uncanny Growth"
+    }
+  ],
+  "10060": [
+    {
+      "code": "10045",
+      "quantity": 1,
+      "name": "Uncanny Growth"
+    }
+  ],
+  "10061": [
+    {
+      "code": "10045",
+      "quantity": 1,
+      "name": "Uncanny Growth"
+    }
+  ],
+  "10005": [
+    {
+      "code": "10006",
+      "quantity": 1,
+      "name": "Aetheric Current"
+    },
+    {
+      "code": "10007",
+      "quantity": 1,
+      "name": "Aetheric Current"
+    }
+  ],
+  "10005b": [
+    {
+      "code": "10006",
+      "quantity": 1,
+      "name": "Aetheric Current"
+    },
+    {
+      "code": "10007",
+      "quantity": 1,
+      "name": "Aetheric Current"
+    }
+  ],
+  "10015": [
+    {
+      "code": "10016a",
+      "quantity": 1,
+      "name": "Hank Samson"
+    },
+    {
+      "code": "10016b",
+      "quantity": 1,
+      "name": "Hank Samson"
+    }
+  ],
+  "10016a": [
+    {
+      "code": "10016a",
+      "quantity": 1,
+      "name": "Hank Samson"
+    },
+    {
+      "code": "10016b",
+      "quantity": 1,
+      "name": "Hank Samson"
+    }
+  ],
+  "10016b": [
+    {
+      "code": "10016a",
+      "quantity": 1,
+      "name": "Hank Samson"
+    },
+    {
+      "code": "10016b",
+      "quantity": 1,
+      "name": "Hank Samson"
+    }
+  ],
+  "10035": [
+    {
+      "code": "10036",
+      "quantity": 1,
+      "name": "Blade of Yoth"
+    }
+  ],
+  "10038": [
+    {
+      "code": "10039",
+      "quantity": 1,
+      "name": "Evanescent Ascension"
+    }
+  ],
+  "10062": [
+    {
+      "code": "10063",
+      "quantity": 1,
+      "name": "Bianca \"Die Katz\""
+    }
+  ],
+  "10063": [
+    {
+      "code": "10063",
+      "quantity": 1,
+      "name": "Bianca \"Die Katz\""
+    }
+  ],
+  "10085": [
+    {
+      "code": "10086",
+      "quantity": 1,
+      "name": "Abyssal Rot"
+    },
+    {
+      "code": "10087",
+      "quantity": 1,
+      "name": "Aember Rot"
+    },
+    {
+      "code": "10088",
+      "quantity": 1,
+      "name": "Putrescent Rot"
+    },
+    {
+      "code": "10089",
+      "quantity": 1,
+      "name": "Scarlet Rot"
+    },
+    {
+      "code": "10090",
+      "quantity": 1,
+      "name": "Virescent Rot"
+    }
+  ],
+  "10098": [
+    {
+      "code": "10086",
+      "quantity": 1,
+      "name": "Abyssal Rot"
+    },
+    {
+      "code": "10087",
+      "quantity": 1,
+      "name": "Aember Rot"
+    },
+    {
+      "code": "10088",
+      "quantity": 1,
+      "name": "Putrescent Rot"
+    },
+    {
+      "code": "10089",
+      "quantity": 1,
+      "name": "Scarlet Rot"
+    },
+    {
+      "code": "10090",
+      "quantity": 1,
+      "name": "Virescent Rot"
+    }
+  ],
+  "10105": [
+    {
+      "code": "10106",
+      "quantity": 1,
+      "name": "Keeper of the Key"
+    },
+    {
+      "code": "10107",
+      "quantity": 1,
+      "name": "Servant of Brass"
+    }
+  ],
+  "10133": [
+    {
+      "code": "10134",
+      "quantity": 1,
+      "name": "Twilight Diadem"
+    }
+  ]
+}

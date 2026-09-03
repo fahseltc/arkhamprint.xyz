@@ -48,23 +48,48 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
   def get_cards_hash
     deck = ArkhamDbHelper.fetch_deck(@deck_id)
     @investigator_code = deck[:investigator_code]
-    cards = deck[:cards].transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) }
+
+    # deck_cards is { card_id => quantity }. Add any bonded cards (set aside by
+    # the Dream-Eaters mechanic) whose parent is present in the deck — ArkhamDB's
+    # deck API never lists these. Uses the static config/bonded_cards.json index.
+    deck_cards = deck[:cards].dup
+    ArkhamDbHelper.bonded_cards_for(deck_cards.keys).each do |bonded_id, qty|
+      deck_cards[bonded_id] = (deck_cards[bonded_id] || 0) + qty
+    end
+
+    cards = deck_cards.transform_keys { |card_id| ArkhamDbHelper.get_card_image_url(card_id) }
     Rails.logger.info(cards)
     cards
   end
 
-  # Adds the investigator's back-side image as a standalone front card, so the
-  # reverse of the investigator sheet still prints when card backs are off.
-  # No-op if there's no investigator or it has no distinct back.
+  # Inserts the investigator's back-side image as a standalone front card,
+  # positioned immediately after the investigator's front so the two halves of
+  # the sheet print next to each other. This lets the reverse of the
+  # investigator sheet still print when card backs are off. No-op if there's no
+  # investigator or it has no distinct back.
   def add_investigator_back_as_front(cards_hash)
     return cards_hash unless @investigator_code
 
     meta = ArkhamDbHelper.get_card_back_info(@investigator_code)
     return cards_hash unless meta[:double_sided] && meta[:back_image_url]
 
-    back_url = meta[:back_image_url]
-    cards_hash[back_url] = (cards_hash[back_url] || 0) + 1
-    Rails.logger.info("Added investigator back as front card: #{back_url}")
-    cards_hash
+    front_url = ArkhamDbHelper.get_card_image_url(@investigator_code)
+    back_url  = meta[:back_image_url]
+
+    # Rebuild the hash so back_url sits directly after front_url, preserving the
+    # order of every other card. (Ruby hashes keep insertion order.)
+    rebuilt = {}
+    cards_hash.each do |url, qty|
+      rebuilt[url] = qty
+      if url == front_url
+        rebuilt[back_url] = (rebuilt[back_url] || 0) + 1
+      end
+    end
+    # If the investigator front wasn't in the deck for some reason, fall back to
+    # appending the back so it still prints.
+    rebuilt[back_url] = (rebuilt[back_url] || 0) + 1 unless rebuilt.key?(back_url)
+
+    Rails.logger.info("Inserted investigator back after front: #{back_url}")
+    rebuilt
   end
 end

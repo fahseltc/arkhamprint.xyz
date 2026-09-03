@@ -5,7 +5,7 @@ module CardImageCache
   CACHE_DIR = Rails.root.join("tmp", "card_image_cache")
   # Images older than this are considered stale and re-fetched on next use.
   # ArkhamDB card art is essentially permanent, so 30 days is conservative.
-  MAX_AGE = 30.days
+  MAX_AGE = 90.days
 
   # Returns a local filesystem path for the given remote image URL, fetching
   # and caching it if not already present. Returns nil if the image can't be

@@ -31,6 +31,49 @@ module ArkhamDbHelper
     cards
   end
 
+  # --- Bonded cards ---------------------------------------------------------
+  #
+  # "Bonded" cards (Dream-Eaters mechanic) are set aside with a deck rather than
+  # listed in it, so ArkhamDB's deck API never returns them. The card DB also
+  # only links one way (a bonded card knows its parent, not vice versa), so
+  # there's no live query for "what does this deck card bond to". Instead we ship
+  # a static index generated from the full card list, keyed by PARENT card code:
+  #   { "05313" => [ { "code" => "05314", "quantity" => 3, "name" => "..." } ] }
+  # Regenerate it with `rake bonded:refresh` when new bonded cards release.
+  BONDED_CARDS_PATH = Rails.root.join("config", "bonded_cards.json")
+
+  # Given a deck's card ids, returns { bonded_card_id => quantity } for every
+  # bonded card whose parent is present in the deck. Empty hash if none.
+  def self.bonded_cards_for(card_ids)
+    index = bonded_index
+    return {} if index.empty?
+
+    result = Hash.new(0)
+    card_ids.each do |code|
+      Array(index[code]).each do |bonded|
+        result[bonded["code"]] += bonded["quantity"].to_i
+      end
+    end
+
+    Rails.logger.info("Bonded cards resolved: #{result}") unless result.empty?
+    result
+  end
+
+  # Loads and memoizes the static bonded-card index. Returns {} if the file is
+  # missing or unreadable, so a bonded lookup is a silent no-op rather than
+  # breaking PDF generation.
+  def self.bonded_index
+    return @bonded_index if defined?(@bonded_index) && @bonded_index
+
+    @bonded_index =
+      begin
+        JSON.parse(File.read(BONDED_CARDS_PATH))
+      rescue StandardError => e
+        Rails.logger.warn("Could not load bonded_cards.json: #{e.message}; bonded cards will be skipped")
+        {}
+      end
+  end
+
   def self.get_card(card_id)
     card_api = "https://arkhamdb.com/api/public/card/"
     response = HTTParty.get(card_api + card_id.to_s)

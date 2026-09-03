@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # get "/from_card_list", to: "card#from_card_list"
 
   get "/faq", to: "faq#index"
+  get "/changelog", to: "changelog#index"
 
   resources :pdf_jobs, only: [ :create, :show ] do
     member do

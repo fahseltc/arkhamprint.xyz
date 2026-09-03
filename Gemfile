@@ -75,4 +75,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # Stub HTTP in specs so the suite never makes real network calls
+  gem "webmock"
 end

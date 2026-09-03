@@ -5,12 +5,12 @@ module CardBackHelper
   # etc.) share the "Mythos" back; neutral-faction scenario cards (story
   # assets/allies granted mid-campaign, and anything else) use "Standard".
   BACK_BY_FACTION = {
-    "mythos" => "mythos.png"
+    "mythos" => "mythos.jpg"
   }.freeze
 
   def self.path_for(faction_code)
-    filename = BACK_BY_FACTION.fetch(faction_code, "standard.png")
+    filename = BACK_BY_FACTION.fetch(faction_code, "standard.jpg")
     candidate = DIR.join(filename)
-    File.exist?(candidate) ? candidate.to_s : DIR.join("generic.png").to_s
+    File.exist?(candidate) ? candidate.to_s : DIR.join("standard.jpg").to_s
   end
 end
