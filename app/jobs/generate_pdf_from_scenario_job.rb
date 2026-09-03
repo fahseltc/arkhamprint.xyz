@@ -27,7 +27,7 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
       raise "Scenario has no cards" if @scenario_cards.empty?
 
       pdf_bin = generate_pdf_bin
-      s3_key = upload_to_s3(pdf_bin)
+      store_pdf(pdf_bin)
     rescue PdfGenerationCancelled
       @pdf_job.update!(status: "cancelled")
     rescue => e

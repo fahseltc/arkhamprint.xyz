@@ -75,7 +75,22 @@ Render's native build can't `apt-get` system packages.
 All intermediate and final PDFs go to `tmp/pdf_work/` (`PDF_TMP_DIR`), not the
 OS `/tmp`, so they're easy to find and clean up. Names embed the job id.
 Callers of `generate`/`generate_with_backs` receive a `Tempfile` and are
-responsible for `close!`ing it — `upload_to_s3` does this in an `ensure`.
+responsible for `close!`ing it — `store_pdf` does this in an `ensure`.
+
+## Storage backend (`PdfStorage`)
+
+Finished PDFs go through `PdfStorage`, which has two backends chosen at boot by
+`config.pdf_storage_mode` (set in `config/application.rb` based on whether
+`AWS_BUCKET` is present in the env):
+
+- `:s3` (production) — uploads to S3, `file_url` is the S3 object key, served
+  via a short-lived presigned URL.
+- `:local` (dev without AWS) — writes to `tmp/pdf_output/`, `file_url` is a
+  `local:<filename>` sentinel, served directly by the controller with
+  `send_file`. Lets contributors run the full flow with no AWS setup.
+
+`aws-sdk-s3` is required lazily inside `PdfStorage` only when the S3 backend is
+actually used, so local dev never loads it.
 
 ## Two caches
 
@@ -113,7 +128,8 @@ responsible for `close!`ing it — `upload_to_s3` does this in an `ensure`.
   ~10% of the progress bar), then builds duplex records via `resolve_back_url`.
 - `report_progress(idx)` writes `current_progress` and checks for cooperative
   cancellation (see below). It logs one line per page to keep logs readable.
-- `upload_to_s3` streams the temp file to S3 and closes it in `ensure`.
+- `store_pdf` persists the temp file via `PdfStorage` (S3 or local) and closes
+  it in `ensure`.
 
 ### Cooperative cancellation
 

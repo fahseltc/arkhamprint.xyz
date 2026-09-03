@@ -11,7 +11,7 @@ class GeneratePdfFromCardListJob < GeneratePdfBaseJob
       @duplex_mode = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
       @gap         = pdf_params["card_spacing"] == false ? PdfHelper::NO_GAP : PdfHelper::DEFAULT_GAP
       pdf_bin = generate_pdf_bin
-      s3_key = upload_to_s3(pdf_bin)
+      store_pdf(pdf_bin)
     rescue PdfGenerationCancelled
       @pdf_job.update!(status: "cancelled")
     rescue => e

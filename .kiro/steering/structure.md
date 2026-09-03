@@ -65,7 +65,7 @@ tmp/
 ```
 ApplicationJob
   └─ GeneratePdfBaseJob        # generate_pdf_bin, report_progress,
-       │                       #   build_records_with_backs, upload_to_s3
+       │                       #   build_records_with_backs, store_pdf
        ├─ GeneratePdfFromDeckJob
        ├─ GeneratePdfFromCardListJob
        └─ GeneratePdfFromScenarioJob

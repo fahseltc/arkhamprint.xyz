@@ -43,25 +43,27 @@ class PdfJobsController < ApplicationController
     render json: { id: pdf_job.id, status: pdf_job.status }
   end
 
-  # Download the generated PDF
+  # Download the generated PDF. Serves from local disk in dev (no AWS) or via
+  # a presigned S3 URL in production — see PdfStorage.
   def download
     pdf_job = PdfJob.find(safe_id_param)
 
     return head :not_found unless pdf_job.status == "completed"
 
-    if pdf_job.file_url.start_with?("http")
-      redirect_to pdf_job.file_url, allow_other_host: true
+    file_url = pdf_job.file_url
+
+    if file_url.start_with?("http")
+      # Absolute URL already (e.g. legacy records) — redirect straight to it.
+      redirect_to file_url, allow_other_host: true
+    elsif file_url.start_with?("local:")
+      # Local dev storage — stream the file straight off disk.
+      path = PdfStorage.local_path_for(file_url)
+      return head :not_found unless File.exist?(path)
+      send_file path, type: "application/pdf", disposition: "attachment",
+                      filename: "arkhamprint_#{pdf_job.id}.pdf"
     else
-      # Generate a presigned S3 URL
-      s3 = Aws::S3::Client.new(region: ENV.fetch("AWS_REGION"))
-      presigner = Aws::S3::Presigner.new(client: s3)
-      presigned_url = presigner.presigned_url(
-        :get_object,
-        bucket: ENV.fetch("AWS_BUCKET"),
-        key: pdf_job.file_url,
-        expires_in: 300
-      )
-      redirect_to presigned_url, allow_other_host: true
+      # S3 object key — hand back a short-lived presigned URL.
+      redirect_to PdfStorage.presigned_url(file_url), allow_other_host: true
     end
   end
 

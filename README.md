@@ -16,11 +16,28 @@ Hosted on [Render](https://render.com/) low-cost tier.
 
 PDF generation runs as a background job (ActiveJob, `:async` adapter — jobs run
 in-process, no separate worker). The browser submits a job, then polls for
-status and progress. Completed PDFs are stored in S3 and served via a
-short-lived presigned URL. Large PDFs are built one page at a time and merged in
-bounded batches to keep memory flat under the cap.
+status and progress. In production completed PDFs are stored in S3 and served
+via a short-lived presigned URL. Large PDFs are built one page at a time and
+merged in bounded batches to keep memory flat under the cap.
 
 For a deeper architecture overview see the steering docs in `.kiro/steering/`.
+
+## Local development setup
+
+The app runs end to end with **no configuration and no AWS account**:
+
+```
+bundle install
+cp .env.example .env   # optional — see below
+bin/rails server
+```
+
+Without any AWS credentials, generated PDFs are written to `tmp/pdf_output/`
+and served directly by the app instead of being uploaded to S3. This is
+controlled automatically: if `AWS_BUCKET` is set in the environment the app
+uses S3, otherwise it uses local file storage. So contributors can build and
+download PDFs locally without any secrets. Copy `.env.example` to `.env` only
+if you want to exercise the real S3 integration locally.
 
 ## Code formatting
 run `rubocop -a` to auto-format the code.

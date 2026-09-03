@@ -44,7 +44,6 @@ gem "thruster", require: false
 gem "httparty"
 gem "prawn"
 gem "hexapdf"
-gem "recaptcha"
 # gem "sidekiq"
 gem "fastimage"
 gem "aws-sdk-s3", require: false

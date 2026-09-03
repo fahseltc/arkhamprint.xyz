@@ -28,6 +28,11 @@ module Arkhamprint
     config.save_data_modes = [ :redis, :file ]
     config.save_data_mode = :file
 
+    # PDF storage backend. Uses S3 when AWS credentials are configured,
+    # otherwise falls back to the local filesystem so the app runs end-to-end
+    # in development without any AWS setup (see PdfStorage).
+    config.pdf_storage_mode = ENV["AWS_BUCKET"].present? ? :s3 : :local
+
     # Add your custom hosts
     config.hosts << "arkhamprint-xyz.onrender.com"
     config.hosts << "arkhamprint.xyz"

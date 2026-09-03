@@ -1,8 +1,4 @@
-require "aws-sdk-s3"
-
 class GeneratePdfBaseJob < ApplicationJob
-  BASE_BUCKET_PATH = "uploads/pdf/deck_"
-
   def generate_pdf_bin
     cards_hash = get_cards_hash
     @pdf_job.update!(max_progress: cards_hash.values.sum)
@@ -57,27 +53,18 @@ class GeneratePdfBaseJob < ApplicationJob
     end
   end
 
-  def upload_to_s3(pdf_tmp)
-    s3_key = "#{BASE_BUCKET_PATH}#{@pdf_job.id}.pdf"
-    s3_client = Aws::S3::Client.new(region: ENV.fetch("AWS_REGION"))
+  # Persists the finished PDF via PdfStorage (S3 in production, local disk in
+  # dev without AWS) and marks the job completed. Returns the stored file_url.
+  def store_pdf(pdf_tmp)
+    file_url = PdfStorage.store(@pdf_job.id, pdf_tmp.path)
 
-    File.open(pdf_tmp.path, "rb") do |file|
-      s3_client.put_object(
-        bucket: ENV.fetch("AWS_BUCKET"),
-        key: s3_key,
-        body: file,
-        content_type: "application/pdf",
-        acl: "private"
-      )
-    end
-
-    Rails.logger.info("Uploaded job=#{@pdf_job.short_id} to s3_key=#{s3_key}")
+    Rails.logger.info("Stored job=#{@pdf_job.short_id} mode=#{PdfStorage.mode} file_url=#{file_url}")
     @pdf_job.update!(
       status: "completed",
-      file_url: s3_key,
+      file_url: file_url,
       current_progress: @pdf_job.max_progress
     )
-    s3_key
+    file_url
   ensure
     pdf_tmp&.close!
   end

@@ -19,7 +19,7 @@
 - **aws-sdk-s3** (`require: false`, loaded lazily in jobs) — PDF storage
 - **redis** — optional job-state backend
 - **get_process_mem** — RSS memory logging during jobs
-- **recaptcha**, **fastimage**, **whenever** (cron), **kamal**/**thruster**
+- **fastimage**, **whenever** (cron), **kamal**/**thruster**
 - Dev/test only: rspec-rails, capybara, selenium, rubocop-rails-omakase,
   brakeman, bundler-audit, derailed_benchmarks, dotenv, web-console
 
