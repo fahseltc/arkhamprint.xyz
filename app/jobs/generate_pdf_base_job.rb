@@ -1,4 +1,40 @@
 class GeneratePdfBaseJob < ApplicationJob
+  DUPLEX_MODES = %w[none long_edge short_edge].freeze
+
+  # Shared entry point for every PDF job. Subclasses don't override this; they
+  # implement two hooks:
+  #   parse_params   - read the params specific to this job type (and validate)
+  #   generate_pdf_bin - build the PDF, returning a Tempfile
+  # The find/parse/generate/store flow plus cancel/failure handling lives here
+  # so it stays consistent across all job types.
+  def perform(pdf_job_id, pdf_params)
+    @pdf_job = PdfJob.find(pdf_job_id)
+    @pdf_params = pdf_params
+    begin
+      parse_common_params
+      parse_params
+      store_pdf(generate_pdf_bin)
+    rescue PdfGenerationCancelled
+      @pdf_job.update!(status: "cancelled")
+    rescue => e
+      @pdf_job.update!(status: "failed", error_message: e.message)
+      raise
+    end
+  end
+
+  # Print options shared by every job type (see the _print_options partial).
+  def parse_common_params
+    @print_backs = param_flag(@pdf_params["print_backs"])
+    @duplex_mode = DUPLEX_MODES.include?(@pdf_params["duplex_mode"]) ? @pdf_params["duplex_mode"] : "none"
+    @gap         = resolve_gap(@pdf_params["card_spacing"])
+    @bleed       = resolve_bleed(@pdf_params["card_spacing"])
+  end
+
+  # Hook: subclasses read their own params (deck_id / card_ids / scenario) here.
+  def parse_params
+    raise NotImplementedError, "#{self.class} must implement #{__method__}"
+  end
+
   def generate_pdf_bin
     cards_hash = get_cards_hash
     @pdf_job.update!(max_progress: cards_hash.values.sum)

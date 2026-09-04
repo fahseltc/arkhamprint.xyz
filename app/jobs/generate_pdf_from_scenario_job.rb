@@ -1,39 +1,20 @@
 class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
-  DUPLEX_MODES = %w[none long_edge short_edge].freeze
+  def parse_params
+    scenario_title = @pdf_params.fetch("scenario_title")
+    campaign_file  = @pdf_params.fetch("campaign_file")
 
-  def perform(pdf_job_id, pdf_params)
-    @pdf_job_id = pdf_job_id
-    @pdf_job = PdfJob.find(@pdf_job_id)
-    begin
-      scenario_title = pdf_params.fetch("scenario_title")
-      campaign_file = pdf_params.fetch("campaign_file")
-      @duplex_mode = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
-      @print_backs = param_flag(pdf_params["print_backs"])
-      @gap = resolve_gap(pdf_params["card_spacing"])
-      @bleed = resolve_bleed(pdf_params["card_spacing"])
+    index = ArkhamDbHelper.scenarios_index
+    campaign = index.fetch("campaigns", []).find { |entry| entry["file"] == campaign_file }
+    raise "Campaign not found" unless campaign
 
-      index = ArkhamDbHelper.scenarios_index
-      campaign = index.fetch("campaigns", []).find { |entry| entry["file"] == campaign_file }
-      raise "Campaign not found" unless campaign
+    scenario_json = JSON.parse(File.read(Rails.root.join(campaign_file)))
+    missions = scenario_json.fetch("missions", {})
 
-      scenario_file = File.read(Rails.root.join(campaign_file))
-      scenario_json = JSON.parse(scenario_file)
-      missions = scenario_json.fetch("missions", {})
+    scenario = missions[scenario_title]
+    raise "Scenario not found" if scenario.nil?
+    @scenario_cards = scenario["scenario_cards"]
 
-      scenario = missions[scenario_title]
-      raise "Scenario not found" if scenario.nil?
-      @scenario_cards = scenario["scenario_cards"]
-
-      raise "Scenario has no cards" if @scenario_cards.empty?
-
-      pdf_bin = generate_pdf_bin
-      store_pdf(pdf_bin)
-    rescue PdfGenerationCancelled
-      @pdf_job.update!(status: "cancelled")
-    rescue => e
-      @pdf_job.update!(status: "failed", error_message: e.message)
-      raise
-    end
+    raise "Scenario has no cards" if @scenario_cards.empty?
   end
 
   def generate_pdf_bin

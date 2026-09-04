@@ -1,24 +1,7 @@
 class GeneratePdfFromCardListJob < GeneratePdfBaseJob
-  DUPLEX_MODES = %w[none long_edge short_edge].freeze
-
-  def perform(pdf_job_id, pdf_params)
-    @pdf_job_id = pdf_job_id
-    @pdf_job = PdfJob.find(@pdf_job_id)
-    begin
-      @card_ids    = Array(pdf_params["card_ids"]).map(&:to_s) if pdf_params["card_ids"].present?
-      raise ArgumentError, "card_ids must be present" unless @card_ids.present?
-      @print_backs = param_flag(pdf_params["print_backs"])
-      @duplex_mode = DUPLEX_MODES.include?(pdf_params["duplex_mode"]) ? pdf_params["duplex_mode"] : "none"
-      @gap         = resolve_gap(pdf_params["card_spacing"])
-      @bleed       = resolve_bleed(pdf_params["card_spacing"])
-      pdf_bin = generate_pdf_bin
-      store_pdf(pdf_bin)
-    rescue PdfGenerationCancelled
-      @pdf_job.update!(status: "cancelled")
-    rescue => e
-      @pdf_job.update!(status: "failed", error_message: e.message)
-      raise
-    end
+  def parse_params
+    @card_ids = Array(@pdf_params["card_ids"]).map(&:to_s) if @pdf_params["card_ids"].present?
+    raise ArgumentError, "card_ids must be present" unless @card_ids.present?
   end
 
   def generate_pdf_bin
