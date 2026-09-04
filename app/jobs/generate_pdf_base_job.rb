@@ -28,6 +28,7 @@ class GeneratePdfBaseJob < ApplicationJob
     @duplex_mode = DUPLEX_MODES.include?(@pdf_params["duplex_mode"]) ? @pdf_params["duplex_mode"] : "none"
     @gap         = resolve_gap(@pdf_params["card_spacing"])
     @bleed       = resolve_bleed(@pdf_params["card_spacing"])
+    @cut_marks   = param_flag(@pdf_params["cut_marks"])
   end
 
   # Hook: subclasses read their own params (deck_id / card_ids / scenario) here.

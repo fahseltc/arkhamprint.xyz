@@ -12,7 +12,14 @@
     <option value="home" selected>2mm gap &mdash; better suited for home printing</option>
     <option value="printshop">1.5mm bleed &mdash; better suited for printshop printing</option>
   </select>
-  <div class="form-text">Home printing leaves a plain 2mm gap between cards, sized to stay inside a typical printer's hardware margin. Printshop instead extends each card 1.5mm past its edge, mirroring the card's own art outward, so the two neighboring cards' edges meet with no blank paper between them &mdash; an imprecise trim still lands on card art rather than a white sliver.</div>
+  <div class="form-text">Home printing leaves a plain 2mm gap between cards, sized to stay inside a typical printer's hardware margin. Printshop instead extends each card 1.5mm past its edge with a solid black bleed, so the two neighboring cards' edges meet with no blank paper between them &mdash; an imprecise trim lands on black rather than a white sliver, matching the cards' dark borders.</div>
+</div>
+
+<div class="form-check mb-3">
+  <input class="form-check-input cut-marks-check" type="checkbox" id="cut_marks_check_<%= tab %>" checked>
+  <label class="form-check-label" for="cut_marks_check_<%= tab %>">
+    Add cut marks (guide lines in the margins showing where to cut)
+  </label>
 </div>
 
 <div class="form-check mb-4">

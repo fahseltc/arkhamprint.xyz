@@ -12,7 +12,7 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
       total_images = cards_hash.values.sum * 2
       Rails.logger.info("Starting PDF job=#{@pdf_job.short_id} type=#{self.class.name} cards=#{cards_hash.values.sum} duplex=true duplex_mode=#{@duplex_mode}")
       records = build_records_with_backs(cards_hash, total_images)
-      PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap, bleed: @bleed, job_id: @pdf_job.id) do |idx|
+      PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap, bleed: @bleed, cut_marks: @cut_marks, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
     else
@@ -23,7 +23,7 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
       total_images = cards_hash.values.sum
       Rails.logger.info("Starting PDF job=#{@pdf_job.short_id} type=#{self.class.name} cards=#{total_images} duplex=false")
       @pdf_job.update!(max_progress: total_images, current_progress: 0)
-      PdfHelper.generate(cards_hash, "LETTER", gap: @gap, bleed: @bleed, job_id: @pdf_job.id) do |idx|
+      PdfHelper.generate(cards_hash, "LETTER", gap: @gap, bleed: @bleed, cut_marks: @cut_marks, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
     end

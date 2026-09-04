@@ -74,7 +74,7 @@ class PdfJobsController < ApplicationController
   private
 
   def pdf_params
-    params.permit(:deck_id, :scenario_title, :campaign_file, :duplex_mode, :print_backs, :card_spacing, card_ids: [])
+    params.permit(:deck_id, :scenario_title, :campaign_file, :duplex_mode, :print_backs, :card_spacing, :cut_marks, card_ids: [])
   end
 
   def safe_id_param

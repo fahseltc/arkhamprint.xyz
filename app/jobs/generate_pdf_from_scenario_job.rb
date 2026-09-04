@@ -24,13 +24,13 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
     Rails.logger.info("Starting PDF job=#{@pdf_job.short_id} type=#{self.class.name} cards=#{records.sum { |r| r[:quantity] }} duplex=#{@print_backs} duplex_mode=#{@duplex_mode}")
 
     if @print_backs
-      PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap, bleed: @bleed, job_id: @pdf_job.id) do |idx|
+      PdfHelper.generate_with_backs(records, "LETTER", duplex_mode: @duplex_mode, gap: @gap, bleed: @bleed, cut_marks: @cut_marks, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
     else
       front_counts = Hash.new(0)
       records.each { |r| front_counts[r[:front_url]] += r[:quantity] }
-      PdfHelper.generate(front_counts, "LETTER", gap: @gap, bleed: @bleed, job_id: @pdf_job.id) do |idx|
+      PdfHelper.generate(front_counts, "LETTER", gap: @gap, bleed: @bleed, cut_marks: @cut_marks, job_id: @pdf_job.id) do |idx|
         report_progress(idx)
       end
     end

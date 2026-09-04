@@ -57,7 +57,7 @@ module PdfHelper
   # memory footprint is bounded to a single page regardless of total card count.
   # Yields current_card index after each card is drawn for progress reporting.
   # Returns a Tempfile of the merged PDF (caller is responsible for close!).
-  def self.generate(cards, page_size, gap: NO_GAP, bleed: 0, job_id: nil)
+  def self.generate(cards, page_size, gap: NO_GAP, bleed: 0, cut_marks: true, job_id: nil)
     with_processed_image_cache do
       positions = grid_positions(gap)
       total     = cards.values.sum
@@ -74,7 +74,7 @@ module PdfHelper
         quantity.times do
           chunk << url
           if chunk.size == CARDS_PER_PAGE
-            page_files << render_page(job_id, page_index, gap) do |pdf|
+            page_files << render_page(job_id, page_index, gap, cut_marks: cut_marks) do |pdf|
               chunk.each_with_index do |card_url, slot|
                 current_card += 1
                 Rails.logger.info("Printing card #{current_card}/#{total} slot #{slot} page #{page_index + 1}")
@@ -90,7 +90,7 @@ module PdfHelper
 
       # Flush remaining cards that didn't fill a full page
       unless chunk.empty?
-        page_files << render_page(job_id, page_index, gap) do |pdf|
+        page_files << render_page(job_id, page_index, gap, cut_marks: cut_marks) do |pdf|
           chunk.each_with_index do |card_url, slot|
             current_card += 1
             Rails.logger.info("Printing card #{current_card}/#{total} slot #{slot} page #{page_index + 1}")
@@ -110,7 +110,7 @@ module PdfHelper
   # `duplex_mode` controls back-page slot mirroring (see back_slot_for).
   # Same page-at-a-time memory strategy as generate — yields progress per card.
   # Returns a Tempfile of the merged PDF (caller is responsible for close!).
-  def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: NO_GAP, bleed: 0, job_id: nil)
+  def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: NO_GAP, bleed: 0, cut_marks: true, job_id: nil)
     with_processed_image_cache do
       positions    = grid_positions(gap)
       total        = records.sum { |r| r[:quantity] } * 2  # front + back per card
@@ -126,7 +126,7 @@ module PdfHelper
           chunk << record
           next unless chunk.size == CARDS_PER_PAGE
 
-          page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, bleed, job_id, page_index) do |drawn|
+          page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, bleed, cut_marks, job_id, page_index) do |drawn|
             current_card += drawn
             yield(current_card)
           end)
@@ -137,7 +137,7 @@ module PdfHelper
 
       # Flush remaining cards that didn't fill a full page
       unless chunk.empty?
-        page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, bleed, job_id, page_index) do |drawn|
+        page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, bleed, cut_marks, job_id, page_index) do |drawn|
           current_card += drawn
           yield(current_card)
         end)
@@ -221,9 +221,19 @@ module PdfHelper
       crop_to_card_ratio(img)
       add_mirror_bleed(img, bleed) if bleed.positive?
 
+      # Encode the processed image as JPG (quality 90) rather than PNG. Card
+      # scans are opaque photographic art with no meaningful transparency, so
+      # JPG is far smaller than PNG for the same visible quality — this is the
+      # image Prawn embeds and holds in memory per page, so smaller = less
+      # per-page memory and smaller temp files. Dimensions are unchanged (no
+      # resize/crop beyond the existing ratio crop), so there's no risk of the
+      # cropping/scaling issues a resize would introduce.
+      img.format("jpg")
+      img.quality(90)
+
       # Write to a persistent temp file (not a block Tempfile) so the path stays
       # valid for reuse; tracked for cleanup at end of run.
-      file = Tempfile.new([ "card", ".png" ], PDF_TMP_DIR)
+      file = Tempfile.new([ "card", ".jpg" ], PDF_TMP_DIR)
       file.close
       img.write(file.path)
 
@@ -321,7 +331,7 @@ module PdfHelper
   # renders it to a uniquely-named Tempfile, and returns that file.
   # The Prawn document goes out of scope immediately after render_file, so it
   # can be GC'd before the next page is started.
-  def self.render_page(job_id, page_index, gap)
+  def self.render_page(job_id, page_index, gap, cut_marks: true)
     left_margin, top_margin = margins_for(gap)
     pdf = Prawn::Document.new(
       page_size:    "LETTER",
@@ -332,6 +342,7 @@ module PdfHelper
       right_margin: left_margin
     )
     yield pdf
+    draw_cut_marks(pdf, gap, left_margin, top_margin) if cut_marks
     FileUtils.mkdir_p(PDF_TMP_DIR)
     tmp = Tempfile.new([ "pdf_job_#{job_id}_p#{ format('%04d', page_index) }_", ".pdf" ], PDF_TMP_DIR)
     begin
@@ -348,6 +359,84 @@ module PdfHelper
     end
   end
   private_class_method :render_page
+
+  # Gap (points) left between the card grid edge and the start of a cut mark, so
+  # the ticks float in the margin and never touch the card art.
+  CUT_MARK_INSET = 3.0
+  # Length of each cut mark tick (points).
+  CUT_MARK_LENGTH = 6.0
+  # Line thickness for cut marks (points).
+  CUT_MARK_WIDTH = 0.5
+
+  # Draws cut marks in the page margins indicating where to cut to separate the
+  # cards. Marks are short ticks that live only in the margins, offset from the
+  # grid by CUT_MARK_INSET so they never touch the card art, aligned to every
+  # card edge:
+  #   - Vertical cuts get a tick in the top margin and the bottom margin.
+  #   - Horizontal cuts get a tick in the left margin and the right margin.
+  # With no gap, adjacent cards share an edge, so there are 4 vertical + 4
+  # horizontal cut positions (8 pairs of ticks). With a gap, each card is
+  # bounded on both sides, giving 6 + 6.
+  def self.draw_cut_marks(pdf, gap, left_margin, top_margin)
+    x_edges = cut_edges(CARD_WIDTH, gap)   # relative to grid left
+    y_edges = cut_edges(CARD_HEIGHT, gap)  # relative to grid bottom-up
+    grid_width  = (3 * (CARD_WIDTH  + gap)) - gap
+    grid_height = (3 * (CARD_HEIGHT + gap)) - gap
+
+    # Fit inset + tick within the available margin. If the margin is tight
+    # (small gap case), shrink the tick but keep at least a hair of inset.
+    inset = [ CUT_MARK_INSET, left_margin - 1, top_margin - 1 ].min
+    inset = 0 if inset.negative?
+    tick_v = [ CUT_MARK_LENGTH, top_margin  - inset - 0.5 ].min
+    tick_h = [ CUT_MARK_LENGTH, left_margin - inset - 0.5 ].min
+
+    grid_top   = top_margin + grid_height
+    grid_right = left_margin + grid_width
+
+    # Draw in absolute page coordinates so we can reach into the margins.
+    pdf.canvas do
+      pdf.line_width(CUT_MARK_WIDTH)
+      pdf.stroke_color("000000")
+
+      # Vertical cut lines -> ticks in the top and bottom margins, inset from
+      # the grid so they don't touch the cards.
+      x_edges.each do |xe|
+        px = left_margin + xe
+        # below the grid
+        y0 = top_margin - inset
+        pdf.stroke_line([ px, y0 ], [ px, y0 - tick_v ])
+        # above the grid
+        y1 = grid_top + inset
+        pdf.stroke_line([ px, y1 ], [ px, y1 + tick_v ])
+      end
+
+      # Horizontal cut lines -> ticks in the left and right margins, inset.
+      y_edges.each do |ye|
+        py = top_margin + ye
+        # left of the grid
+        x0 = left_margin - inset
+        pdf.stroke_line([ x0, py ], [ x0 - tick_h, py ])
+        # right of the grid
+        x1 = grid_right + inset
+        pdf.stroke_line([ x1, py ], [ x1 + tick_h, py ])
+      end
+    end
+  end
+  private_class_method :draw_cut_marks
+
+  # Distinct cut coordinates along one axis for the 3-card grid, relative to the
+  # grid's near edge. Two per card (near/far edge); shared edges dedupe when
+  # gap is 0. Returns 4 values with no gap, 6 with a gap.
+  def self.cut_edges(card, gap, count: 3)
+    pitch = card + gap
+    edges = []
+    count.times do |i|
+      edges << (i * pitch)
+      edges << (i * pitch) + card
+    end
+    edges.map { |e| e.round(3) }.uniq.sort
+  end
+  private_class_method :cut_edges
 
   # Ruby's GC frees objects but does not readily return heap pages to the OS,
   # so across a long multi-page job the process RSS ratchets upward even though
@@ -367,15 +456,15 @@ module PdfHelper
   # Renders a front page and back page for one chunk of up to CARDS_PER_PAGE
   # records, yielding the count of images drawn for progress reporting.
   # Returns [front_tmp, back_tmp].
-  def self.render_page_pair(chunk, positions, duplex_mode, gap, bleed, job_id, page_index)
-    front_tmp = render_page(job_id, page_index, gap) do |pdf|
+  def self.render_page_pair(chunk, positions, duplex_mode, gap, bleed, cut_marks, job_id, page_index)
+    front_tmp = render_page(job_id, page_index, gap, cut_marks: cut_marks) do |pdf|
       chunk.each_with_index do |r, slot|
         draw_card(pdf, r[:front_url], positions[slot], bleed: bleed)
       end
     end
     yield chunk.size
 
-    back_tmp = render_page(job_id, page_index + 1, gap) do |pdf|
+    back_tmp = render_page(job_id, page_index + 1, gap, cut_marks: cut_marks) do |pdf|
       chunk.each_with_index do |r, slot|
         draw_card(pdf, r[:back_url], positions[back_slot_for(slot, duplex_mode)], bleed: bleed)
       end
