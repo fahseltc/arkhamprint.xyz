@@ -12,8 +12,7 @@ class GeneratePdfFromScenarioJob < GeneratePdfBaseJob
       @gap = resolve_gap(pdf_params["card_spacing"])
       @bleed = resolve_bleed(pdf_params["card_spacing"])
 
-      index_path = Rails.root.join("scenarios.json")
-      index = JSON.parse(File.read(index_path))
+      index = ArkhamDbHelper.scenarios_index
       campaign = index.fetch("campaigns", []).find { |entry| entry["file"] == campaign_file }
       raise "Campaign not found" unless campaign
 

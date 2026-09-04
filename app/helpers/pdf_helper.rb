@@ -58,48 +58,50 @@ module PdfHelper
   # Yields current_card index after each card is drawn for progress reporting.
   # Returns a Tempfile of the merged PDF (caller is responsible for close!).
   def self.generate(cards, page_size, gap: NO_GAP, bleed: 0, job_id: nil)
-    positions = grid_positions(gap)
-    total     = cards.values.sum
-    current_card = 0
-    page_index   = 0
-    page_files   = []
+    with_processed_image_cache do
+      positions = grid_positions(gap)
+      total     = cards.values.sum
+      current_card = 0
+      page_index   = 0
+      page_files   = []
 
-    Rails.logger.info("generating PDF with #{total} cards")
+      Rails.logger.info("generating PDF with #{total} cards")
 
-    # Collect card URLs into slices of CARDS_PER_PAGE without materialising
-    # the full duplicated list — iterate quantities directly.
-    chunk = []
-    cards.each do |url, quantity|
-      quantity.times do
-        chunk << url
-        if chunk.size == CARDS_PER_PAGE
-          page_files << render_page(job_id, page_index, gap) do |pdf|
-            chunk.each_with_index do |card_url, slot|
-              current_card += 1
-              Rails.logger.info("Printing card #{current_card}/#{total} slot #{slot} page #{page_index + 1}")
-              draw_card(pdf, card_url, positions[slot], bleed: bleed)
-              yield(current_card)
+      # Collect card URLs into slices of CARDS_PER_PAGE without materialising
+      # the full duplicated list — iterate quantities directly.
+      chunk = []
+      cards.each do |url, quantity|
+        quantity.times do
+          chunk << url
+          if chunk.size == CARDS_PER_PAGE
+            page_files << render_page(job_id, page_index, gap) do |pdf|
+              chunk.each_with_index do |card_url, slot|
+                current_card += 1
+                Rails.logger.info("Printing card #{current_card}/#{total} slot #{slot} page #{page_index + 1}")
+                draw_card(pdf, card_url, positions[slot], bleed: bleed)
+                yield(current_card)
+              end
             end
+            chunk = []
+            page_index += 1
           end
-          chunk = []
-          page_index += 1
         end
       end
-    end
 
-    # Flush remaining cards that didn't fill a full page
-    unless chunk.empty?
-      page_files << render_page(job_id, page_index, gap) do |pdf|
-        chunk.each_with_index do |card_url, slot|
-          current_card += 1
-          Rails.logger.info("Printing card #{current_card}/#{total} slot #{slot} page #{page_index + 1}")
-          draw_card(pdf, card_url, positions[slot], bleed: bleed)
-          yield(current_card)
+      # Flush remaining cards that didn't fill a full page
+      unless chunk.empty?
+        page_files << render_page(job_id, page_index, gap) do |pdf|
+          chunk.each_with_index do |card_url, slot|
+            current_card += 1
+            Rails.logger.info("Printing card #{current_card}/#{total} slot #{slot} page #{page_index + 1}")
+            draw_card(pdf, card_url, positions[slot], bleed: bleed)
+            yield(current_card)
+          end
         end
       end
-    end
 
-    combine_pages(page_files, job_id)
+      combine_pages(page_files, job_id)
+    end
   end
 
   # Generates a duplex PDF: for each group of up to CARDS_PER_PAGE cards a
@@ -109,38 +111,40 @@ module PdfHelper
   # Same page-at-a-time memory strategy as generate — yields progress per card.
   # Returns a Tempfile of the merged PDF (caller is responsible for close!).
   def self.generate_with_backs(records, page_size, duplex_mode: "none", gap: NO_GAP, bleed: 0, job_id: nil)
-    positions    = grid_positions(gap)
-    total        = records.sum { |r| r[:quantity] } * 2  # front + back per card
-    current_card = 0
-    page_index   = 0
-    page_files   = []
+    with_processed_image_cache do
+      positions    = grid_positions(gap)
+      total        = records.sum { |r| r[:quantity] } * 2  # front + back per card
+      current_card = 0
+      page_index   = 0
+      page_files   = []
 
-    Rails.logger.info("generating duplex PDF with #{total / 2} cards (#{total} images), duplex_mode=#{duplex_mode}")
+      Rails.logger.info("generating duplex PDF with #{total / 2} cards (#{total} images), duplex_mode=#{duplex_mode}")
 
-    chunk = []
-    records.each do |record|
-      record[:quantity].times do
-        chunk << record
-        next unless chunk.size == CARDS_PER_PAGE
+      chunk = []
+      records.each do |record|
+        record[:quantity].times do
+          chunk << record
+          next unless chunk.size == CARDS_PER_PAGE
 
+          page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, bleed, job_id, page_index) do |drawn|
+            current_card += drawn
+            yield(current_card)
+          end)
+          page_index += 2  # front + back count as two pages
+          chunk = []
+        end
+      end
+
+      # Flush remaining cards that didn't fill a full page
+      unless chunk.empty?
         page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, bleed, job_id, page_index) do |drawn|
           current_card += drawn
           yield(current_card)
         end)
-        page_index += 2  # front + back count as two pages
-        chunk = []
       end
-    end
 
-    # Flush remaining cards that didn't fill a full page
-    unless chunk.empty?
-      page_files.concat(render_page_pair(chunk, positions, duplex_mode, gap, bleed, job_id, page_index) do |drawn|
-        current_card += drawn
-        yield(current_card)
-      end)
+      combine_pages(page_files, job_id)
     end
-
-    combine_pages(page_files, job_id)
   end
 
   # ---------------------------------------------------------------------------
@@ -183,26 +187,81 @@ module PdfHelper
   # When `bleed` is positive (see BLEED), the card art is mirrored outward by
   # that many points on every side and drawn oversized, centered on
   # `position`, instead of at the exact CARD_WIDTH x CARD_HEIGHT box.
+  #
+  # The heavy work (open + crop + optional bleed + write to a PNG) is done once
+  # per unique (source, bleed) pair and cached for the duration of the run, so
+  # a deck with N copies of a card only processes its image once instead of N
+  # times. See with_processed_image_cache.
   def self.draw_card(pdf, source, position, bleed: 0)
-    img = open_card_image(source)
-    return unless img
+    path = processed_image_path(source, bleed)
+    return unless path
 
-    img.rotate(90) if img.width > img.height
-    crop_to_card_ratio(img)
-    add_mirror_bleed(img, bleed) if bleed.positive?
-
-    Tempfile.create([ "card", ".png" ]) do |f|
-      img.write(f.path)
-      if bleed.positive?
-        pdf.image f.path, width: CARD_WIDTH + (2 * bleed), height: CARD_HEIGHT + (2 * bleed),
-                           at: [ position[0] - bleed, position[1] + bleed ]
-      else
-        pdf.image f.path, width: CARD_WIDTH, height: CARD_HEIGHT, at: position
-      end
+    if bleed.positive?
+      pdf.image path, width: CARD_WIDTH + (2 * bleed), height: CARD_HEIGHT + (2 * bleed),
+                      at: [ position[0] - bleed, position[1] + bleed ]
+    else
+      pdf.image path, width: CARD_WIDTH, height: CARD_HEIGHT, at: position
     end
-  ensure
-    img&.destroy!  # explicitly frees ImageMagick memory
   end
+
+  # Returns the filesystem path of the processed (cropped, optionally bleed-
+  # extended) PNG for a card, processing and caching it on first use. Returns
+  # nil if the source image can't be opened. Cached paths are reused across all
+  # copies of the same card in a run and cleaned up in with_processed_image_cache.
+  def self.processed_image_path(source, bleed)
+    cache = processed_image_cache
+    key = [ source, bleed ]
+    return cache[key] if cache&.key?(key)
+
+    img = open_card_image(source)
+    return nil unless img
+
+    begin
+      img.rotate(90) if img.width > img.height
+      crop_to_card_ratio(img)
+      add_mirror_bleed(img, bleed) if bleed.positive?
+
+      # Write to a persistent temp file (not a block Tempfile) so the path stays
+      # valid for reuse; tracked for cleanup at end of run.
+      file = Tempfile.new([ "card", ".png" ], PDF_TMP_DIR)
+      file.close
+      img.write(file.path)
+
+      if cache
+        cache[key] = file.path
+        (processed_image_files << file)
+      end
+      file.path
+    ensure
+      img&.destroy!  # free ImageMagick memory promptly
+    end
+  end
+
+  # Run-scoped cache so repeated card copies aren't reprocessed. Uses a
+  # thread-local (a job runs on a single thread) set up around each generate
+  # call, so it never leaks between jobs or grows unbounded.
+  def self.with_processed_image_cache
+    FileUtils.mkdir_p(PDF_TMP_DIR)
+    Thread.current[:pdf_processed_image_cache] = {}
+    Thread.current[:pdf_processed_image_files] = []
+    yield
+  ensure
+    (Thread.current[:pdf_processed_image_files] || []).each do |f|
+      f.close! rescue nil
+    end
+    Thread.current[:pdf_processed_image_cache] = nil
+    Thread.current[:pdf_processed_image_files] = nil
+  end
+
+  def self.processed_image_cache
+    Thread.current[:pdf_processed_image_cache]
+  end
+
+  def self.processed_image_files
+    Thread.current[:pdf_processed_image_files]
+  end
+  private_class_method :processed_image_path, :with_processed_image_cache,
+                       :processed_image_cache, :processed_image_files
 
   def self.crop_to_card_ratio(img)
     card_ratio = CARD_WIDTH / CARD_HEIGHT

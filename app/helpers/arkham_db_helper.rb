@@ -31,6 +31,18 @@ module ArkhamDbHelper
     cards
   end
 
+  # --- Scenario index -------------------------------------------------------
+  #
+  # scenarios.json is static bundled config (the campaign/scenario dropdown
+  # index). It's read on every home page load and every scenario job, so parse
+  # it once and memoize for the process lifetime rather than re-reading from
+  # disk each time.
+  SCENARIOS_PATH = Rails.root.join("scenarios.json")
+
+  def self.scenarios_index
+    @scenarios_index ||= JSON.parse(File.read(SCENARIOS_PATH))
+  end
+
   # --- Bonded cards ---------------------------------------------------------
   #
   # "Bonded" cards (Dream-Eaters mechanic) are set aside with a deck rather than

@@ -41,6 +41,8 @@ class PdfJobsController < ApplicationController
     pdf_job = PdfJob.find(safe_id_param)
     pdf_job.update!(status: "cancelled") unless pdf_job.status.in?(%w[completed failed cancelled])
     render json: { id: pdf_job.id, status: pdf_job.status }
+  rescue RuntimeError
+    render json: { status: "failed", error_message: "Job not found" }, status: :not_found
   end
 
   # Download the generated PDF. Serves from local disk in dev (no AWS) or via
@@ -65,6 +67,8 @@ class PdfJobsController < ApplicationController
       # S3 object key — hand back a short-lived presigned URL.
       redirect_to PdfStorage.presigned_url(file_url), allow_other_host: true
     end
+  rescue RuntimeError
+    head :not_found
   end
 
   private
