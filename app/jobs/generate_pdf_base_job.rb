@@ -86,4 +86,22 @@ class GeneratePdfBaseJob < ApplicationJob
 
     !%w[false 0].include?(value.to_s.strip.downcase) && value != false
   end
+
+  # Maps the "card_spacing" param (from the shared _print_options partial)
+  # to a gap size. `false` is kept for older cached JS that still sends a
+  # boolean rather than "none"/"home"/"printshop".
+  def resolve_gap(card_spacing)
+    case card_spacing
+    when false, "none" then PdfHelper::NO_GAP
+    when "printshop" then PdfHelper::PRINTSHOP_GAP
+    else PdfHelper::HOME_GAP
+    end
+  end
+
+  # "printshop" pairs PRINTSHOP_GAP with a matching bleed, so the two
+  # neighboring cards' bleed exactly fills the gap instead of leaving it
+  # blank (see PdfHelper::BLEED). Other spacing modes get no bleed.
+  def resolve_bleed(card_spacing)
+    card_spacing == "printshop" ? PdfHelper::BLEED : PdfHelper::NO_GAP
+  end
 end
