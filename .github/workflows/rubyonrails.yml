@@ -20,6 +20,7 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
+          ruby-version: "3.3"
           bundler-cache: true
       # Add or replace database setup steps here
      # - name: Set up database schema
@@ -38,6 +39,7 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
+          ruby-version: "3.3"
           bundler-cache: true
       - name: Generate binstubs
         run: bundle binstubs bundler-audit brakeman rubocop
