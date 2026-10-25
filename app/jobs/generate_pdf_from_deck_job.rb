@@ -2,6 +2,10 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
   def parse_params
     @deck_id = @pdf_params["deck_id"]
     raise ArgumentError, "deck_id must be present" unless @deck_id.present?
+
+    # "decklist" (published) or "deck" (unpublished-but-public). Defaults to
+    # "decklist" so existing callers/links keep working. See issue #153.
+    @deck_type = @pdf_params["deck_type"].presence || "decklist"
   end
 
   def generate_pdf_bin
@@ -30,7 +34,7 @@ class GeneratePdfFromDeckJob < GeneratePdfBaseJob
   end
 
   def get_cards_hash
-    deck = ArkhamDbHelper.fetch_deck(@deck_id)
+    deck = ArkhamDbHelper.fetch_deck(@deck_id, @deck_type)
     @investigator_code = deck[:investigator_code]
 
     # deck_cards is { card_id => quantity }. Add any bonded cards (set aside by

@@ -11,7 +11,10 @@ true card size, 2.5in × 3.5in). Card images come from
 exposed as a tab in the UI:
 
 1. **From Deck URL** — paste an ArkhamDB deck URL or deck ID. The full deck
-   (plus the investigator card) is printed.
+   (plus the investigator card) is printed. Accepts `/decklist/view/<id>`
+   (published), `/deck/view/<id>` (unpublished but set to public), or a bare
+   numeric ID (treated as published). Private decks fail with a message asking
+   the owner to make the deck public.
 2. **From Card List** — paste a comma/space separated list of ArkhamDB card
    IDs (e.g. `01022, 01044`).
 3. **Campaigns** — pick a single scenario from a bundled index of

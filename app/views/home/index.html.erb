@@ -35,7 +35,8 @@
               <form id="pdfForm">
                 <div class="mb-3 mt-5">
                   <label for="deck_url" class="form-label">ArkhamDB Deck URL or Deck ID</label>
-                  <input type="text" id="deck_url" class="form-control" placeholder="https://arkhamdb.com/decklist/view/48985 or 48985">
+                  <input type="text" id="deck_url" class="form-control" placeholder="https://arkhamdb.com/decklist/view/48985, /deck/view/48985, or 48985">
+                  <small class="form-text text-muted">Published decks (/decklist/view/…), or unpublished decks set to public in your ArkhamDB settings (/deck/view/…).</small>
                 </div>
                 <%= render "partials/print_options", tab: "deck" %>
                 <button type="submit" class="btn btn-primary w-100" id="generatePdfBtn">
@@ -189,11 +190,19 @@
     toggle();
   }
 
-  function extractDeckId(input) {
+  // Parses an ArkhamDB deck URL (or bare id) into { id, type }.
+  //   type "decklist" — a published deck   (/decklist/view/<id>)
+  //   type "deck"     — an unpublished but public deck (/deck/view/<id>)
+  // A bare numeric id defaults to "decklist" (the historical behavior).
+  // Returns null if no id can be found.
+  function parseDeckInput(input) {
     input = input.trim();
-    const match = input.match(/\/view\/(\d+)/);
-    if (match) return match[1];
-    if (/^\d+$/.test(input)) return input;
+    const urlMatch = input.match(/\/(decklist|deck)\/view\/(\d+)/);
+    if (urlMatch) return { id: urlMatch[2], type: urlMatch[1] };
+    // Older/edge links may use just "/view/<id>" — treat as published.
+    const viewMatch = input.match(/\/view\/(\d+)/);
+    if (viewMatch) return { id: viewMatch[1], type: "decklist" };
+    if (/^\d+$/.test(input)) return { id: input, type: "decklist" };
     return null;
   }
 
@@ -204,8 +213,9 @@
   }
 
   function submitPdfJob() {
-    const deckId = extractDeckId($('#deck_url').val());
-    if (!deckId) { alert("Invalid deck URL or ID"); return; }
+    const deck = parseDeckInput($('#deck_url').val());
+    if (!deck) { alert("Invalid deck URL or ID"); return; }
+    const deckId = deck.id;
 
     const modalContent = $("#byDeckUrlModalContent");
     showModal(modalContent);
@@ -215,12 +225,13 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           deck_id: deckId,
+          deck_type: deck.type,
           ...printOptions('deck')
         })
       })
       .then(res => res.json())
       .then(data => {
-        gtag("event", "deck_job_created", { "deck_id": deckId, "pdf_job_id": data.pdf_job_id });
+        gtag("event", "deck_job_created", { "deck_id": deckId, "deck_type": deck.type, "pdf_job_id": data.pdf_job_id });
         pollPdfJob(data.pdf_job_id);
       })
       .catch(err => {
