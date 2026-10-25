@@ -8,7 +8,7 @@ URL, a list of card IDs, or a bundled campaign/scenario, with options for
 duplex card backs, cutting gaps, and duplex mirroring modes.
 
 ## Technical Details
-Uses Ruby 3.3.5 and Rails 8.0.x. Frontend uses Bootstrap 5.3.3 and jQuery 3.7.1
+Uses Ruby 3.3.5 and Rails 8.1.x. Frontend uses Bootstrap 5.3.3 and jQuery 3.7.1
 loaded via CDN, with importmap-rails + Turbo + Stimulus.
 Hosted on [Render](https://render.com/) low-cost tier.
 - This means there can be some initial startup time after the instance has been
@@ -39,8 +39,25 @@ uses S3, otherwise it uses local file storage. So contributors can build and
 download PDFs locally without any secrets. Copy `.env.example` to `.env` only
 if you want to exercise the real S3 integration locally.
 
+## Deck URLs
+The deck tab accepts three forms:
+
+- `https://arkhamdb.com/decklist/view/<id>` — a published deck (`decklist` endpoint).
+- `https://arkhamdb.com/deck/view/<id>` — an unpublished deck that the owner has
+  set to public in their ArkhamDB settings (`deck` endpoint). Useful for decks
+  that can't be published because they're currently invalid.
+- A bare numeric id, treated as a published deck.
+
+Private decks can't be fetched anonymously. If ArkhamDB doesn't serve the deck,
+the job fails with a message asking the owner to set the deck to public.
+
 ## Code formatting
 run `rubocop -a` to auto-format the code.
+
+## Dependency maintenance
+Dependabot alerts are handled by updating the affected gem in `Gemfile.lock`,
+e.g. `bundle update <gem> --conservative`. Then run `bundle exec bundler-audit check`
+and `bundle exec rspec` before committing.
 
 
 # Test Curl commands

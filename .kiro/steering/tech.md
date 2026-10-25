@@ -2,8 +2,10 @@
 
 ## Core
 
-- **Ruby** 3.3.5
-- **Rails** 8.0.x — trimmed: ActionMailer, ActionMailbox, ActionText,
+- **Ruby** 3.3.5 (`.ruby-version`). CI pins `ruby-version: "3.3"` in
+  `.github/workflows/rubyonrails.yml` because GitHub's Ubuntu 26.04 runners only
+  build the latest 3.3 patch release.
+- **Rails** 8.1.x (`load_defaults 8.1`) — trimmed: ActionMailer, ActionMailbox, ActionText,
   ActiveStorage, ActionCable, Sprockets, and ActiveRecord/DB frameworks are
   **not loaded** (see `config/application.rb`). There is no database.
 - **Puma** web server, **Propshaft** asset pipeline, **importmap-rails** +

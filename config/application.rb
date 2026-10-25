@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 
 module Arkhamprint
   class Application < Rails::Application
-    config.load_defaults 8.0
+    config.load_defaults 8.1
 
     # Custom variables
     config.save_data_modes = [ :redis, :file ]
