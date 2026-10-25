@@ -37,7 +37,7 @@ RSpec.describe "GeneratePdfFrom* jobs" do
     let(:params) { { "deck_id" => "48985", "print_backs" => false } }
 
     before do
-      allow(ArkhamDbHelper).to receive(:fetch_deck).with("48985").and_return(
+      allow(ArkhamDbHelper).to receive(:fetch_deck).with("48985", "decklist").and_return(
         cards: { "60101" => 1, "01025" => 2 }, investigator_code: "60101"
       )
       allow(ArkhamDbHelper).to receive(:bonded_cards_for).and_return({})
