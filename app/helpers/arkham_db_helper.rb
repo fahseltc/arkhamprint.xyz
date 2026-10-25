@@ -1,4 +1,8 @@
 module ArkhamDbHelper
+  # Raised when a deck can't be loaded from ArkhamDB as JSON — e.g. an
+  # unpublished deck that isn't set to public. Carries a user-facing message.
+  class DeckNotAvailableError < StandardError; end
+
   # In-process cache for card metadata. ArkhamDB card data is immutable once
   # published so this never needs invalidation — it persists for the lifetime
   # of the process. Keyed by card_id string, values are a hash:
@@ -7,12 +11,36 @@ module ArkhamDbHelper
   CARD_META_CACHE = {}
   CARD_META_MUTEX = Mutex.new
 
+  # ArkhamDB exposes two deck endpoints with the SAME response shape:
+  #   - "decklist" — a PUBLISHED deck (/decklist/view/<id>). This is the normal
+  #     case and the historical default.
+  #   - "deck"     — an UNPUBLISHED deck the owner has set to public in their
+  #     ArkhamDB settings (/deck/view/<id>). Needed for decks that can't be
+  #     published because they're currently invalid. See issue #153.
+  # Anything else falls back to "decklist".
+  DECK_API_PATHS = {
+    "decklist" => "https://arkhamdb.com/api/public/decklist/",
+    "deck"     => "https://arkhamdb.com/api/public/deck/"
+  }.freeze
+
   # Returns { cards: { card_id => quantity }, investigator_code: String|nil }.
   # The investigator card is always included in cards (added once as its front
   # id; its back is resolved via double_sided metadata — see resolve_back_url).
-  def self.fetch_deck(deck_id)
-    decklist_api = "https://arkhamdb.com/api/public/decklist/"
-    response = HTTParty.get(decklist_api + deck_id.to_s)
+  # deck_type selects the ArkhamDB endpoint (see DECK_API_PATHS).
+  def self.fetch_deck(deck_id, deck_type = "decklist")
+    api_base = DECK_API_PATHS.fetch(deck_type.to_s, DECK_API_PATHS["decklist"])
+    response = HTTParty.get(api_base + deck_id.to_s)
+
+    # When a deck can't be served as JSON — most commonly a /deck/view/ id whose
+    # owner hasn't set it to public — ArkhamDB returns an HTML page instead of a
+    # deck object. HTTParty parses that into a String (not a Hash), so "slots"
+    # is nil. Fail with a clear, user-facing message rather than a NoMethodError
+    # deep in the pipeline. See issue #153.
+    unless response.is_a?(Hash) && response["slots"].is_a?(Hash)
+      raise DeckNotAvailableError,
+            "Deck #{deck_id} could not be loaded from ArkhamDB. If it's an " \
+            "unpublished deck, make sure it's set to public in your ArkhamDB settings."
+    end
 
     # Extract only what's needed before dropping the response object
     slots = response["slots"].compact.reject { |id, _quantity| id == "01000" }
@@ -25,8 +53,8 @@ module ArkhamDbHelper
   end
 
   # Backwards-compatible accessor returning only the { card_id => quantity } hash.
-  def self.get_cards_from_deck_id(deck_id)
-    cards = fetch_deck(deck_id)[:cards]
+  def self.get_cards_from_deck_id(deck_id, deck_type = "decklist")
+    cards = fetch_deck(deck_id, deck_type)[:cards]
     Rails.logger.info(cards)
     cards
   end
