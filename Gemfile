@@ -47,7 +47,7 @@ gem "hexapdf"
 # gem "sidekiq"
 gem "fastimage"
 gem "aws-sdk-s3", require: false
-gem "mini_magick", "~> 5.2"
+gem "mini_magick", "~> 5.4"
 gem "whenever"
 # Lightweight process memory reporting (reads /proc), used for job memory logs
 gem "get_process_mem"
@@ -55,7 +55,7 @@ gem "get_process_mem"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   # gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "rspec-rails", "~> 8.0.2"
+  gem "rspec-rails", "~> 8.0.4"
   gem "dotenv"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
