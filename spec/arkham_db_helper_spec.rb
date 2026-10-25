@@ -33,6 +33,35 @@ RSpec.describe "ArkhamDbHelper" do
       # The random-basic-weakness placeholder is dropped
       expect(ret).not_to have_key("01000")
     end
+
+    it "hits the unpublished-but-public deck endpoint when deck_type is 'deck'" do
+      stub_request(:get, "https://arkhamdb.com/api/public/deck/2998601")
+        .to_return(status: 200, body: deck_body, headers: { "Content-Type" => "application/json" })
+
+      ret = ArkhamDbHelper.get_cards_from_deck_id(2998601, "deck")
+      expect(ret.count).to eq(21)
+      expect(ret["01025"]).to eq(2)
+    end
+
+    it "falls back to the published decklist endpoint for an unknown deck_type" do
+      ret = ArkhamDbHelper.get_cards_from_deck_id(48985, "bogus")
+      # The decklist stub (not a deck stub) is what satisfies this request.
+      expect(ret.count).to eq(21)
+    end
+
+    it "raises a clear error when an unpublished deck isn't public (HTML response)" do
+      # A deck that isn't set to public returns ArkhamDB's HTML page, not JSON,
+      # so HTTParty yields a String and response["slots"] is nil.
+      stub_request(:get, "https://arkhamdb.com/api/public/deck/2998601")
+        .to_return(
+          status: 200,
+          body: "<!DOCTYPE html><html><body>Deckbuilder &middot; ArkhamDB</body></html>",
+          headers: { "Content-Type" => "text/html" }
+        )
+
+      expect { ArkhamDbHelper.fetch_deck(2998601, "deck") }
+        .to raise_error(ArkhamDbHelper::DeckNotAvailableError, /set to public/)
+    end
   end
 
   context "#get_card" do
