@@ -29,7 +29,7 @@ module ArkhamDbHelper
   # deck_type selects the ArkhamDB endpoint (see DECK_API_PATHS).
   def self.fetch_deck(deck_id, deck_type = "decklist")
     api_base = DECK_API_PATHS.fetch(deck_type.to_s, DECK_API_PATHS["decklist"])
-    response = HTTParty.get(api_base + deck_id.to_s)
+    response = HTTParty.get(api_base + deck_id.to_s).parsed_response
 
     # When a deck can't be served as JSON — most commonly a /deck/view/ id whose
     # owner hasn't set it to public — ArkhamDB returns an HTML page instead of a
