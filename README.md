@@ -8,7 +8,7 @@ URL, a list of card IDs, or a bundled campaign/scenario, with options for
 duplex card backs, cutting gaps, and duplex mirroring modes.
 
 ## Technical Details
-Uses Ruby 3.3.5 and Rails 8.1.x. Frontend uses Bootstrap 5.3.3 and jQuery 3.7.1
+Uses Ruby 3.4.13 and Rails 8.1.x. Frontend uses Bootstrap 5.3.3 and jQuery 3.7.1
 loaded via CDN, with importmap-rails + Turbo + Stimulus.
 Hosted on [Render](https://render.com/) low-cost tier.
 - This means there can be some initial startup time after the instance has been
